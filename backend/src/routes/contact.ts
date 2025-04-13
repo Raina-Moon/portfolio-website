@@ -6,12 +6,12 @@ const router = Router();
 const prisma = new PrismaClient();
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for port 465, false for other ports
-    auth: {
-      user: "maddison53@ethereal.email",
-      pass: "jn7jnAPss4f63QBp6D",
+    host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: process.env.SMTP_SECURE === 'true',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
     },
   });
 
