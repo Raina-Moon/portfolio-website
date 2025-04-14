@@ -1,9 +1,128 @@
-import React from 'react'
+'use client';
+
+import React, { useState } from 'react';
 
 const ContactForm = () => {
-  return (
-    <div>ContactForm</div>
-  )
-}
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
-export default ContactForm
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccessMsg('');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        setSuccessMsg('Your message has been sent!');
+        setForm({ name: '', email: '', subject: '', message: '' });
+      } else {
+        const data = await res.json();
+        setErrorMsg(data.error || 'Something went wrong.');
+      }
+    } catch (err) {
+      setErrorMsg('Failed to send message.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-16 px-4 max-w-2xl mx-auto">
+      <h2 className="text-3xl font-bold text-center mb-8">Contact Me</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block font-medium mb-1" htmlFor="name">
+            Name
+          </label>
+          <input
+            required
+            type="text"
+            id="name"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1" htmlFor="email">
+            Email
+          </label>
+          <input
+            required
+            type="email"
+            id="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1" htmlFor="subject">
+            Subject
+          </label>
+          <input
+            required
+            type="text"
+            id="subject"
+            name="subject"
+            value={form.subject}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1" htmlFor="message">
+            Message
+          </label>
+          <textarea
+            required
+            id="message"
+            name="message"
+            rows={5}
+            value={form.message}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
+          />
+        </div>
+
+        {successMsg && <p className="text-green-600">{successMsg}</p>}
+        {errorMsg && <p className="text-red-600">{errorMsg}</p>}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
+        >
+          {loading ? 'Sending...' : 'Send Message'}
+        </button>
+      </form>
+    </section>
+  );
+};
+
+export default ContactForm;
