@@ -15,7 +15,7 @@ const page = () => {
   const categoryLabel = lang === "en" ? "Category" : "분류";
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen px-4 py-20 text-gray-900">
+    <div className="flex flex-col items-center justify-center w-full h-screen px-4 py-20">
       <div className="relative">
         <Image
           src="/images/IMG_0523.png"
@@ -24,7 +24,7 @@ const page = () => {
           height={380}
           className="absolute top-8 right-[110px]"
         />
-        <strong className="text-[200px]">{aboutText.name[lang]}</strong>
+        <strong className="text-[200px] text-gray-900">{aboutText.name[lang]}</strong>
       </div>
       <div className="flex flex-col items-center mt-8">
         <h1>{aboutText.title[lang]}</h1>
