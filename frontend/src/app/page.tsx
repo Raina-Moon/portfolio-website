@@ -1,5 +1,6 @@
 "use client";
 
+import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import { useLanguageStore } from "@/libs/languageStore";
 import { skillsTable } from "@/libs/texts/skills";
 import Image from "next/image";
@@ -129,6 +130,8 @@ const page = () => {
           </tbody>
         </table>
       </div>
+
+      <CareerTimeline />
     </div>
   );
 };
