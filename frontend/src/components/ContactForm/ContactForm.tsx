@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const ContactForm = () => {
   const [form, setForm] = useState({
@@ -10,8 +11,9 @@ const ContactForm = () => {
     message: '',
   });
   const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -20,9 +22,13 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isValidEmail(form.email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
     setLoading(true);
-    setSuccessMsg('');
-    setErrorMsg('');
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
@@ -32,14 +38,14 @@ const ContactForm = () => {
       });
 
       if (res.ok) {
-        setSuccessMsg('Your message has been sent!');
+        toast.success('Your message has been sent!');
         setForm({ name: '', email: '', subject: '', message: '' });
       } else {
         const data = await res.json();
-        setErrorMsg(data.error || 'Something went wrong.');
+        toast.error(data.error || 'Something went wrong.');
       }
     } catch (err) {
-      setErrorMsg('Failed to send message.');
+      toast.error('Failed to send message.');
     } finally {
       setLoading(false);
     }
@@ -109,9 +115,6 @@ const ContactForm = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2"
           />
         </div>
-
-        {successMsg && <p className="text-green-600">{successMsg}</p>}
-        {errorMsg && <p className="text-red-600">{errorMsg}</p>}
 
         <button
           type="submit"
