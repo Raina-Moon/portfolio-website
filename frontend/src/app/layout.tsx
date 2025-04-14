@@ -1,3 +1,4 @@
+import Header from "@/components/Layout/Header";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -18,7 +19,10 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>{children}</body>
+      <body className="pt-16">
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
