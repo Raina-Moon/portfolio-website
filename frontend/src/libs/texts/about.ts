@@ -1,7 +1,11 @@
 export const aboutText = {
+    name : {
+        en: "Raina Moon",
+        ko: "Raina Moon",
+    },
     title: {
-      en: "Raina Moon - A frontend developer who believes in persistence, precision, and progress.",
-      ko: "작고 확실한 개선을 통해, 더 나은 사용자 경험을 만드는 Raina Moon입니다.",
+      en: "A frontend developer who believes in persistence, precision, and progress.",
+      ko: "작고 확실한 개선을 통해, 더 나은 사용자 경험을 만드는 프론트엔드 개발자 입니다.",
     },
     describe: {
       en: "Hi, I'm Raina Moon — a frontend developer who thrives on solving real problems through intuitive interfaces. With experience building projects from the ground up, I focus on clean design, solid architecture, and human-centered UX. I build with Next.js, TypeScript, and TailwindCSS, and I'm expanding my full-stack skills using Node.js and PostgreSQL. Recently, I’ve also started learning React Native to explore mobile development.",
