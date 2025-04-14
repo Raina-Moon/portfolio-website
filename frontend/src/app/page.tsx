@@ -1,5 +1,6 @@
 "use client";
 
+import ContactForm from "@/components/ContactForm/ContactForm";
 import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import { useLanguageStore } from "@/libs/languageStore";
 import { skillsTable } from "@/libs/texts/skills";
@@ -132,6 +133,7 @@ const page = () => {
       </div>
 
       <CareerTimeline />
+      <ContactForm />
     </div>
   );
 };
