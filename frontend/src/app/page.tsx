@@ -3,6 +3,7 @@
 import { useLanguageStore } from "@/libs/languageStore";
 import { aboutText } from "@/libs/texts/about";
 import { skillsTable } from "@/libs/texts/skills";
+import Image from "next/image";
 import React from "react";
 
 const page = () => {
@@ -14,8 +15,18 @@ const page = () => {
   const categoryLabel = lang === "en" ? "Category" : "분류";
 
   return (
-    <>
-      <div>
+    <div className="flex flex-col items-center justify-center w-full h-screen px-4 py-20 text-gray-900">
+      <div className="relative">
+        <Image
+          src="/images/IMG_0523.png"
+          alt="profile image"
+          width={380}
+          height={380}
+          className="absolute top-8 right-[110px]"
+        />
+        <strong className="text-[200px]">{aboutText.name[lang]}</strong>
+      </div>
+      <div className="flex flex-col items-center mt-8">
         <h1>{aboutText.title[lang]}</h1>
         <h2>{aboutText.describe[lang]}</h2>
       </div>
@@ -46,7 +57,7 @@ const page = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
 
