@@ -12,7 +12,7 @@ const CareerTimeline = () => {
 
   return (
     <section id="work" className="py-16 px-4 max-w-full overflow-x-auto">
-      <h2 className="text-3xl font-bold text-center mb-12">
+      <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
         {lang === "en" ? "Career Timeline" : "커리어 타임라인"}
       </h2>
 
@@ -27,14 +27,14 @@ const CareerTimeline = () => {
               className="relative flex-shrink-0 w-64"
               onClick={() => setSelectedIndex(index)}
             >
+              <p className="text-lg text-gray-800 text-center">{item.date}</p>
               {/* Dot */}
               <div className="absolute left-1/2 transform -translate-x-1/2 top-10 w-4 h-4 bg-gray-800 rounded-full z-10" />
               <div
-                className="bg-white p-4 mt-16 shadow-md rounded-lg border border-gray-200 
+                className="bg-white p-4 mt-12 shadow-md rounded-lg border border-gray-200 
              hover:-translate-y-2 hover:shadow-lg transition-transform duration-300 cursor-pointer"
               >
                 {" "}
-                <p className="text-sm text-gray-500 text-center">{item.date}</p>
                 <h3 className="text-lg font-semibold text-gray-900 text-center">
                   {item.title}
                 </h3>
