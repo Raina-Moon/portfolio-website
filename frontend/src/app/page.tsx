@@ -20,8 +20,8 @@ const page = () => {
     if (lang === "en") {
       return (
         <div className="flex flex-col items-center text-gray-900">
-          <span className="text-4xl font-bold">A frontend developer</span>
-          <span className="text-2xl">
+          <span className="text-xl sm:text-2xl lg:text-4xl font-bold">A frontend developer</span>
+          <span className="sm:text-lg lg:text-2xl">
             {" "}
             who believes in persistence, precision, and progress.
           </span>
@@ -30,10 +30,10 @@ const page = () => {
     } else {
       return (
         <div className="flex flex-col items-center text-gray-900">
-          <span className="text-2xl">
-            {" "}
+          <span className="sm:text-lg lg:text-2xl">
+          {" "}
             작고 확실한 개선을 통해, 더 나은 사용자 경험을 만드는{" "}
-            <span className="text-4xl font-bold">프론트엔드 개발자</span>{" "}
+            <span className="text-xl sm:text-2xl lg:text-4xl font-bold">프론트엔드 개발자</span>{" "}
             입니다.
           </span>
         </div>
