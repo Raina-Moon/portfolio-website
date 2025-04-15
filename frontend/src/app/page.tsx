@@ -94,7 +94,7 @@ const page = () => {
       id="about"
       className="flex flex-col items-center justify-center w-full px-4 py-20"
     >
-      <div className="relative">
+      <div className="relative animate-slide-up">
         <Image
           src="/images/IMG_0523.png"
           alt="profile image"
@@ -105,7 +105,7 @@ const page = () => {
         <strong className="text-[200px] text-gray-900">Raina Moon</strong>
       </div>
       <div className="flex flex-col items-center">
-        <h1 className="text-center">{renderTitle()}</h1>
+        <h1 className="text-center animate-slide-up-delay">{renderTitle()}</h1>
 
         <div className="flex gap-4 mt-6">
           <button
