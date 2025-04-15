@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguageStore } from "@/libs/languageStore";
-import Link from "next/link";
 import React from "react";
 
 const Header = () => {
@@ -18,30 +17,30 @@ const Header = () => {
   return (
     <header className="w-full flex items-center justify-between px-6 py-4 shadow-sm bg-white fixed top-0 z-50">
       <nav className="flex gap-6">
-        <Link
+        <a
           href="#about"
           className="text-gray-800 hover:text-blue-600 font-medium"
         >
           About
-        </Link>
-        <Link
+        </a>
+        <a
           href="#work"
           className="text-gray-800 hover:text-blue-600 font-medium"
         >
           Work
-        </Link>
-        <Link
+        </a>
+        <a
           href="#troubleshooting"
           className="text-gray-800 hover:text-blue-600 font-medium"
         >
           Troubleshooting
-        </Link>
-        <Link
+        </a>
+        <a
           href="#contact"
           className="text-gray-800 hover:text-blue-600 font-medium"
         >
           Contact
-        </Link>
+        </a>
       </nav>
       <button
         onClick={toggleLanguage}

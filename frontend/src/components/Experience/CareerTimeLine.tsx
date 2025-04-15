@@ -9,7 +9,7 @@ const CareerTimeline = () => {
   const data = timelineItems[lang];
 
   return (
-    <section id="career" className="py-16 px-4 max-w-full overflow-x-auto">
+    <section id="work" className="py-16 px-4 max-w-full overflow-x-auto">
       <h2 className="text-3xl font-bold text-center mb-12">
         {lang === 'en' ? 'Career Timeline' : '커리어 타임라인'}
       </h2>
