@@ -13,8 +13,8 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use('/troubleshooting', troubleshootingRoutes);
-app.use('/contact', contactRoutes);
+app.use('/api/troubleshooting', troubleshootingRoutes);
+app.use('/api/contact', contactRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
