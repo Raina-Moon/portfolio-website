@@ -15,29 +15,33 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full flex items-center justify-between px-6 py-4 shadow-sm bg-white fixed top-0 z-50">
-      <nav className="flex gap-6">
+    <header
+      className="w-full flex items-center justify-between px-2 py-2 sm:px-6 sm:py-4 shadow-sm 
+  bg-gradient-to-b from-gray-500/50 to-white/70 backdrop-blur-sm fixed top-0 z-50"
+    >
+      {" "}
+      <nav className="flex gap-2 sm:gap-6">
         <a
           href="#about"
-          className="text-gray-800 hover:text-blue-600 font-medium"
+          className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           About
         </a>
         <a
           href="#work"
-          className="text-gray-800 hover:text-blue-600 font-medium"
+          className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Work
         </a>
         <a
           href="#troubleshooting"
-          className="text-gray-800 hover:text-blue-600 font-medium"
+          className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Troubleshooting
         </a>
         <a
           href="#contact"
-          className="text-gray-800 hover:text-blue-600 font-medium"
+          className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Contact
         </a>
