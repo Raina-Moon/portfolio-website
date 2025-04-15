@@ -1,6 +1,8 @@
 import Header from "@/components/Layout/Header";
 import "./globals.css";
 import type { Metadata } from "next";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: "Raina Moon's Portfolio",
@@ -21,6 +23,7 @@ export default function RootLayout({
       </head>
       <body className="pt-16">
         <Header />
+        <ToastContainer position="top-center" autoClose={3000} />
         {children}
       </body>
     </html>

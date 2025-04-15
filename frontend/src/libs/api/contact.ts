@@ -1,7 +1,7 @@
 import { ContactMessage } from "../types";
 
 export const sendContactMessage = async (contact: ContactMessage): Promise<ContactMessage> => {
-    const response = await fetch('/api/contact', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
