@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguageStore } from "@/libs/languageStore";
-import a from "next/link";
 import React from "react";
 
 const Header = () => {
