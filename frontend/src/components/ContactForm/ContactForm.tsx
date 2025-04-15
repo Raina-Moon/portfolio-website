@@ -122,13 +122,15 @@ const ContactForm = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-gray-900 text-white py-2 px-6 rounded-md hover:bg-gray-600 transition"
-        >
-          {loading ? "Sending..." : "Send Message"}
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-gray-900 text-white py-2 px-6 rounded-md hover:bg-gray-600 transition"
+          >
+            {loading ? "Sending..." : "Send Message"}
+          </button>
+        </div>
       </form>
     </section>
   );
