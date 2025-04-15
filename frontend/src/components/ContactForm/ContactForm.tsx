@@ -1,21 +1,24 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { sendContactMessage } from "@/libs/api/contact";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const ContactForm = () => {
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [loading, setLoading] = useState(false);
 
   const isValidEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -24,28 +27,19 @@ const ContactForm = () => {
     e.preventDefault();
 
     if (!isValidEmail(form.email)) {
-      toast.error('Please enter a valid email address.');
+      toast.error("Please enter a valid email address.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+      await sendContactMessage(form);
 
-      if (res.ok) {
-        toast.success('Your message has been sent!');
-        setForm({ name: '', email: '', subject: '', message: '' });
-      } else {
-        const data = await res.json();
-        toast.error(data.error || 'Something went wrong.');
-      }
+      toast.success("Your message has been sent!");
+      setForm({ name: "", email: "", subject: "", message: "" });
     } catch (err) {
-      toast.error('Failed to send message.');
+      toast.error("Failed to send message.");
     } finally {
       setLoading(false);
     }
@@ -121,7 +115,7 @@ const ContactForm = () => {
           disabled={loading}
           className="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
         >
-          {loading ? 'Sending...' : 'Send Message'}
+          {loading ? "Sending..." : "Send Message"}
         </button>
       </form>
     </section>
