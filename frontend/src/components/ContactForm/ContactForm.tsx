@@ -46,13 +46,13 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="py-16 px-4 max-w-2xl mx-auto scroll-mt-20">
-      <h2 className="text-3xl font-bold text-center mb-8">Contact Me</h2>
+    <section id="contact" className="sm:py-16 sm:px-4 w-full scroll-mt-10 sm:scroll-mt-20 sm:w-[60%]">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">Contact Me</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
         <div>
           <label
-            className="block font-medium mb-1 text-gray-800"
+            className="block text-sm sm:text-base font-medium mb-1 text-gray-800"
             htmlFor="name"
           >
             Name
@@ -64,13 +64,13 @@ const ContactForm = () => {
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-gray-800"
+            className="w-full border border-gray-300 rounded-md px-2 py-1 sm:px-3 sm:py-2 focus:outline-none focus:border-gray-800"
           />
         </div>
 
         <div>
           <label
-            className="block font-medium mb-1 text-gray-800"
+            className="block text-sm sm:text-base font-medium mb-1 text-gray-800"
             htmlFor="email"
           >
             Email
@@ -82,13 +82,13 @@ const ContactForm = () => {
             name="email"
             value={form.email}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-gray-800"
+            className="w-full border border-gray-300 rounded-md px-2 py-1 sm:px-3 sm:py-2 focus:outline-none focus:border-gray-800"
           />
         </div>
 
         <div>
           <label
-            className="block font-medium mb-1 text-gray-800"
+            className="block text-sm sm:text-base font-medium mb-1 text-gray-800"
             htmlFor="subject"
           >
             Subject
@@ -100,13 +100,13 @@ const ContactForm = () => {
             name="subject"
             value={form.subject}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-gray-800"
+            className="w-full border border-gray-300 rounded-md px-2 py-1 sm:px-3 sm:py-2 focus:outline-none focus:border-gray-800"
           />
         </div>
 
         <div>
           <label
-            className="block font-medium mb-1 text-gray-800"
+            className="block text-sm sm:text-base font-medium mb-1 text-gray-800"
             htmlFor="message"
           >
             Message
@@ -118,7 +118,7 @@ const ContactForm = () => {
             rows={5}
             value={form.message}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none resize-none focus:border-gray-800"
+            className="w-full border border-gray-300 rounded-md px-2 py-1 sm:px-3 sm:py-2 focus:outline-none resize-none focus:border-gray-800"
           />
         </div>
 
@@ -126,7 +126,7 @@ const ContactForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-gray-900 text-white py-2 px-6 rounded-md hover:bg-gray-600 transition"
+            className="bg-gray-900 text-white py-2 px-6 rounded-md hover:bg-gray-600 transition text-sm sm:text-base"
           >
             {loading ? "Sending..." : "Send Message"}
           </button>
