@@ -38,7 +38,9 @@ const CareerTimeline = () => {
                 <h3 className="text-lg font-semibold text-gray-900 text-center">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm text-gray-700">{item.description}</p>
+                <p className="mt-2 text-sm text-gray-700">
+                  {item.shortDescription}
+                </p>
               </div>
             </div>
           ))}
@@ -70,8 +72,45 @@ const CareerTimeline = () => {
                 {data[selectedIndex].date}
               </p>
               <p className="mt-4 text-gray-700">
-                {data[selectedIndex].description}
+                {data[selectedIndex].detail?.summary}
               </p>
+
+              {data[selectedIndex].detail?.stack && (
+                <div className="mt-4">
+                  <h4 className="font-semibold text-gray-800 mb-1">
+                    Tech Stack:
+                  </h4>
+                  <ul className="list-disc list-inside text-sm text-gray-600">
+                    {data[selectedIndex].detail.stack.map((tech, i) => (
+                      <li key={i}>{tech}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {data[selectedIndex].detail?.learning && (
+                <div className="mt-4">
+                  <h4 className="font-semibold text-gray-800 mb-1">
+                    What I learned:
+                  </h4>
+                  <p className="text-sm text-gray-700">
+                    {data[selectedIndex].detail.learning}
+                  </p>
+                </div>
+              )}
+
+              {data[selectedIndex].detail?.link && (
+                <div className="mt-4">
+                  <a
+                    href={data[selectedIndex].detail.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 text-sm hover:underline"
+                  >
+                    👉 View GitHub Repo
+                  </a>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
