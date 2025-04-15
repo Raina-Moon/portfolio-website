@@ -51,7 +51,7 @@ const ContactForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block font-medium mb-1" htmlFor="name">
+          <label className="block font-medium mb-1 text-gray-800" htmlFor="name">
             Name
           </label>
           <input
@@ -61,12 +61,12 @@ const ContactForm = () => {
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-gray-800"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1" htmlFor="email">
+          <label className="block font-medium mb-1 text-gray-800" htmlFor="email">
             Email
           </label>
           <input
@@ -76,12 +76,12 @@ const ContactForm = () => {
             name="email"
             value={form.email}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-gray-800"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1" htmlFor="subject">
+          <label className="block font-medium mb-1 text-gray-800" htmlFor="subject">
             Subject
           </label>
           <input
@@ -91,12 +91,12 @@ const ContactForm = () => {
             name="subject"
             value={form.subject}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-gray-800"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1" htmlFor="message">
+          <label className="block font-medium mb-1 text-gray-800" htmlFor="message">
             Message
           </label>
           <textarea
@@ -106,7 +106,7 @@ const ContactForm = () => {
             rows={5}
             value={form.message}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none resize-none focus:border-gray-800"
           />
         </div>
 
