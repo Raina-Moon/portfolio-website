@@ -9,7 +9,7 @@ export interface TimelineItem {
   export const timelineItems: Record<Language, TimelineItem[]> = {
     en: [
       {
-        date: 'Sep 2024',
+        date: 'Sep 30, 2024',
         title: 'Joined Sparta BootCamp',
         description: 'Started my coding journey by joining Sparta BootCamp.',
       },
