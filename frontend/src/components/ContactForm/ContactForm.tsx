@@ -36,7 +36,7 @@ const ContactForm = () => {
     try {
       await sendContactMessage(form);
 
-      toast.success("Your message has been sent!");
+      toast.success("Thanks for reaching out! I’ll reply as soon as I can.");
       setForm({ name: "", email: "", subject: "", message: "" });
     } catch (err) {
       toast.error("Failed to send message.");
@@ -51,7 +51,10 @@ const ContactForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block font-medium mb-1 text-gray-800" htmlFor="name">
+          <label
+            className="block font-medium mb-1 text-gray-800"
+            htmlFor="name"
+          >
             Name
           </label>
           <input
@@ -66,7 +69,10 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1 text-gray-800" htmlFor="email">
+          <label
+            className="block font-medium mb-1 text-gray-800"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -81,7 +87,10 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1 text-gray-800" htmlFor="subject">
+          <label
+            className="block font-medium mb-1 text-gray-800"
+            htmlFor="subject"
+          >
             Subject
           </label>
           <input
@@ -96,7 +105,10 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1 text-gray-800" htmlFor="message">
+          <label
+            className="block font-medium mb-1 text-gray-800"
+            htmlFor="message"
+          >
             Message
           </label>
           <textarea
@@ -113,7 +125,7 @@ const ContactForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
+          className="bg-gray-900 text-white py-2 px-6 rounded-md hover:bg-gray-600 transition"
         >
           {loading ? "Sending..." : "Send Message"}
         </button>
