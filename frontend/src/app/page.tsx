@@ -87,7 +87,7 @@ const page = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full px-4 py-20">
+    <div id="about" className="flex flex-col items-center justify-center w-full px-4 py-20">
       <div className="relative">
         <Image
           src="/images/IMG_0523.png"
@@ -133,6 +133,7 @@ const page = () => {
       </div>
 
       <CareerTimeline />
+
       <ContactForm />
     </div>
   );
