@@ -116,38 +116,36 @@ const page = () => {
     if (lang === "en") {
       return (
         <div className="flex flex-col items-center justify-center mx-5 md:mx-10 gap-8 lg:gap-12">
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img src="/images/image_01.png" className="w-[230px] md:hidden" />
-            <p className="leading-relaxed text-gray-700">
-              Hi, I'm{" "}
-              <span className="font-bold text-primary-600">Raina Moon</span> — a{" "}
-              <span className="font-bold">frontend developer</span>
-              <br /> who thrives on solving{" "}
-              <span className="font-semibold">real problems</span>
-              <br /> through{" "}
-              <span className="underline underline-offset-4">
-                intuitive interfaces
-              </span>
-              .
-              <p className="leading-relaxed text-gray-600">
-                With experience building projects from the ground up,
-                <span className="hidden md:block">
-                  <br />
+            <div className="flex flex-col">
+              <p className="leading-relaxed text-gray-700">
+                Hi, I'm{" "}
+                <span className="font-bold text-primary-600">Raina Moon</span> — a{" "}
+                <span className="font-bold">frontend developer</span> who thrives
+                on solving <span className="font-semibold">real problems</span>{" "}
+                through{" "}
+                <span className="underline underline-offset-4">
+                  intuitive interfaces
                 </span>
-                I focus on <span className="font-semibold">clean design</span>,{" "}
+                .
+              </p>
+              <span className="leading-relaxed text-gray-600 md:block mt-2">
+                With experience building projects from the ground up, I focus on{" "}
+                <span className="font-semibold">clean design</span>,{" "}
                 <span className="font-semibold">solid architecture</span>, and{" "}
                 <span className="font-semibold">human-centered UX</span>.
-              </p>
-            </p>
+              </span>
+            </div>
             <img
               src="/images/image_01.png"
               alt="Developer Icon"
-              className="hidden md:block md:w-[230px] lg:block lg:w-[300px]"
+              className="hidden md:block md:w-[230px] lg:w-[300px]"
             />
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px]">
             <img
               src="/images/image_02.png"
               alt="Tech Icon"
@@ -163,7 +161,7 @@ const page = () => {
             </p>
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img
               src="/images/image_03.png"
@@ -184,7 +182,7 @@ const page = () => {
     } else {
       return (
         <div className="flex flex-col items-center justify-center mx-5 md:mx-10 gap-8 lg:gap-12">
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px]">
           {" "}
             <img src="/images/image_01.png" className="w-[230px] md:hidden" />
             <p className="leading-relaxed text-gray-700 flex-1">
@@ -207,7 +205,7 @@ const page = () => {
             />
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img
               src="/images/image_02.png"
@@ -224,7 +222,7 @@ const page = () => {
             </p>
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img
               src="/images/image_03.png"
@@ -298,7 +296,7 @@ const page = () => {
         ref={descRef}
         className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
       >
-        <h2 className="py-10 lg:py-20">{renderDescription()}</h2>
+        <h2 className="pt-10 pb-20 lg:pt-20 lg:pb-40">{renderDescription()}</h2>
       </div>
 
       <div className="overflow-x-auto w-full mt-8">
