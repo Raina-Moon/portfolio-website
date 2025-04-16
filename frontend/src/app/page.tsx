@@ -32,7 +32,10 @@ const page = () => {
         headerRef.current.style.transform = `translateY(-${translateY}px)`;
 
         if (descOffset < headerHeight) {
-          const moveUp = Math.min(headerHeight - descOffset, headerHeight * 0.5);
+          const moveUp = Math.min(
+            headerHeight - descOffset,
+            headerHeight * 0.5
+          );
           descRef.current.style.transform = `translateY(-${moveUp}px)`;
         } else {
           descRef.current.style.transform = `translateY(0)`;
@@ -46,6 +49,7 @@ const page = () => {
           if (entry.isIntersecting) {
             entry.target.classList.add("animate-fade-in");
             entry.target.classList.remove("opacity-0");
+            observer.unobserve(entry.target); // Stop observing once the element is in view
           }
         });
       },
@@ -101,29 +105,28 @@ const page = () => {
   const renderDescription = () => {
     if (lang === "en") {
       return (
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 bg-white rounded-3xl animate-fade-in">
-            <div className="flex flex-col">
-              <img src="/images/image_01.png" className="w-[230px] md:hidden" />
-              <p className="leading-relaxed text-gray-700">
-                Hi, I'm{" "}
-                <span className="font-bold text-primary-600">Raina Moon</span> —
-                a <span className="font-bold">frontend developer</span>
-                <br /> who thrives on solving{" "}
-                <span className="font-semibold">real problems</span>
-                <br /> through{" "}
-                <span className="underline underline-offset-4">
-                  intuitive interfaces
-                </span>
-                .
-              </p>
-              <p className="leading-relaxed text-gray-600">
-                With experience building projects from the ground up, I focus on{" "}
-                <span className="font-semibold">clean design</span>,{" "}
-                <span className="font-semibold">solid architecture</span>, and{" "}
-                <span className="font-semibold">human-centered UX</span>.
-              </p>
-            </div>
+        <div className="flex flex-col mx-5 md:mx-10 gap-6 lg:gap-12">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-4 bg-white rounded-3xl opacity-0">
+            {" "}
+            <img src="/images/image_01.png" className="w-[230px] md:hidden" />
+            <p className="leading-relaxed text-gray-700">
+              Hi, I'm{" "}
+              <span className="font-bold text-primary-600">Raina Moon</span> — a{" "}
+              <span className="font-bold">frontend developer</span>
+              <br /> who thrives on solving{" "}
+              <span className="font-semibold">real problems</span>
+              <br /> through{" "}
+              <span className="underline underline-offset-4">
+                intuitive interfaces
+              </span>
+              .
+            </p>
+            <p className="leading-relaxed text-gray-600">
+              With experience building projects from the ground up, I focus on{" "}
+              <span className="font-semibold">clean design</span>,{" "}
+              <span className="font-semibold">solid architecture</span>, and{" "}
+              <span className="font-semibold">human-centered UX</span>.
+            </p>
             <img
               src="/images/image_01.png"
               alt="Developer Icon"
@@ -131,7 +134,7 @@ const page = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl animate-fade-in-delay-100">
+          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
             <img
               src="/images/image_02.png"
               alt="Tech Icon"
@@ -147,8 +150,12 @@ const page = () => {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl animate-fade-in-delay-200">
-            <img src="/images/image_03.png" className="w-[230px] md:hidden" />
+          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+            {" "}
+            <img
+              src="/images/image_03.png"
+              className="w-[230px] rounded-xl md:hidden"
+            />
             <p className="leading-relaxed text-gray-600 italic flex-1">
               Recently, I’ve also started learning{" "}
               <span className="font-bold">React Native</span> to explore{" "}
@@ -156,31 +163,30 @@ const page = () => {
             </p>
             <img
               src="/images/image_03.png"
-              className="hidden rounded-xl lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
+              className="hidden lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
             />
           </div>
         </div>
       );
     } else {
       return (
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl animate-fade-in-delay">
-            <div className="flex flex-col">
-              <img src="/images/image_01.png" className="w-[230px] md:hidden" />
-              <p className="leading-relaxed text-gray-700 flex-1">
-                안녕하세요, 저는 빠르게 성장하고 실행력 있게 움직이는{" "}
-                <span className="font-bold text-primary-600">
-                  프론트엔드 개발자 Raina
-                </span>
-                입니다.
-              </p>
-              <p className="leading-relaxed text-gray-600 flex-1">
-                다양한 프로젝트를 직접 기획하고 구현하며,{" "}
-                <span className="font-semibold">문제 해결</span>과{" "}
-                <span className="font-semibold">사용자 경험</span>을 중심으로
-                코드를 작성합니다.
-              </p>
-            </div>
+        <div className="flex flex-col mx-5 md:mx-10 gap-6 lg:gap-12">
+          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+            {" "}
+            <img src="/images/image_01.png" className="w-[230px] md:hidden" />
+            <p className="leading-relaxed text-gray-700 flex-1">
+              안녕하세요, 저는 빠르게 성장하고 실행력 있게 움직이는{" "}
+              <span className="font-bold text-primary-600">
+                프론트엔드 개발자 Raina
+              </span>
+              입니다.
+            </p>
+            <p className="leading-relaxed text-gray-600 flex-1">
+              다양한 프로젝트를 직접 기획하고 구현하며,{" "}
+              <span className="font-semibold">문제 해결</span>과{" "}
+              <span className="font-semibold">사용자 경험</span>을 중심으로
+              코드를 작성합니다.
+            </p>
             <img
               src="/images/image_01.png"
               alt="개발자 아이콘"
@@ -188,7 +194,8 @@ const page = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+            {" "}
             <img
               src="/images/image_02.png"
               alt="기술 아이콘"
@@ -204,8 +211,12 @@ const page = () => {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
-            <img src="/images/image_03.png" className="w-[230px] md:hidden" />
+          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+            {" "}
+            <img
+              src="/images/image_03.png"
+              className="w-[230px] rounded-xl md:hidden"
+            />
             <p className="leading-relaxed text-gray-600 italic flex-1">
               최근에는 <span className="font-bold">React Native</span>를
               공부하며 <span className="font-bold">모바일 개발</span>에도
@@ -213,7 +224,7 @@ const page = () => {
             </p>
             <img
               src="/images/image_03.png"
-              className="hidden rounded-xl lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
+              className="hidden lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
             />
           </div>
         </div>
@@ -274,7 +285,7 @@ const page = () => {
         ref={descRef}
         className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
       >
-        <h2 className="pt-10">{renderDescription()}</h2>
+        <h2 className="py-10">{renderDescription()}</h2>
       </div>
 
       <div className="overflow-x-auto w-full mt-8">
