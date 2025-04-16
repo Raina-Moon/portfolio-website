@@ -5,7 +5,7 @@ import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import { useLanguageStore } from "@/libs/languageStore";
 import { skillsTable } from "@/libs/texts/skills";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const page = () => {
@@ -15,6 +15,52 @@ const page = () => {
   const frontendLabel = lang === "en" ? "Frontend" : "프론트엔드";
   const backendLabel = lang === "en" ? "Backend / Infra" : "백엔드 / 인프라";
   const categoryLabel = lang === "en" ? "Category" : "분류";
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const descRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (headerRef.current && descRef.current) {
+        const scrollY = window.scrollY;
+        const headerHeight = headerRef.current.offsetHeight;
+        const descOffset = descRef.current.getBoundingClientRect().top;
+
+        const opacity = Math.max(1 - scrollY / (headerHeight * 0.7), 0);
+        const translateY = Math.min(scrollY / 10, 30);
+        headerRef.current.style.opacity = `${opacity}`;
+        headerRef.current.style.transform = `translateY(-${translateY}px)`;
+
+        if (descOffset < headerHeight) {
+          const moveUp = Math.min(headerHeight - descOffset, headerHeight * 0.5);
+          descRef.current.style.transform = `translateY(-${moveUp}px)`;
+        } else {
+          descRef.current.style.transform = `translateY(0)`;
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in");
+            entry.target.classList.remove("opacity-0");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const descItems = document.querySelectorAll(".desc-item");
+    descItems.forEach((item) => observer.observe(item));
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      descItems.forEach((item) => observer.unobserve(item));
+    };
+  }, []);
 
   const renderTitle = () => {
     if (lang === "en") {
@@ -56,7 +102,7 @@ const page = () => {
     if (lang === "en") {
       return (
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 bg-white rounded-3xl">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 bg-white rounded-3xl animate-fade-in">
             <div className="flex flex-col">
               <img src="/images/image_01.png" className="w-[230px] md:hidden" />
               <p className="leading-relaxed text-gray-700">
@@ -85,7 +131,7 @@ const page = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl animate-fade-in-delay-100">
             <img
               src="/images/image_02.png"
               alt="Tech Icon"
@@ -101,7 +147,7 @@ const page = () => {
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl animate-fade-in-delay-200">
             <img src="/images/image_03.png" className="w-[230px] md:hidden" />
             <p className="leading-relaxed text-gray-600 italic flex-1">
               Recently, I’ve also started learning{" "}
@@ -118,7 +164,7 @@ const page = () => {
     } else {
       return (
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl animate-fade-in-delay">
             <div className="flex flex-col">
               <img src="/images/image_01.png" className="w-[230px] md:hidden" />
               <p className="leading-relaxed text-gray-700 flex-1">
@@ -180,48 +226,55 @@ const page = () => {
       id="about"
       className="flex flex-col items-center justify-center w-full py-20"
     >
-      <div className="relative animate-slide-up">
-        <Image
-          src="/images/IMG_0523.png"
-          alt="profile image"
-          width={380}
-          height={380}
-          className="absolute right-[15px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
-        />
-        <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
-          Raina Moon
-        </strong>
+      <div ref={headerRef} className="transition-all duration-300 z-10">
+        <div className="relative animate-slide-up">
+          <Image
+            src="/images/IMG_0523.png"
+            alt="profile image"
+            width={380}
+            height={380}
+            className="absolute right-[15px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
+          />
+          <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
+            Raina Moon
+          </strong>
+        </div>
+        <div className="flex flex-col items-center">
+          <h1 className="text-center animate-slide-up-delay">
+            {renderTitle()}
+          </h1>
+
+          <div className="flex gap-4 mt-6">
+            <button
+              onClick={() =>
+                window.open("https://github.com/Raina-Moon", "_blank")
+              }
+              className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-700 transition text-sm sm:text-base"
+            >
+              <FaGithub className="md:text-lg" />
+              GitHub
+            </button>
+            <button
+              onClick={() =>
+                window.open(
+                  "https://www.linkedin.com/in/daseul-moon-8b064128b/",
+                  "_blank"
+                )
+              }
+              className="flex items-center gap-2 px-5 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
+            >
+              <FaLinkedin className="md:text-lg" />
+              LinkedIn
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        <h1 className="text-center animate-slide-up-delay">{renderTitle()}</h1>
 
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={() =>
-              window.open("https://github.com/Raina-Moon", "_blank")
-            }
-            className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-700 transition text-sm sm:text-base"
-          >
-            <FaGithub className="md:text-lg" />
-            GitHub
-          </button>
-          <button
-            onClick={() =>
-              window.open(
-                "https://www.linkedin.com/in/daseul-moon-8b064128b/",
-                "_blank"
-              )
-            }
-            className="flex items-center gap-2 px-5 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
-          >
-            <FaLinkedin className="md:text-lg" />
-            LinkedIn
-          </button>
-        </div>
-
-        <div className="bg-blue-50 my-6 lg:my-20">
-          <h2 className="pt-10">{renderDescription()}</h2>
-        </div>
+      <div
+        ref={descRef}
+        className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
+      >
+        <h2 className="pt-10">{renderDescription()}</h2>
       </div>
 
       <div className="overflow-x-auto w-full mt-8">
