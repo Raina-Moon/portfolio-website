@@ -34,11 +34,16 @@ module.exports = {
       animation: {
         "slide-up": "slideUp 0.8s ease-out forwards",
         "slide-up-delay": "slideUp 0.8s ease-out 0.3s forwards",
+        "fade-in": "fadeIn 0.6s ease-out forwards",
       },
       keyframes: {
         slideUp: {
           "0%": { transform: "translateY(50px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0", transform: "translateY(15px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
     },
