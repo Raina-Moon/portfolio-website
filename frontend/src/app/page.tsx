@@ -3,19 +3,14 @@
 import ContactForm from "@/components/ContactForm/ContactForm";
 import Description from "@/components/Description/Description";
 import CareerTimeline from "@/components/Experience/CareerTimeLine";
+import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
-import { skillsTable } from "@/libs/texts/skills";
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const page = () => {
   const { lang } = useLanguageStore();
-  const rows = skillsTable[lang];
-
-  const frontendLabel = lang === "en" ? "Frontend" : "프론트엔드";
-  const backendLabel = lang === "en" ? "Backend / Infra" : "백엔드 / 인프라";
-  const categoryLabel = lang === "en" ? "Category" : "분류";
 
   const headerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
@@ -35,7 +30,7 @@ const page = () => {
         if (descOffset < headerHeight) {
           const moveUp = Math.min(
             headerHeight - descOffset,
-            headerHeight * 0.5
+            headerHeight * 0.1
           );
           descRef.current.style.transform = `translateY(-${moveUp}px)`;
         } else {
@@ -162,46 +157,23 @@ const page = () => {
         </div>
       </div>
 
-      <div
-        ref={descRef}
-        className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
-      >
-        <div className="pt-10 pb-20 lg:pt-20 lg:pb-40">
-          {" "}
-          <Description lang={lang} />
+      <div className="flex flex-col gap-4 lg:gap-6 w-full">
+        <div
+          ref={descRef}
+          className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
+        >
+          <div className="pt-10 pb-20 lg:pt-20 lg:pb-40">
+            {" "}
+            <Description lang={lang} />
+          </div>
         </div>
+
+        <SkillsTable />
+
+        <CareerTimeline />
+
+        <ContactForm />
       </div>
-
-      <div className="overflow-x-auto w-full mt-8">
-        <table className="min-w-full text-sm border border-gray-300">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="text-left px-4 py-3 border-b">{categoryLabel}</th>
-              <th className="text-left px-4 py-3 border-b">{frontendLabel}</th>
-              <th className="text-left px-4 py-3 border-b">{backendLabel}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, index) => (
-              <tr key={index} className="border-t">
-                <td className="px-4 py-3 font-medium text-gray-800">
-                  {row.category}
-                </td>
-                <td className="px-4 py-3 text-gray-700">
-                  {row.frontend.length > 0 ? row.frontend.join(", ") : "-"}
-                </td>
-                <td className="px-4 py-3 text-gray-700">
-                  {row.backend.length > 0 ? row.backend.join(", ") : "-"}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <CareerTimeline />
-
-      <ContactForm />
     </div>
   );
 };
