@@ -32,7 +32,7 @@ const page = () => {
         <div className="flex flex-col items-center text-gray-900">
           <span className="sm:text-lg lg:text-2xl">
           {" "}
-            작고 확실한 개선을 통해, 더 나은 사용자 경험을 만드는{" "}
+            작고 확실한 개선을 통해,<span className="md:hidden"><br/></span> 더 나은 사용자 경험을 만드는{" "}<span className="sm:hidden"><br/></span>
             <span className="text-xl sm:text-2xl lg:text-4xl font-bold">프론트엔드 개발자</span>{" "}
             입니다.
           </span>
@@ -114,7 +114,7 @@ const page = () => {
             }
             className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-700 transition text-sm sm:text-base"
           >
-            <FaGithub className="text-lg" />
+            <FaGithub className="md:text-lg" />
             GitHub
           </button>
           <button
@@ -126,7 +126,7 @@ const page = () => {
             }
             className="flex items-center gap-2 px-5 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
           >
-            <FaLinkedin className="text-lg" />
+            <FaLinkedin className="md:text-lg" />
             LinkedIn
           </button>
         </div>
