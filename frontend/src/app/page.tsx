@@ -59,12 +59,22 @@ const page = () => {
     const descItems = document.querySelectorAll(".desc-item");
     descItems.forEach((item) => observer.observe(item));
 
+    // Initial check for items already in viewport
+    descItems.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      if (rect.top >= 0 && rect.top <= window.innerHeight * 0.8) {
+        item.classList.add("animate-fade-in");
+        item.classList.remove("opacity-0");
+        observer.unobserve(item);
+      }
+    });
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
       descItems.forEach((item) => observer.unobserve(item));
     };
-  }, []);
+  }, [lang]);
 
   const renderTitle = () => {
     if (lang === "en") {
