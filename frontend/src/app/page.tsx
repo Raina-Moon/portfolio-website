@@ -115,8 +115,8 @@ const page = () => {
   const renderDescription = () => {
     if (lang === "en") {
       return (
-        <div className="flex flex-col mx-5 md:mx-10 gap-6 lg:gap-12">
-          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-4 bg-white rounded-3xl opacity-0">
+        <div className="flex flex-col items-center justify-center mx-5 md:mx-10 gap-8 lg:gap-12">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img src="/images/image_01.png" className="w-[230px] md:hidden" />
             <p className="leading-relaxed text-gray-700">
@@ -130,12 +130,15 @@ const page = () => {
                 intuitive interfaces
               </span>
               .
-            </p>
-            <p className="leading-relaxed text-gray-600">
-              With experience building projects from the ground up, I focus on{" "}
-              <span className="font-semibold">clean design</span>,{" "}
-              <span className="font-semibold">solid architecture</span>, and{" "}
-              <span className="font-semibold">human-centered UX</span>.
+              <p className="leading-relaxed text-gray-600">
+                With experience building projects from the ground up,
+                <span className="hidden md:block">
+                  <br />
+                </span>
+                I focus on <span className="font-semibold">clean design</span>,{" "}
+                <span className="font-semibold">solid architecture</span>, and{" "}
+                <span className="font-semibold">human-centered UX</span>.
+              </p>
             </p>
             <img
               src="/images/image_01.png"
@@ -144,7 +147,7 @@ const page = () => {
             />
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
             <img
               src="/images/image_02.png"
               alt="Tech Icon"
@@ -160,7 +163,7 @@ const page = () => {
             </p>
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img
               src="/images/image_03.png"
@@ -180,9 +183,9 @@ const page = () => {
       );
     } else {
       return (
-        <div className="flex flex-col mx-5 md:mx-10 gap-6 lg:gap-12">
-          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
-            {" "}
+        <div className="flex flex-col items-center justify-center mx-5 md:mx-10 gap-8 lg:gap-12">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
+          {" "}
             <img src="/images/image_01.png" className="w-[230px] md:hidden" />
             <p className="leading-relaxed text-gray-700 flex-1">
               안녕하세요, 저는 빠르게 성장하고 실행력 있게 움직이는{" "}
@@ -190,12 +193,12 @@ const page = () => {
                 프론트엔드 개발자 Raina
               </span>
               입니다.
-            </p>
             <p className="leading-relaxed text-gray-600 flex-1">
               다양한 프로젝트를 직접 기획하고 구현하며,{" "}
               <span className="font-semibold">문제 해결</span>과{" "}
               <span className="font-semibold">사용자 경험</span>을 중심으로
               코드를 작성합니다.
+            </p>
             </p>
             <img
               src="/images/image_01.png"
@@ -204,7 +207,7 @@ const page = () => {
             />
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img
               src="/images/image_02.png"
@@ -221,7 +224,7 @@ const page = () => {
             </p>
           </div>
 
-          <div className="desc-item flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl opacity-0">
+          <div className="desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-4 bg-white rounded-3xl opacity-0 max-w-[800px]">
             {" "}
             <img
               src="/images/image_03.png"
