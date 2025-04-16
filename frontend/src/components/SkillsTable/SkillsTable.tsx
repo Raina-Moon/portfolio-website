@@ -34,7 +34,9 @@ const SkillsTable = () => {
   return (
     <div className="w-full">
       <div className="">
-        <h1>My Tech Stack</h1>
+        <h1 className="text-3xl font-bold text-center text-gray-900 mb-10">
+          My Tech Stack
+        </h1>
         <table className=" text-sm border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
