@@ -30,7 +30,7 @@ const page = () => {
         if (descOffset < headerHeight) {
           const moveUp = Math.min(
             headerHeight - descOffset,
-            headerHeight * 0.5
+            headerHeight * 0.1
           );
           descRef.current.style.transform = `translateY(-${moveUp}px)`;
         } else {
@@ -157,21 +157,23 @@ const page = () => {
         </div>
       </div>
 
-      <div
-        ref={descRef}
-        className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
-      >
-        <div className="pt-10 pb-20 lg:pt-20 lg:pb-40">
-          {" "}
-          <Description lang={lang} />
+      <div className="flex flex-col gap-4 lg:gap-6 w-full">
+        <div
+          ref={descRef}
+          className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
+        >
+          <div className="pt-10 pb-20 lg:pt-20 lg:pb-40">
+            {" "}
+            <Description lang={lang} />
+          </div>
         </div>
+
+        <SkillsTable />
+
+        <CareerTimeline />
+
+        <ContactForm />
       </div>
-
-      <SkillsTable />
-
-      <CareerTimeline />
-
-      <ContactForm />
     </div>
   );
 };
