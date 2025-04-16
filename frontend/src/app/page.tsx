@@ -20,7 +20,9 @@ const page = () => {
     if (lang === "en") {
       return (
         <div className="flex flex-col items-center text-gray-900">
-          <span className="text-xl sm:text-2xl lg:text-4xl font-bold">A frontend developer</span>
+          <span className="text-xl sm:text-2xl lg:text-4xl font-bold">
+            A frontend developer
+          </span>
           <span className="sm:text-lg lg:text-2xl">
             {" "}
             who believes in persistence, precision, and progress.
@@ -31,9 +33,18 @@ const page = () => {
       return (
         <div className="flex flex-col items-center text-gray-900">
           <span className="sm:text-lg lg:text-2xl">
-          {" "}
-            작고 확실한 개선을 통해,<span className="md:hidden"><br/></span> 더 나은 사용자 경험을 만드는{" "}<span className="sm:hidden"><br/></span>
-            <span className="text-xl sm:text-2xl lg:text-4xl font-bold">프론트엔드 개발자</span>{" "}
+            {" "}
+            작고 확실한 개선을 통해,
+            <span className="md:hidden">
+              <br />
+            </span>{" "}
+            더 나은 사용자 경험을 만드는{" "}
+            <span className="sm:hidden">
+              <br />
+            </span>
+            <span className="text-xl sm:text-2xl lg:text-4xl font-bold">
+              프론트엔드 개발자
+            </span>{" "}
             입니다.
           </span>
         </div>
@@ -44,47 +55,122 @@ const page = () => {
   const renderDescription = () => {
     if (lang === "en") {
       return (
-        <p className="leading-relaxed text-gray-700">
-          Hi, I'm <span className="font-bold text-primary-600">Raina Moon</span>{" "}
-          — a <span className="font-bold">frontend developer</span> who thrives
-          on solving <span className="font-semibold">real problems</span>{" "}
-          through{" "}
-          <span className="underline underline-offset-4">
-            intuitive interfaces
-          </span>
-          . <br />
-          With experience building projects from the ground up, I focus on{" "}
-          <span className="font-semibold">clean design</span>,{" "}
-          <span className="font-semibold">solid architecture</span>, and{" "}
-          <span className="font-semibold">human-centered UX</span>. <br />I
-          build with <span className="font-bold">Next.js</span>,{" "}
-          <span className="font-bold">TypeScript</span>, and{" "}
-          <span className="font-bold">TailwindCSS</span>, and I'm expanding my
-          full-stack skills using <span className="font-bold">Node.js</span> and{" "}
-          <span className="font-bold">PostgreSQL</span>. <br /> Recently, I’ve
-          also started learning <span className="font-bold">React Native</span>{" "}
-          to explore <span className="italic">mobile development</span>.
-        </p>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 bg-white rounded-3xl">
+            <div className="flex flex-col">
+              <img src="/images/image_01.png" className="w-[230px] md:hidden" />
+              <p className="leading-relaxed text-gray-700">
+                Hi, I'm{" "}
+                <span className="font-bold text-primary-600">Raina Moon</span> —
+                a <span className="font-bold">frontend developer</span>
+                <br /> who thrives on solving{" "}
+                <span className="font-semibold">real problems</span>
+                <br /> through{" "}
+                <span className="underline underline-offset-4">
+                  intuitive interfaces
+                </span>
+                .
+              </p>
+              <p className="leading-relaxed text-gray-600">
+                With experience building projects from the ground up, I focus on{" "}
+                <span className="font-semibold">clean design</span>,{" "}
+                <span className="font-semibold">solid architecture</span>, and{" "}
+                <span className="font-semibold">human-centered UX</span>.
+              </p>
+            </div>
+            <img
+              src="/images/image_01.png"
+              alt="Developer Icon"
+              className="hidden md:block md:w-[230px] lg:block lg:w-[300px]"
+            />
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+            <img
+              src="/images/image_02.png"
+              alt="Tech Icon"
+              className="rounded-xl lg:rounded-3xl w-[230px] lg:w-[300px]"
+            />
+            <p className="leading-relaxed text-gray-700 font-medium flex-1">
+              I build with <span className="font-bold">Next.js</span>,{" "}
+              <span className="font-bold">TypeScript</span>, and{" "}
+              <span className="font-bold">TailwindCSS</span>, and I'm expanding
+              my full-stack skills using{" "}
+              <span className="font-bold">Node.js</span> and{" "}
+              <span className="font-bold">PostgreSQL</span>.
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+            <img src="/images/image_03.png" className="w-[230px] md:hidden" />
+            <p className="leading-relaxed text-gray-600 italic flex-1">
+              Recently, I’ve also started learning{" "}
+              <span className="font-bold">React Native</span> to explore{" "}
+              <span className="italic">mobile development</span>.
+            </p>
+            <img
+              src="/images/image_03.png"
+              className="hidden rounded-xl lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
+            />
+          </div>
+        </div>
       );
     } else {
       return (
-        <p className="leading-relaxed text-gray-700">
-          안녕하세요, 저는 빠르게 성장하고 실행력 있게 움직이는{" "}
-          <span className="font-bold text-primary-600">
-            프론트엔드 개발자 Raina
-          </span>
-          입니다. <br /> 다양한 프로젝트를 직접 기획하고 구현하며,{" "}
-          <span className="font-semibold">문제 해결</span>과{" "}
-          <span className="font-semibold">사용자 경험</span>을 중심으로 코드를
-          작성합니다. <br /> 현재는 <span className="font-bold">Next.js</span>,{" "}
-          <span className="font-bold">TypeScript</span>,{" "}
-          <span className="font-bold">TailwindCSS</span>를 활용해 웹을 만들고
-          있으며, <span className="font-bold">Node.js</span>와{" "}
-          <span className="font-bold">PostgreSQL</span>로 백엔드 역량도 키우는
-          중입니다. <br /> 최근에는{" "}
-          <span className="font-bold">React Native</span>를 공부하며{" "}
-          <span className="font-bold">모바일 개발</span>에도 도전하고 있어요.
-        </p>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+            <div className="flex flex-col">
+              <img src="/images/image_01.png" className="w-[230px] md:hidden" />
+              <p className="leading-relaxed text-gray-700 flex-1">
+                안녕하세요, 저는 빠르게 성장하고 실행력 있게 움직이는{" "}
+                <span className="font-bold text-primary-600">
+                  프론트엔드 개발자 Raina
+                </span>
+                입니다.
+              </p>
+              <p className="leading-relaxed text-gray-600 flex-1">
+                다양한 프로젝트를 직접 기획하고 구현하며,{" "}
+                <span className="font-semibold">문제 해결</span>과{" "}
+                <span className="font-semibold">사용자 경험</span>을 중심으로
+                코드를 작성합니다.
+              </p>
+            </div>
+            <img
+              src="/images/image_01.png"
+              alt="개발자 아이콘"
+              className="hidden md:block md:w-[230px] lg:block lg:w-[300px]"
+            />
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+            <img
+              src="/images/image_02.png"
+              alt="기술 아이콘"
+              className="rounded-xl lg:rounded-3xl w-[230px] lg:w-[300px]"
+            />
+            <p className="leading-relaxed text-gray-700 font-medium flex-1">
+              현재는 <span className="font-bold">Next.js</span>,{" "}
+              <span className="font-bold">TypeScript</span>,{" "}
+              <span className="font-bold">TailwindCSS</span>를 활용해 웹을
+              만들고 있으며, <span className="font-bold">Node.js</span>와{" "}
+              <span className="font-bold">PostgreSQL</span>로 백엔드 역량도
+              키우는 중입니다.
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-3xl">
+            <img src="/images/image_03.png" className="w-[230px] md:hidden" />
+            <p className="leading-relaxed text-gray-600 italic flex-1">
+              최근에는 <span className="font-bold">React Native</span>를
+              공부하며 <span className="font-bold">모바일 개발</span>에도
+              도전하고 있어요.
+            </p>
+            <img
+              src="/images/image_03.png"
+              className="hidden rounded-xl lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
+            />
+          </div>
+        </div>
       );
     }
   };
@@ -92,7 +178,7 @@ const page = () => {
   return (
     <div
       id="about"
-      className="flex flex-col items-center justify-center w-full px-4 py-20"
+      className="flex flex-col items-center justify-center w-full py-20"
     >
       <div className="relative animate-slide-up">
         <Image
@@ -102,7 +188,9 @@ const page = () => {
           height={380}
           className="absolute right-[15px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
         />
-        <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">Raina Moon</strong>
+        <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
+          Raina Moon
+        </strong>
       </div>
       <div className="flex flex-col items-center">
         <h1 className="text-center animate-slide-up-delay">{renderTitle()}</h1>
@@ -131,7 +219,9 @@ const page = () => {
           </button>
         </div>
 
-        <h2 className="pt-10">{renderDescription()}</h2>
+        <div className="bg-blue-50 my-6 lg:my-20">
+          <h2 className="pt-10">{renderDescription()}</h2>
+        </div>
       </div>
 
       <div className="overflow-x-auto w-full mt-8">
