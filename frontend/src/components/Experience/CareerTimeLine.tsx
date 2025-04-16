@@ -68,7 +68,9 @@ const CareerTimeline = () => {
 
         <div className="flex gap-12 overflow-x-auto pb-6 pl-6 pr-6">
           {filteredData.map((item, index) => {
-            const originalIndex = data.findIndex((dataItem) => dataItem === item);
+            const originalIndex = data.findIndex(
+              (dataItem) => dataItem === item
+            );
             return (
               <div
                 key={originalIndex}
@@ -77,7 +79,14 @@ const CareerTimeline = () => {
               >
                 <p className="text-lg text-gray-800 text-center">{item.date}</p>
                 <div className="absolute left-1/2 transform -translate-x-1/2 top-10 w-4 h-4 bg-gray-800 rounded-full z-10" />
-                <div className="bg-white p-4 mt-12 shadow-md rounded-lg border border-gray-200 hover:-translate-y-2 hover:shadow-lg transition-transform duration-300 cursor-pointer"><h3 className="text-lg font-semibold text-gray-900 text-center">{item.title}</h3><p className="mt-2 text-sm text-gray-700">{item.shortDescription}</p></div>
+                <div className="bg-white p-4 mt-12 shadow-md rounded-lg border border-gray-200 hover:-translate-y-2 hover:shadow-lg transition-transform duration-300 cursor-pointer">
+                  <h3 className="text-lg font-semibold text-gray-900 text-center">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-700">
+                    {item.shortDescription}
+                  </p>
+                </div>
               </div>
             );
           })}
@@ -141,7 +150,9 @@ const CareerTimeline = () => {
                     rel="noopener noreferrer"
                     className="text-blue-600 text-sm hover:underline"
                   >
-                    👉 View GitHub Repo
+                    {data[selectedIndex].detail.link.includes("github.com")
+                      ? "👉 View GitHub Repo"
+                      : "👉 View Project"}
                   </a>
                 </div>
               )}
