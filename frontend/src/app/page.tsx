@@ -176,7 +176,7 @@ const page = () => {
             </p>
             <img
               src="/images/image_03.png"
-              className="hidden lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
+              className="hidden rounded-xl lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
             />
           </div>
         </div>
@@ -237,7 +237,7 @@ const page = () => {
             </p>
             <img
               src="/images/image_03.png"
-              className="hidden lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
+              className="hidden rounded-xl lg:rounded-3xl md:block md:w-[230px] lg:block lg:w-[300px]"
             />
           </div>
         </div>
@@ -250,7 +250,7 @@ const page = () => {
       id="about"
       className="flex flex-col items-center justify-center w-full py-20"
     >
-      <div ref={headerRef} className="transition-all duration-300 z-10">
+      <div ref={headerRef} className="transition-all duration-300 z-10 pb-10">
         <div className="relative animate-slide-up">
           <Image
             src="/images/IMG_0523.png"
@@ -298,7 +298,7 @@ const page = () => {
         ref={descRef}
         className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
       >
-        <h2 className="py-10">{renderDescription()}</h2>
+        <h2 className="py-10 lg:py-20">{renderDescription()}</h2>
       </div>
 
       <div className="overflow-x-auto w-full mt-8">
