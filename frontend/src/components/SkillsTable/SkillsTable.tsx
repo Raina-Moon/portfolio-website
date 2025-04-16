@@ -2,23 +2,40 @@
 
 import { useLanguageStore } from "@/libs/languageStore";
 import { skillsTable } from "@/libs/texts/skills";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const SkillsTable = () => {
   const { lang } = useLanguageStore();
   const rows = skillsTable[lang];
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMdOrLarger, setIsMdOrLarger] = useState(false);
 
   const frontendLabel = lang === "en" ? "Frontend" : "프론트엔드";
   const backendLabel = lang === "en" ? "Backend / Infra" : "백엔드 / 인프라";
   const categoryLabel = lang === "en" ? "Category" : "분류";
 
-  const visibleRows = window.innerWidth >= 768 || isExpanded ? rows : rows.slice(0, 3);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMdOrLarger(window.innerWidth >= 768);
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add event listener for resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const visibleRows = isMdOrLarger || isExpanded ? rows : rows.slice(0, 3);
 
   return (
-    <div className="w-full mt-8">
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border border-gray-300">
+    <div className="w-full">
+      <div className="">
+        <h1>My Tech Stack</h1>
+        <table className=" text-sm border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
               <th className="text-left px-4 py-3 border-b">{categoryLabel}</th>
