@@ -2,6 +2,7 @@
 
 import { useLanguageStore } from "@/libs/languageStore";
 import React from "react";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { lang, setLang } = useLanguageStore();
@@ -13,6 +14,15 @@ const Header = () => {
   const button = {
     langBtn: lang === "en" ? "KOR" : "ENG",
   };
+
+  const handleClickTroubleshooting = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    toast.info(
+      lang === "en"
+        ? "Coming soon!"
+        : "곧 공개될 예정입니다."
+    );
+  };  
 
   return (
     <header
@@ -35,6 +45,7 @@ const Header = () => {
         </a>
         <a
           href="#troubleshooting"
+          onClick={handleClickTroubleshooting}
           className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Troubleshooting
