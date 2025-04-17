@@ -66,7 +66,7 @@ const Description: React.FC<DescriptionProps> = ({ lang }) => {
             textContent={
               <div className="flex flex-col">
                 <p className="leading-relaxed text-gray-700">
-                  Hi, I'm{" "}
+                  Hi, I&#39;m{" "}
                   <span className="font-bold text-primary-600">Raina Moon</span>{" "}
                   — a <span className="font-bold">frontend developer</span> who
                   thrives on solving{" "}
@@ -95,7 +95,7 @@ const Description: React.FC<DescriptionProps> = ({ lang }) => {
               <p className="leading-relaxed text-gray-700 font-medium flex-1">
                 I build with <span className="font-bold">Next.js</span>,{" "}
                 <span className="font-bold">TypeScript</span>, and{" "}
-                <span className="font-bold">TailwindCSS</span>, and I'm
+                <span className="font-bold">TailwindCSS</span>, and I&#39;m
                 expanding my full-stack skills using{" "}
                 <span className="font-bold">Node.js</span> and{" "}
                 <span className="font-bold">PostgreSQL</span>.
@@ -109,7 +109,7 @@ const Description: React.FC<DescriptionProps> = ({ lang }) => {
             imageClassName="rounded-xl lg:rounded-3xl"
             textContent={
               <p className="leading-relaxed text-gray-600 italic flex-1">
-                Recently, I’ve also started learning{" "}
+                Recently, I&#39;ve also started learning{" "}
                 <span className="font-bold">React Native</span> to explore{" "}
                 <span className="italic">mobile development</span>.
               </p>
