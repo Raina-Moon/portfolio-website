@@ -3,6 +3,7 @@
 import ContactForm from "@/components/ContactForm/ContactForm";
 import Description from "@/components/Description/Description";
 import CareerTimeline from "@/components/Experience/CareerTimeLine";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
 import Image from "next/image";
@@ -182,6 +183,7 @@ const page = () => {
         <CareerTimeline />
 
         <ContactForm />
+        <ScrollToTopButton />
       </div>
     </div>
   );
