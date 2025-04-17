@@ -170,6 +170,15 @@ const page = () => {
 
         <SkillsTable />
 
+        <div className="mt-16 mb-10 lg:mt-32 flex justify-center items-center px-10">
+          <video
+            src="video/portfolio.mp4"
+            loop
+            muted
+            autoPlay
+            className="rounded-2xl w-full max-w-[800px]"
+          />
+        </div>
         <CareerTimeline />
 
         <ContactForm />
