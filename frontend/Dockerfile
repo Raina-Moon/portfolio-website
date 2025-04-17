@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-COPY ./frontend/.env.production .env.production
+COPY .env.production .env.production
 
 RUN npm run build
 
