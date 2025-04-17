@@ -121,7 +121,7 @@ const page = () => {
             alt="profile image"
             width={380}
             height={380}
-            className="absolute right-[15px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
+            className="absolute right-[41px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
           />
           <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
             Raina Moon
