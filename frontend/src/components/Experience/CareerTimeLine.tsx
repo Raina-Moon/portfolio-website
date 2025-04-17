@@ -67,7 +67,7 @@ const CareerTimeline = () => {
         <div className="absolute top-[44px] left-0 right-0 h-1 bg-gray-800 z-0" />
 
         <div className="flex gap-12 overflow-x-auto pb-6 pl-6 pr-6">
-          {filteredData.map((item, index) => {
+          {filteredData.map((item) => {
             const originalIndex = data.findIndex(
               (dataItem) => dataItem === item
             );
