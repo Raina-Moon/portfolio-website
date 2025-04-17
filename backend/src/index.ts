@@ -1,20 +1,22 @@
-import express from 'express';
-import troubleshootingRoutes from './routes/troubleshooting';
-import contactRoutes from './routes/contact';
-import cors from 'cors';
+import express from "express";
+import troubleshootingRoutes from "./routes/troubleshooting";
+import contactRoutes from "./routes/contact";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: 'http://13.211.107.116',
+app.use(
+  cors({
+    origin: "https://raina-moon.com",
     credentials: true,
-  }));
+  })
+);
 
 app.use(express.json());
 
-app.use('/api/troubleshooting', troubleshootingRoutes);
-app.use('/api/contact', contactRoutes);
+app.use("/api/troubleshooting", troubleshootingRoutes);
+app.use("/api/contact", contactRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
