@@ -46,10 +46,10 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="sm:py-16 sm:px-4 w-full scroll-mt-10 sm:scroll-mt-20 sm:w-[60%]">
+    <section id="contact" className="flex flex-col items-center justify-center mx-20 sm:py-16 sm:px-4 w-full scroll-mt-10 sm:scroll-mt-20 sm:w-[60%]">
       <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">Contact Me</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-3 w-full sm:space-y-6">
         <div>
           <label
             className="block text-sm sm:text-base font-medium mb-1 text-gray-800"
