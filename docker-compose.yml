@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:3000"
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env
+
+volumes:
+  postgres_data:
