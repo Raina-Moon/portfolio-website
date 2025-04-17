@@ -22,8 +22,12 @@ const usePortfolioStore = create<PortfolioState>()(
       try {
         const posts = await fetchTroubleshootingPosts();
         set({ troubleshootingPosts: posts });
-      } catch (error: any) {
-        set({ error: error.message });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          set({ error: error.message });
+        } else {
+          set({ error: "An unknown error occurred." });
+        }
       } finally {
         set({ loading: false });
       }
@@ -33,8 +37,12 @@ const usePortfolioStore = create<PortfolioState>()(
       try {
         const result = await sendContactMessage(contact);
         console.log("Contact message sent:", result);
-      } catch (error: any) {
-        set({ error: error.message });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          set({ error: error.message });
+        } else {
+          set({ error: "An unknown error occurred." });
+        }
       } finally {
         set({ loading: false });
       }
