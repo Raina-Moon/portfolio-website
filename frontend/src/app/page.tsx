@@ -10,7 +10,7 @@ import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
-const page = () => {
+const Page = () => {
   const { lang } = useLanguageStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
@@ -191,4 +191,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
