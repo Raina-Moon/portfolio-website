@@ -101,7 +101,7 @@ const EditorToolbar = ({
         <input
           type="color"
           onInput={(event) =>
-            editor.chain().focus().setColor(event.target.value()).run()
+            editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()
           }
           value={editor.getAttributes("textStyle").color}
           data-testid="setColor"
