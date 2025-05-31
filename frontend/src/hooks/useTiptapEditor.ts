@@ -23,7 +23,6 @@ export const useTiptapEditor = () =>
     extensions: [
       Paragraph,
       Text,
-      Blockquote,
       StarterKit,
       CodeBlock,
       TaskList,
