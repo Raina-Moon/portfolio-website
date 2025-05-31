@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tinymce/tinymce-react": "^6.2.0",
     "framer-motion": "^12.7.3",
     "next": "15.3.0",
     "react": "^19.0.0",
