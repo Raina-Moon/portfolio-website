@@ -4,6 +4,7 @@ import React, { useCallback } from "react";
 import { EditorContent } from "@tiptap/react";
 import EditorToolbar from "./EditorToolbar";
 import { useTiptapEditor } from "@/hooks/useTiptapEditor";
+import { createTroubleshootingPost } from "@/libs/api/troubleshooting";
 
 const TroubleshootingSection = () => {
   const editor = useTiptapEditor();
@@ -15,6 +16,12 @@ const TroubleshootingSection = () => {
       editor.chain().focus().setImage({ src: url }).run();
     }
   }, [editor]);
+
+  const saveContent = async() => {
+    const html = editor?.getHTML() ?? "";
+
+    await createTroubleshootingPost(html);
+  }
 
   const setLink = useCallback(() => {
     if (!editor) {
@@ -57,6 +64,7 @@ const TroubleshootingSection = () => {
       <EditorToolbar editor={editor} addImage={addImage} setLink={setLink} />
 
       <EditorContent editor={editor} />
+      <button onClick={saveContent}>Save</button>
     </div>
   );
 };
