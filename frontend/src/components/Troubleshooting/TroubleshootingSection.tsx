@@ -10,7 +10,7 @@ import { uploadImageToCloudinary } from "@/hooks/uploadImageToCloudinary";
 const TroubleshootingSection = () => {
   const editor = useTiptapEditor();
 
-  const addImage = async (file: File) => {
+  const addImage = () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
@@ -75,7 +75,7 @@ const TroubleshootingSection = () => {
 
   return (
     <div>
-      <EditorToolbar editor={editor} addImage={() => addImage} setLink={setLink} />
+      <EditorToolbar editor={editor} addImage={addImage} setLink={setLink} />
 
       <EditorContent editor={editor} />
       <button onClick={saveContent}>Save</button>
