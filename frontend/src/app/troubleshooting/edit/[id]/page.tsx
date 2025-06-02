@@ -17,7 +17,7 @@ const page = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
-  const id = parseInt(params.id, 10);
+  const id = Number(params.id);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,10 +34,12 @@ const page = ({ params }: { params: { id: string } }) => {
 
   const handleUpload = async () => {
     const values = sectionRef.current?.getValues();
-    if (!values) {
-      alert("Please fill in all fields before uploading.");
-      return;
-    }
+    console.log("Values from section:", values);
+
+    if (!values || !values.title || !values.content) {
+    alert("Please fill in all fields before uploading.");
+    return;
+  }
 
     try {
       await updatePost(id, values.title, values.content, values.tags);
@@ -54,23 +56,29 @@ const page = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div>
-      <TroubleshootingSection
-        ref={sectionRef}
-        postId={id}
-        initialTitle={post?.title}
-        initialContent={post?.content}
-        initialTags={post?.tags}
-      />
-      <button onClick={handleUpload}>Upload</button>
-      <button
-        onClick={handleDelete}
-        className="bg-red-500 text-white px-2 py-1 rounded-md"
-      >
-        Delete
-      </button>
-    </div>
-  );
+     <div>
+    {!post ? (
+      <p>Loading...</p>
+    ) : (
+      <>
+        <TroubleshootingSection
+          ref={sectionRef}
+          postId={id}
+          initialTitle={post.title}
+          initialContent={post.content}
+          initialTags={post.tags}
+        />
+        <button onClick={handleUpload}>Upload</button>
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 text-white px-2 py-1 rounded-md"
+        >
+          Delete
+        </button>
+      </>
+    )}
+  </div>
+);
 };
 
 export default page;
