@@ -10,14 +10,19 @@ import {
 } from "@/libs/api/troubleshooting";
 import { Troubleshooting } from "@/types/types";
 import { useRouter } from "next/navigation";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const Page = ({ params }: { params: Promise<{ id: string }> }) => {
+interface Params {
+  params: {
+    id: string;
+  }
+}
+
+const Page = ({ params }: Params ) => {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
-  const {id} = use(params)
-  const numericId = Number(id);
+  const numericId = Number(params.id);
   const router = useRouter();
 
   useEffect(() => {
