@@ -1,4 +1,4 @@
-import { ContactMessage } from "../types";
+import { ContactMessage } from "../../types/types";
 
 export const sendContactMessage = async (contact: ContactMessage): Promise<ContactMessage> => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {

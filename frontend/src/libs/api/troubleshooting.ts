@@ -1,4 +1,4 @@
-import { Troubleshooting } from "../types";
+import { Troubleshooting } from "../../types/types";
 
 export const fetchTroubleshootingPosts = async (): Promise<
   Troubleshooting[]

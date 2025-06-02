@@ -1,7 +1,7 @@
 "use client";
 
 import { fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
-import { Troubleshooting } from "@/libs/types";
+import { Troubleshooting } from "@/types/types";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
