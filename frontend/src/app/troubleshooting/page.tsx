@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 
 const page = () => {
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -21,10 +22,37 @@ const page = () => {
     fetchPosts();
   }, []);
 
+  const tagCount: Record<string, number> = {};
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => {
+      tagCount[tag] = (tagCount[tag] || 0) + 1;
+    });
+  });
+
+  const filteredPosts = selectedTag
+    ? posts.filter((post) => post.tags.includes(selectedTag))
+    : posts;
+
   return (
     <div>
+      <aside>
+        <p>Tags</p>
+        <ul>
+          <li onClick={() => setSelectedTag(null)}>All ({posts.length})</li>
+          {Object.entries(tagCount).map(([tag, count]) => (
+            <li
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+              style={{ cursor: "pointer" }}
+            >
+              {tag} ({count})
+            </li>
+          ))}
+        </ul>
+      </aside>
+
       <ul>
-        {posts.map((item) => (
+        {filteredPosts.map((item) => (
           <li key={item.id}>
             <Link href={`/troubleshooting/${item.id}`}>
               <p>{item.title}</p>
