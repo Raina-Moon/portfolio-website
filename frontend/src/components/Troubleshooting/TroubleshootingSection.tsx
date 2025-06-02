@@ -81,6 +81,15 @@ const TroubleshootingSection = () => {
       <EditorToolbar editor={editor} addImage={addImage} setLink={setLink} />
 
       <EditorContent editor={editor} />
+      <p>Tags</p>
+      <input
+        type="text"
+        value={tags.join(", ")}
+        onChange={(e) =>
+          setTags(e.target.value.split(",").map((tag) => tag.trim()))
+        }
+        placeholder="Enter tags separated by commas"
+      />
       <button onClick={saveContent}>Save</button>
     </div>
   );
