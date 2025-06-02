@@ -1,7 +1,6 @@
 import { useEditor } from "@tiptap/react";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import Blockquote from "@tiptap/extension-blockquote";
 import StarterKit from "@tiptap/starter-kit";
 import CodeBlock from "@tiptap/extension-code-block";
 import TaskList from "@tiptap/extension-task-list";
@@ -18,8 +17,9 @@ import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 
-export const useTiptapEditor = () => 
+export const useTiptapEditor = (initialContent = "<p>Welcome to the Troubleshooting Section</p>") => 
   useEditor({
+    content: initialContent,
     extensions: [
       Paragraph,
       Text,
@@ -111,6 +111,5 @@ export const useTiptapEditor = () =>
       TextStyle,
       Color,
     ],
-    content: `<p>Welcome to the Troubleshooting Section</p>`,
   });
 
