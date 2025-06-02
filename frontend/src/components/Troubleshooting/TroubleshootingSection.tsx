@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { EditorContent } from "@tiptap/react";
 import EditorToolbar from "./EditorToolbar";
 import { useTiptapEditor } from "@/hooks/useTiptapEditor";
@@ -8,6 +8,7 @@ import { createTroubleshootingPost } from "@/libs/api/troubleshooting";
 import { uploadImageToCloudinary } from "@/hooks/uploadImageToCloudinary";
 
 const TroubleshootingSection = () => {
+  const [title, setTitle] = useState("");
   const editor = useTiptapEditor();
 
   const addImage = () => {
@@ -75,6 +76,7 @@ const TroubleshootingSection = () => {
 
   return (
     <div>
+      <input value={title} onChange={(e) => setTitle(e.target.value)}/>
       <EditorToolbar editor={editor} addImage={addImage} setLink={setLink} />
 
       <EditorContent editor={editor} />
