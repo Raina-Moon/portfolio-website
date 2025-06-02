@@ -1,11 +1,13 @@
 "use client";
 
 import { useLanguageStore } from "@/libs/languageStore";
+import { useRouter } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 
 const Header = () => {
   const { lang, setLang } = useLanguageStore();
+  const router = useRouter()
 
   const toggleLanguage = () => {
     setLang(lang === "en" ? "ko" : "en");
@@ -14,15 +16,6 @@ const Header = () => {
   const button = {
     langBtn: lang === "en" ? "KOR" : "ENG",
   };
-
-  const handleClickTroubleshooting = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    toast.info(
-      lang === "en"
-        ? "Coming soon!"
-        : "곧 공개될 예정입니다."
-    );
-  };  
 
   return (
     <header
@@ -44,8 +37,7 @@ const Header = () => {
           Work
         </a>
         <a
-          href="#troubleshooting"
-          onClick={handleClickTroubleshooting}
+          onClick={() => router.push("/troubleshooting")}
           className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Troubleshooting
