@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 import { EditorContent } from "@tiptap/react";
 import EditorToolbar from "./EditorToolbar";
 import { useTiptapEditor } from "@/hooks/useTiptapEditor";
@@ -33,6 +33,14 @@ const TroubleshootingSection = forwardRef<
     const [title, setTitle] = useState(initialTitle);
     const [tags, setTags] = useState<string[]>(initialTags);
     const editor = useTiptapEditor(initialContent);
+
+    useImperativeHandle(ref, () => ({
+      getValues: () => ({
+        title,
+        content: editor?.getHTML() || "",
+        tags,
+      }),
+    }));
 
     const addImage = () => {
       const input = document.createElement("input");
