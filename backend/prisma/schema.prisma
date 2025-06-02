@@ -17,7 +17,7 @@ model Troubleshooting {
   id          Int      @id @default(autoincrement())
   title       String
   content     String
-  image_url   String
+  image_url   String?
   tags        String[]
   createdAt   DateTime @default(now())
 }
