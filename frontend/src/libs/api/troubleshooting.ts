@@ -9,6 +9,15 @@ export const fetchTroubleshootingPosts = async (): Promise<Troubleshooting[]> =>
     return data;
   };
 
+  export const fetchTroubleshootingPost = async (id:number): Promise<Troubleshooting> => {
+    const response = await fetch(`/api/troubleshooting/${id}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch troubleshooting post');
+    }
+    const data: Troubleshooting = await response.json();
+    return data;
+  }
+
   export const createTroubleshootingPost = async (title:string,content: string): Promise<Troubleshooting> => {
     const response = await fetch('/api/troubleshooting', {
       method: 'POST',
