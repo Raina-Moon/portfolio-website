@@ -6,7 +6,7 @@ import { Troubleshooting } from "@/types/types";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
@@ -102,4 +102,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

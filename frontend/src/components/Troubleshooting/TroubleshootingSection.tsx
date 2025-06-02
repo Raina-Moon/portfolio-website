@@ -4,7 +4,6 @@ import React, { forwardRef, useCallback, useImperativeHandle, useState } from "r
 import { EditorContent } from "@tiptap/react";
 import EditorToolbar from "./EditorToolbar";
 import { useTiptapEditor } from "@/hooks/useTiptapEditor";
-import { createTroubleshootingPost } from "@/libs/api/troubleshooting";
 import { uploadImageToCloudinary } from "@/hooks/uploadImageToCloudinary";
 
 export interface TroubleshootingSectionHandler {
@@ -27,7 +26,7 @@ const TroubleshootingSection = forwardRef<
   TroubleshootingSectionProps
 >(
   (
-    { initialTitle = "", initialTags = [], initialContent = "", postId },
+    { initialTitle = "", initialTags = [], initialContent = "" },
     ref
   ) => {
     const [title, setTitle] = useState(initialTitle);

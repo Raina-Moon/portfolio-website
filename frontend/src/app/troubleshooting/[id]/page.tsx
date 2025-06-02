@@ -1,7 +1,7 @@
 import { fetchTroubleshootingPost } from "@/libs/api/troubleshooting";
 import React from "react";
 
-const page = async ({ params }: { params: { id: string } }) => {
+const Page = async ({ params }: { params: { id: string } }) => {
   const id = parseInt(params.id, 10);
   const post = await fetchTroubleshootingPost(id);
 
@@ -18,4 +18,4 @@ const page = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default Page;

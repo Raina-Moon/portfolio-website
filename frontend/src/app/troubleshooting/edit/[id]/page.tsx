@@ -12,7 +12,7 @@ import { Troubleshooting } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { use, useEffect, useRef, useState } from "react";
 
-const page = ({ params }: { params: Promise<{ id: string }> }) => {
+const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
@@ -81,4 +81,4 @@ const page = ({ params }: { params: Promise<{ id: string }> }) => {
 );
 };
 
-export default page;
+export default Page;
