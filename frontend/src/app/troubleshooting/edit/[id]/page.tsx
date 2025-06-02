@@ -1,28 +1,30 @@
 "use client";
 
+import TroubleshootingSection, {
+  TroubleshootingSectionHandler,
+} from "@/components/Troubleshooting/TroubleshootingSection";
+import { useTiptapEditor } from "@/hooks/useTiptapEditor";
 import {
   deletePost,
   fetchTroubleshootingPost,
+  updatePost,
 } from "@/libs/api/troubleshooting";
 import { Troubleshooting } from "@/types/types";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 
 const page = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<Troubleshooting | null>(null);
-  const [title, setTitle] = useState("");
+  const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
   const id = parseInt(params.id, 10);
-
-  const handleDelete = async () => {
-    await deletePost(id);
-  };
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const data = await fetchTroubleshootingPost(id);
         setPost(data);
-        setTitle(data.title);
       } catch (error) {
         console.error("Error fetching troubleshooting post:", error);
       }
@@ -30,9 +32,37 @@ const page = ({ params }: { params: { id: string } }) => {
     fetchPost();
   }, [id]);
 
+  const handleUpload = async () => {
+    const values = sectionRef.current?.getValues();
+    if (!values) {
+      alert("Please fill in all fields before uploading.");
+      return;
+    }
+
+    try {
+      await updatePost(id, values.title, values.content, values.tags);
+      router.push("/troubleshooting/edit");
+    } catch (err) {
+      console.error("Failed to update post:", err);
+      alert("Failed to update post. Please try again.");
+    }
+  };
+
+  const handleDelete = async () => {
+    await deletePost(id);
+    router.push("/troubleshooting/edit");
+  };
+
   return (
     <div>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <TroubleshootingSection
+        ref={sectionRef}
+        postId={id}
+        initialTitle={post?.title}
+        initialContent={post?.content}
+        initialTags={post?.tags}
+      />
+      <button onClick={handleUpload}>Upload</button>
       <button
         onClick={handleDelete}
         className="bg-red-500 text-white px-2 py-1 rounded-md"
