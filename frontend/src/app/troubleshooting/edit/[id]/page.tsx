@@ -3,7 +3,6 @@
 import TroubleshootingSection, {
   TroubleshootingSectionHandler,
 } from "@/components/Troubleshooting/TroubleshootingSection";
-import { useTiptapEditor } from "@/hooks/useTiptapEditor";
 import {
   deletePost,
   fetchTroubleshootingPost,
@@ -11,19 +10,20 @@ import {
 } from "@/libs/api/troubleshooting";
 import { Troubleshooting } from "@/types/types";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = ({ params }: { params: Promise<{ id: string }> }) => {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
-  const id = Number(params.id);
+  const {id} = use(params)
+  const numericId = Number(id);
   const router = useRouter();
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const data = await fetchTroubleshootingPost(id);
+        const data = await fetchTroubleshootingPost(numericId);
         setPost(data);
       } catch (error) {
         console.error("Error fetching troubleshooting post:", error);
@@ -42,7 +42,7 @@ const page = ({ params }: { params: { id: string } }) => {
   }
 
     try {
-      await updatePost(id, values.title, values.content, values.tags);
+      await updatePost(numericId, values.title, values.content, values.tags);
       router.push("/troubleshooting/edit");
     } catch (err) {
       console.error("Failed to update post:", err);
@@ -51,7 +51,7 @@ const page = ({ params }: { params: { id: string } }) => {
   };
 
   const handleDelete = async () => {
-    await deletePost(id);
+    await deletePost(numericId);
     router.push("/troubleshooting/edit");
   };
 
@@ -63,7 +63,7 @@ const page = ({ params }: { params: { id: string } }) => {
       <>
         <TroubleshootingSection
           ref={sectionRef}
-          postId={id}
+          postId={numericId}
           initialTitle={post.title}
           initialContent={post.content}
           initialTags={post.tags}
