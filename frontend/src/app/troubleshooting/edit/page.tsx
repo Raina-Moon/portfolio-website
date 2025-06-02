@@ -1,17 +1,31 @@
-"use client"
+"use client";
 
 import TroubleshootingSection from "@/components/Troubleshooting/TroubleshootingSection";
+import { fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
+import { Troubleshooting } from "@/types/types";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
+  const [posts, setPosts] = useState<Troubleshooting[]>([]);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("troubleshooting-password");
     if (saved === "true") {
       setAuthorized(true);
     }
+
+    const fetchPosts = async () => {
+      try {
+        const data = await fetchTroubleshootingPosts();
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching troubleshooting posts:", error);
+      }
+    };
+    fetchPosts();
   }, []);
 
   const checkedPassword = () => {
@@ -25,6 +39,21 @@ const page = () => {
 
   return authorized ? (
     <div>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id} className="mb-4">
+            <Link
+              href={`/troubleshooting/edit/${post.id}`}
+              className="text-blue-500 hover:underline"
+            >
+              <h2 className="text-xl font-bold">{post.title}</h2>
+              <p className="text-sm text-gray-500">
+                Posted on: {new Date(post.createdAt).toLocaleDateString()}
+              </p>
+            </Link>
+          </li>
+        ))}
+      </ul>
       <TroubleshootingSection />
     </div>
   ) : (
