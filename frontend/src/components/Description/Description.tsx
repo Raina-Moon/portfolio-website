@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface DescriptionItemProps {
@@ -23,13 +24,14 @@ const DescriptionItem: React.FC<DescriptionItemProps> = ({
     <div
       className={`desc-item flex flex-col md:flex-row items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:px-14 lg:py-10 bg-white rounded-3xl opacity-0 max-w-[800px] ${containerClassName}`}
     >
-      <img
+      <Image
         src={imageSrc}
         className={`w-[230px] ${isMobileImageHidden ? "rounded-xl md:hidden" : ""}`}
+        alt={imageAlt}
       />
       {isImageLeft ? (
         <>
-          <img
+          <Image
             src={imageSrc}
             alt={imageAlt}
             className={`hidden md:block md:w-[230px] lg:w-[300px] ${imageClassName}`}
@@ -39,7 +41,7 @@ const DescriptionItem: React.FC<DescriptionItemProps> = ({
       ) : (
         <>
           {textContent}
-          <img
+          <Image
             src={imageSrc}
             alt={imageAlt}
             className={`hidden md:block md:w-[230px] lg:w-[300px] ${imageClassName}`}

@@ -30,7 +30,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
       }
     };
     fetchPost();
-  }, [id]);
+  }, [numericId]);
 
   const handleUpload = async () => {
     const values = sectionRef.current?.getValues();

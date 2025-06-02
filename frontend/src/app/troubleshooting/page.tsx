@@ -63,7 +63,7 @@ const Page = () => {
           {Object.entries(tagCount).map(([tag, count]) => (
             <li
               key={tag}
-              onClick={() => setSelectedTag(tag)}
+              onClick={() => handleTagChange(tag)}
               style={{ cursor: "pointer" }}
             >
               <p className="text-gray-700 font-semibold text-xl mb-2 ml-3 hover:underline">
