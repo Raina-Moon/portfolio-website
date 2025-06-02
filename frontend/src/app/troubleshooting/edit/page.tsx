@@ -1,15 +1,17 @@
 "use client";
 
-import TroubleshootingSection from "@/components/Troubleshooting/TroubleshootingSection";
-import { fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
+import TroubleshootingSection, { TroubleshootingSectionHandler } from "@/components/Troubleshooting/TroubleshootingSection";
+import { createTroubleshootingPost, fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
 import { Troubleshooting } from "@/types/types";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const page = () => {
   const [authorized, setAuthorized] = useState(false);
   const [password, setPassword] = useState("");
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
+
+  const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
   useEffect(() => {
     const saved = sessionStorage.getItem("troubleshooting-password");
@@ -37,6 +39,23 @@ const page = () => {
     }
   };
 
+  const handlePost = async () => {
+    const values = sectionRef.current?.getValues();
+    if (!values || !values.title || !values.content) {
+      alert("Please fill in all fields before creating a post.");
+      return;
+    }
+
+    try {
+      await createTroubleshootingPost(values.title, values.content, values.tags);
+      alert("Post created successfully!");
+      location.reload(); // Reload to fetch the new post
+    } catch (err) {
+      console.error("Failed to create post:", err);
+      alert("Failed to create post. Please try again.");
+    }
+  }
+
   return authorized ? (
     <div>
       <ul>
@@ -54,7 +73,11 @@ const page = () => {
           </li>
         ))}
       </ul>
-      <TroubleshootingSection />
+      <TroubleshootingSection ref={sectionRef}/>
+      <button onClick={handlePost} className="bg-green-500 text-white px-4 py-2 rounded mt-4">
+        Create New Post
+      </button>
+      
     </div>
   ) : (
     <div className="flex flex-col items-center justify-center h-screen">
