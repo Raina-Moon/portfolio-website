@@ -35,6 +35,7 @@ const TroubleshootingSection = () => {
 
   const saveContent = async () => {
     const html = editor?.getHTML() ?? "";
+    console.log("Saving content:", { title, html, tags });
 
     await createTroubleshootingPost(title, html, tags);
   };
