@@ -29,7 +29,7 @@ export const fetchTroubleshootingPost = async (
 export const createTroubleshootingPost = async (
   title: string,
   content: string,
-  tags: []
+  tags: string[]
 ): Promise<Troubleshooting> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/troubleshooting`,
@@ -54,7 +54,7 @@ export const updatePost = async (
   id: number,
   title: string,
   content: string,
-  tags: []
+  tags: string[]
 ) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/troubleshooting/${id}`,
