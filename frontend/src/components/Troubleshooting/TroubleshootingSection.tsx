@@ -35,7 +35,7 @@ const TroubleshootingSection = () => {
   const saveContent = async () => {
     const html = editor?.getHTML() ?? "";
 
-    await createTroubleshootingPost(html);
+    await createTroubleshootingPost(title, html);
   };
 
   const setLink = useCallback(() => {
@@ -76,7 +76,7 @@ const TroubleshootingSection = () => {
 
   return (
     <div>
-      <input value={title} onChange={(e) => setTitle(e.target.value)}/>
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
       <EditorToolbar editor={editor} addImage={addImage} setLink={setLink} />
 
       <EditorContent editor={editor} />
