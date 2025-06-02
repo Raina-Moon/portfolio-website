@@ -12,13 +12,13 @@ import { Troubleshooting } from "@/types/types";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
-interface Params {
+interface ParamsProps {
   params: {
     id: string;
   }
 }
 
-const Page = ({ params }: Params ) => {
+const Page = ({ params }: ParamsProps ) => {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const sectionRef = useRef<TroubleshootingSectionHandler>(null);
 
