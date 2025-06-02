@@ -1,13 +1,21 @@
 "use client";
 
 import { useLanguageStore } from "@/libs/languageStore";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { toast } from "react-toastify";
 
 const Header = () => {
   const { lang, setLang } = useLanguageStore();
-  const router = useRouter()
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navigateToHome = (hash: string) => {
+    if (pathname === "/") {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(`/#${hash}`);
+    }
+  };
 
   const toggleLanguage = () => {
     setLang(lang === "en" ? "ko" : "en");
@@ -24,30 +32,30 @@ const Header = () => {
     >
       {" "}
       <nav className="flex gap-2 sm:gap-6">
-        <a
-          href="#about"
+        <button
+          onClick={() => navigateToHome("about")}
           className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           About
-        </a>
-        <a
-          href="#work"
+        </button>
+        <button
+          onClick={() => navigateToHome("work")}
           className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Work
-        </a>
-        <a
+        </button>
+        <button
           onClick={() => router.push("/troubleshooting")}
           className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Troubleshooting
-        </a>
-        <a
-          href="#contact"
+        </button>
+        <button
+          onClick={() => navigateToHome("contact")}
           className="text-gray-800 hover:text-blue-600 font-medium text-sm sm:text-base"
         >
           Contact
-        </a>
+        </button>
       </nav>
       <button
         onClick={toggleLanguage}
