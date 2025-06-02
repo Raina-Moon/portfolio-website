@@ -9,6 +9,7 @@ import { uploadImageToCloudinary } from "@/hooks/uploadImageToCloudinary";
 
 const TroubleshootingSection = () => {
   const [title, setTitle] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const editor = useTiptapEditor();
 
   const addImage = () => {
@@ -35,7 +36,7 @@ const TroubleshootingSection = () => {
   const saveContent = async () => {
     const html = editor?.getHTML() ?? "";
 
-    await createTroubleshootingPost(title, html);
+    await createTroubleshootingPost(title, html, tags);
   };
 
   const setLink = useCallback(() => {
