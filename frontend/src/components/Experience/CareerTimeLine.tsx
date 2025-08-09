@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useLanguageStore } from "@/libs/languageStore";
 import { timelineItems } from "@/libs/texts/timeline";
 import { X, Code, Briefcase, BookOpen } from "lucide-react";
+import type { Variants } from "framer-motion";
 
 const CareerTimeline = () => {
   const { lang } = useLanguageStore();
@@ -38,7 +39,7 @@ const CareerTimeline = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, x: 100, rotateY: 15 },
     visible: {
       opacity: 1,
