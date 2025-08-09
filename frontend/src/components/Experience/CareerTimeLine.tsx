@@ -86,7 +86,8 @@ const CareerTimeline = () => {
 
   // Icon mapping for categories
   const getCategoryIcon = (title: string) => {
-    if (title.toLowerCase().includes("developer")) return <Briefcase size={20} />;
+    if (title.toLowerCase().includes("developer"))
+      return <Briefcase size={20} />;
     if (title.toLowerCase().includes("project")) return <Code size={20} />;
     return <BookOpen size={20} />;
   };
@@ -100,7 +101,11 @@ const CareerTimeline = () => {
       {/* Custom Cursor */}
       <motion.div
         className="fixed w-6 h-6 rounded-full bg-blue-500/30 border border-blue-500 pointer-events-none z-50"
-        animate={{ x: cursorPos.x - 12, y: cursorPos.y - 12, scale: isHovering ? 1.5 : 1 }}
+        animate={{
+          x: cursorPos.x - 12,
+          y: cursorPos.y - 12,
+          scale: isHovering ? 1.5 : 1,
+        }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
 
@@ -112,12 +117,12 @@ const CareerTimeline = () => {
         className="text-center mb-12"
       >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-          {lang === "en" ? "My Frontend Journey" : "나의 프론트엔드 여정"}
+          My Path in Frontend Development
         </h2>
         <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
           {lang === "en"
-            ? "Discover the projects and experiences that showcase my expertise in crafting intuitive, performant, and beautiful user interfaces."
-            : "직관적이고 성능이 뛰어나며 아름다운 사용자 인터페이스를 만드는 데 대한 나의 전문성을 보여주는 프로젝트와 경험을 살펴보세요."}
+            ? "Explore the projects and experiences that highlight my expertise in creating intuitive, high-performance, and visually appealing user interfaces."
+            : "직관적이고 성능이 뛰어나며, 시각적으로 매력적인 사용자 인터페이스를 구현한 저의 프로젝트와 경험을 살펴보세요."}
         </p>
       </motion.div>
 
@@ -133,7 +138,9 @@ const CareerTimeline = () => {
                   ? "bg-gradient-to-r from-blue-600 to-teal-600 text-white shadow-md"
                   : "text-gray-700 hover:bg-gray-200 hover:shadow-sm"
               } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              aria-label={lang === "en" ? `Filter by ${year}` : `${year}로 필터링`}
+              aria-label={
+                lang === "en" ? `Filter by ${year}` : `${year}로 필터링`
+              }
             >
               {lang === "en" ? year : year === "All" ? "전체" : year}
             </button>
@@ -147,8 +154,18 @@ const CareerTimeline = () => {
         className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10 sm:hidden"
         aria-label={lang === "en" ? "Scroll left" : "왼쪽으로 스크롤"}
       >
-        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          className="w-6 h-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </button>
       <button
@@ -156,8 +173,18 @@ const CareerTimeline = () => {
         className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10 sm:hidden"
         aria-label={lang === "en" ? "Scroll right" : "오른쪽으로 스크롤"}
       >
-        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className="w-6 h-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </button>
 
@@ -198,7 +225,10 @@ const CareerTimeline = () => {
                 </p>
                 <motion.div
                   className="absolute left-1/2 transform -translate-x-1/2 top-14 w-4 h-4 bg-gradient-to-br from-blue-600 to-teal-600 rounded-full z-10"
-                  whileHover={{ scale: 1.3, boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)" }}
+                  whileHover={{
+                    scale: 1.3,
+                    boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)",
+                  }}
                   transition={{ type: "spring", stiffness: 300 }}
                 />
                 <div className="absolute left-1/2 transform -translate-x-1/2 top-14 h-10 w-0.5 bg-gray-200" />
