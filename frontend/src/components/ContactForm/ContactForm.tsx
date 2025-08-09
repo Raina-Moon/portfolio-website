@@ -102,7 +102,6 @@ const ContactForm = () => {
   // Language-specific text
   const text = {
     en: {
-      title: "Contact Me",
       description:
         "Got a project in mind or just want to connect? Drop me a message, and let’s create something amazing together!",
       labels: {
@@ -119,12 +118,10 @@ const ContactForm = () => {
       errors: {
         email: "Please enter a valid email address.",
       },
-      watermark: "Developed with 💻 by Raina",
     },
     ko: {
-      title: "연락하기",
       description:
-        "프로젝트를 계획 중이시거나 그냥 연결되고 싶으신가요? 메시지를 남겨주세요, 함께 멋진 것을 만들어 봅시다!",
+    "프로젝트 상담부터 가벼운 문의까지 모두 환영합니다. 메시지를 남겨주시면 최대한 빠르게 답변드리겠습니다.",
       labels: {
         name: "이름",
         email: "이메일",
@@ -133,13 +130,12 @@ const ContactForm = () => {
       },
       buttons: {
         send: "메시지 보내기",
-        clear: "양식 지우기",
+        clear: "초기화",
       },
       charCount: `${charCount}/500`,
       errors: {
-        email: "유효한 이메일 주소를 입력해주세요.",
+    email: "올바른 이메일 주소를 입력해 주세요.",
       },
-      watermark: "Raina가 💻로 개발함",
     },
   };
 
@@ -162,7 +158,7 @@ const ContactForm = () => {
         className="text-center mb-12"
       >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
-          {text[lang].title}
+          Contact Me
         </h2>
         <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
           {text[lang].description}
@@ -324,7 +320,7 @@ const ContactForm = () => {
         variants={fieldVariants}
         className="mt-6 text-xs text-gray-500 text-center"
       >
-        {text[lang].watermark}
+        Developed By Raina
       </motion.p>
     </section>
   );
