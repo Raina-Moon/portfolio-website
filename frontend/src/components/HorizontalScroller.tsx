@@ -49,7 +49,7 @@ export default function HorizontalScroller({ children, start = "top top" }: Prop
     }, wrapper);
 
     return () => ctx.revert();
-  }, []);
+  }, [start]);
 
   return (
     <section ref={wrapperRef} className="relative w-screen overflow-hidden">
