@@ -95,7 +95,6 @@ const Description: React.FC<DescriptionProps> = ({
   const slideClass = "w-[85vw] md:w-[70vw] xl:w-[900px] mx-5 md:mx-10 shrink-0";
 
   if (mode === "horizontal") {
-    // 수평: 래퍼 div 없이 슬라이드만 반환
     return (
       <>
         {lang === "en" ? (
