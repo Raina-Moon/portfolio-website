@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useLanguageStore } from "@/libs/languageStore";
 import { timelineItems } from "@/libs/texts/timeline";
@@ -25,7 +25,7 @@ const CareerTimeline = () => {
   const isInView = useInView(ref, { once: false, amount: 0.3 });
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const filteredData = React.useMemo(
+  const filteredData = useMemo(
     () =>
       selectedYear
         ? data.filter((item) => extractYear(item.date, lang) === selectedYear)
