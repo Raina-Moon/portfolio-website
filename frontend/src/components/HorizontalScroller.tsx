@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 type Props = {
   children: React.ReactNode;
-  start?: string; // 필요시 "top top" 등 조정
+  start?: string;
 };
 
 export default function HorizontalScroller({ children, start = "top top" }: Props) {
@@ -20,7 +20,6 @@ export default function HorizontalScroller({ children, start = "top top" }: Prop
     const strip = stripRef.current!;
 
     const ctx = gsap.context(() => {
-      // 데스크톱 이상에서만 가로 스크롤 (모바일은 기본 세로)
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": () => {
           const tween = gsap.to(strip, {
@@ -29,7 +28,7 @@ export default function HorizontalScroller({ children, start = "top top" }: Prop
             scrollTrigger: {
               trigger: wrapper,
               start,
-              end: () => `+=${strip.scrollWidth}`, // 콘텐츠 길이만큼 스크롤
+              end: () => `+=${strip.scrollWidth}`,
               scrub: true,
               pin: true,
               anticipatePin: 1,
@@ -37,7 +36,6 @@ export default function HorizontalScroller({ children, start = "top top" }: Prop
             },
           });
 
-          // 리사이즈 시 초기화
           ScrollTrigger.addEventListener("refreshInit", () => {
             gsap.set(strip, { x: 0 });
           });
