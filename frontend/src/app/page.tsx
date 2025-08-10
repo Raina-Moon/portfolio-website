@@ -214,11 +214,11 @@ const Page = () => {
       <div className="flex flex-col gap-4 lg:gap-6 w-full">
         <section
           ref={horizRef}
-          className="block w-full flex-none relative overflow-hidden my-6 lg:my-20 bg-blue-50"
+          className="block w-full md:w-screen flex-none relative overflow-visible md:overflow-hidden my-6 lg:my-20 bg-blue-50"
         >
           <div
             ref={stripRef}
-            className="flex flex-nowrap items-stretch gap-6 px-5 md:px-10 pt-10 pb-20 lg:pt-20 lg:pb-40"
+            className="flex flex-col md:flex-row md:flex-nowrap items-stretch gap-6 px-5 md:px-10 pt-10 pb-20 lg:pt-20 lg:pb-40"
           >
             <Description lang={lang} mode="horizontal" />
           </div>

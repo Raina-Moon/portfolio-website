@@ -92,7 +92,8 @@ const Description: React.FC<DescriptionProps> = ({
   lang,
   mode = "vertical",
 }) => {
-  const slideClass = "w-[85vw] md:w-[70vw] xl:w-[900px] mx-5 md:mx-10 shrink-0";
+  const slideClass =
+    "w-full md:w-[70vw] xl:w-[900px] mx-5 md:mx-10 md:shrink-0";
 
   if (mode === "horizontal") {
     return (
