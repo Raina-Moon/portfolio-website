@@ -204,7 +204,7 @@ const CareerTimeline = () => {
               scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100
             "
           >
-            {filteredData.map((item, index) => {
+            {filteredData.map((item) => {
               const originalIndex = data.findIndex((d) => d === item);
               return (
                 <motion.div

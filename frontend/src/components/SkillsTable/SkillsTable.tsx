@@ -50,13 +50,13 @@ const SkillsTable = () => {
   }, [isExpanded, rows]);
 
   // Debounce function
-  function debounce(func: (...args: any[]) => void, wait: number) {
-    let timeout: NodeJS.Timeout;
-    return (...args: any[]) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
-    };
-  }
+  function debounce<F extends (...args: unknown[]) => void>(func: F, wait: number) {
+  let timeout: ReturnType<typeof setTimeout>;
+  return (...args: Parameters<F>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
 
   return (
     <div className="flex flex-col items-center justify-center">
