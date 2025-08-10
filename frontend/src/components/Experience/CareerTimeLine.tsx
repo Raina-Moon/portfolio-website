@@ -80,7 +80,8 @@ const CareerTimeline = () => {
   }, [selectedIndex]);
 
   const getCategoryIcon = (title: string) => {
-    if (title.toLowerCase().includes("developer")) return <Briefcase size={20} />;
+    if (title.toLowerCase().includes("developer"))
+      return <Briefcase size={20} />;
     if (title.toLowerCase().includes("project")) return <Code size={20} />;
     return <BookOpen size={20} />;
   };
@@ -89,12 +90,16 @@ const CareerTimeline = () => {
     <section
       id="work"
       ref={ref}
-      className="relative w-full py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto overflow-x-clip"
+      className="relative w-full py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto"
     >
       {/* Custom Cursor */}
       <motion.div
         className="fixed w-6 h-6 rounded-full bg-blue-500/30 border border-blue-500 pointer-events-none z-50"
-        animate={{ x: cursorPos.x - 12, y: cursorPos.y - 12, scale: isHovering ? 1.5 : 1 }}
+        animate={{
+          x: cursorPos.x - 12,
+          y: cursorPos.y - 12,
+          scale: isHovering ? 1.5 : 1,
+        }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
 
@@ -125,7 +130,9 @@ const CareerTimeline = () => {
                   ? "bg-gradient-to-r from-blue-600 to-teal-600 text-white shadow-md"
                   : "text-gray-700 hover:bg-gray-200 hover:shadow-sm"
               } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              aria-label={lang === "en" ? `Filter by ${year}` : `${year}로 필터링`}
+              aria-label={
+                lang === "en" ? `Filter by ${year}` : `${year}로 필터링`
+              }
             >
               {lang === "en" ? year : year === "All" ? "전체" : year}
             </button>
@@ -138,8 +145,18 @@ const CareerTimeline = () => {
         className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10"
         aria-label={lang === "en" ? "Scroll left" : "왼쪽으로 스크롤"}
       >
-        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          className="w-6 h-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </button>
       <button
@@ -147,8 +164,18 @@ const CareerTimeline = () => {
         className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10"
         aria-label={lang === "en" ? "Scroll right" : "오른쪽으로 스크롤"}
       >
-        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className="w-6 h-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </button>
 
@@ -159,7 +186,8 @@ const CareerTimeline = () => {
         className="relative"
       >
         <motion.div
-          className="absolute top-[60px] left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-teal-600 z-0 origin-left"
+          className="absolute top-[60px] left-[calc(50%-50vw)] w-[100vw] h-1
+             bg-gradient-to-r from-blue-600 to-teal-600 z-0 origin-left pointer-events-none"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: isInView ? 1 : 0 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
@@ -192,7 +220,10 @@ const CareerTimeline = () => {
                   </p>
                   <motion.div
                     className="absolute left-1/2 -translate-x-1/2 top-14 w-4 h-4 bg-gradient-to-br from-blue-600 to-teal-600 rounded-full z-10"
-                    whileHover={{ scale: 1.3, boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)" }}
+                    whileHover={{
+                      scale: 1.3,
+                      boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)",
+                    }}
                     transition={{ type: "spring", stiffness: 300 }}
                   />
                   <div className="absolute left-1/2 -translate-x-1/2 top-14 h-10 w-0.5 bg-gray-200" />
