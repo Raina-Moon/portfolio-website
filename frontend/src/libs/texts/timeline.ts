@@ -271,6 +271,43 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         link: "https://github.com/Raina-Moon/cola-calc-app",
       },
     },
+    {
+      date: "Jul 2025",
+      title: "Korips – Korea Hot Spring Booking (Lodges & Tickets)",
+      shortDescription:
+        "A multilingual hot-spring lodging & ticket reservation platform for both locals and international visitors.",
+      detail: {
+        summary:
+          "As travel to Korea surged and there was no official service by the Korea Hot Spring Association, I built Korips: a Next.js platform where anyone—Korean or international visitors—can discover famous Korean hot springs and book lodges or day tickets with ease. The app supports full i18n, rich-editor posts, and payments.",
+        stack: [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Redux",
+          "Axios",
+          "Tailwind CSS",
+          "Sass",
+          "Radix UI",
+          "i18next",
+          "Tiptap",
+          "Toss Payments",
+          "Node.js",
+          "Express",
+          "Prisma",
+          "JWT",
+          "PostgreSQL",
+          "Docker",
+          "Cloudinary",
+          "DeepL",
+          "GitHub Actions",
+          "Nodemailer",
+          "ESLint",
+        ],
+        learning:
+          "Designed an end-to-end reservation flow (inventory, payments, i18n, email) and productionized CI/CD with Docker and GitHub Actions.",
+        link: "https://github.com/Raina-Moon/korip-web",
+      },
+    },
   ],
   ko: [
     {
@@ -523,6 +560,43 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         learning:
           "iOS/Android 스토어 심사 및 배포 절차를 처음 경험했고, 모션이 많은 UI를 성능 저하 없이 구현·최적화하는 방법을 익혔습니다.",
         link: "https://github.com/Raina-Moon/cola-calc-app",
+      },
+    },
+    {
+      date: "2025년 7월",
+      title: "Korips – 한국 온천 숙소/티켓 예약 플랫폼",
+      shortDescription:
+        "내국인·외국인 모두 쉽게 사용할 수 있는 다국어 온천 숙박/티켓 예약 서비스.",
+      detail: {
+        summary:
+          "한국 여행 수요가 증가하는 가운데 한국온천협회 차원의 공식 서비스가 없어, 국내뿐 아니라 해외 이용자도 쉽게 접근할 수 있는 ‘Korips’를 구축했습니다. 유명 온천을 소개하고 숙소/티켓을 간편하게 예약할 수 있으며, 다국어(i18n), 리치 텍스트 포스팅, 결제를 지원합니다.",
+        stack: [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Redux",
+          "Axios",
+          "Tailwind CSS",
+          "Sass",
+          "Radix UI",
+          "i18next",
+          "Tiptap",
+          "Toss Payments",
+          "Node.js",
+          "Express",
+          "Prisma",
+          "JWT",
+          "PostgreSQL",
+          "Docker",
+          "Cloudinary",
+          "DeepL",
+          "GitHub Actions",
+          "Nodemailer",
+          "ESLint",
+        ],
+        learning:
+          "재고/예약, 결제 연동, 다국어 지원, 이메일 알림 등 엔드투엔드 예약 흐름을 설계하고 Docker·GitHub Actions 기반 배포 자동화를 구축했습니다.",
+        link: "https://github.com/Raina-Moon/korip-web",
       },
     },
   ],
