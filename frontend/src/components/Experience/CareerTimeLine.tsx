@@ -7,6 +7,15 @@ import { timelineItems } from "@/libs/texts/timeline";
 import { X, Code, Briefcase, BookOpen } from "lucide-react";
 import type { Variants } from "framer-motion";
 
+function extractYear(dateStr: string, lang: string) {
+  if (lang === "ko") {
+    const m = dateStr.match(/^(\d{4})\s*년/);
+    return m?.[1] ?? "";
+  }
+  const m = dateStr.match(/(\d{4})$/);
+  return m?.[1] ?? "";
+}
+
 const CareerTimeline = () => {
   const { lang } = useLanguageStore();
   const data = timelineItems[lang];
@@ -19,23 +28,16 @@ const CareerTimeline = () => {
   const filteredData = React.useMemo(
     () =>
       selectedYear
-        ? data.filter((item) =>
-            lang === "ko"
-              ? item.date.split("년")[0] === selectedYear
-              : item.date.split(" ")[2] === selectedYear
-          )
+        ? data.filter((item) => extractYear(item.date, lang) === selectedYear)
         : data,
     [data, selectedYear, lang]
   );
 
-  // Staggered animation for timeline items
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
+      transition: { staggerChildren: 0.15 },
     },
   };
 
@@ -49,7 +51,6 @@ const CareerTimeline = () => {
     },
   };
 
-  // Custom cursor effect
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
@@ -61,34 +62,25 @@ const CareerTimeline = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Scroll navigation
   const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
+    scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
   };
-
   const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
+    scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
   };
 
-  // Keyboard navigation for modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && selectedIndex !== null) {
-        setSelectedIndex(null);
-      }
+      if (e.key === "Escape" && selectedIndex !== null) setSelectedIndex(null);
+      if (e.key === "ArrowLeft") scrollLeft();
+      if (e.key === "ArrowRight") scrollRight();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex]);
 
-  // Icon mapping for categories
   const getCategoryIcon = (title: string) => {
-    if (title.toLowerCase().includes("developer"))
-      return <Briefcase size={20} />;
+    if (title.toLowerCase().includes("developer")) return <Briefcase size={20} />;
     if (title.toLowerCase().includes("project")) return <Code size={20} />;
     return <BookOpen size={20} />;
   };
@@ -97,20 +89,15 @@ const CareerTimeline = () => {
     <section
       id="work"
       ref={ref}
-      className="py-16 px-4 sm:py-20 md:py-24 lg:py-32 max-w-7xl mx-auto overflow-hidden relative"
+      className="relative w-full py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto overflow-x-clip"
     >
       {/* Custom Cursor */}
       <motion.div
         className="fixed w-6 h-6 rounded-full bg-blue-500/30 border border-blue-500 pointer-events-none z-50"
-        animate={{
-          x: cursorPos.x - 12,
-          y: cursorPos.y - 12,
-          scale: isHovering ? 1.5 : 1,
-        }}
+        animate={{ x: cursorPos.x - 12, y: cursorPos.y - 12, scale: isHovering ? 1.5 : 1 }}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
 
-      {/* Introductory Text */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -127,7 +114,6 @@ const CareerTimeline = () => {
         </p>
       </motion.div>
 
-      {/* Year Filter Buttons */}
       <div className="flex justify-center mb-12">
         <div className="flex gap-2 bg-gradient-to-r from-gray-50 to-gray-100 p-2 rounded-full shadow-sm">
           {["All", "2024", "2025"].map((year) => (
@@ -139,9 +125,7 @@ const CareerTimeline = () => {
                   ? "bg-gradient-to-r from-blue-600 to-teal-600 text-white shadow-md"
                   : "text-gray-700 hover:bg-gray-200 hover:shadow-sm"
               } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              aria-label={
-                lang === "en" ? `Filter by ${year}` : `${year}로 필터링`
-              }
+              aria-label={lang === "en" ? `Filter by ${year}` : `${year}로 필터링`}
             >
               {lang === "en" ? year : year === "All" ? "전체" : year}
             </button>
@@ -149,109 +133,89 @@ const CareerTimeline = () => {
         </div>
       </div>
 
-      {/* Navigation Arrows */}
       <button
         onClick={scrollLeft}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10 sm:hidden"
+        className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10"
         aria-label={lang === "en" ? "Scroll left" : "왼쪽으로 스크롤"}
       >
-        <svg
-          className="w-6 h-6 text-gray-700"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
+        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
       <button
         onClick={scrollRight}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10 sm:hidden"
+        className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10"
         aria-label={lang === "en" ? "Scroll right" : "오른쪽으로 스크롤"}
       >
-        <svg
-          className="w-6 h-6 text-gray-700"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
+        <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
-      {/* Timeline */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         className="relative"
       >
-        {/* Horizon Line with Animated Gradient */}
         <motion.div
-          className="absolute top-[60px] left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-teal-600 z-0"
+          className="absolute top-[60px] left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-teal-600 z-0 origin-left"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: isInView ? 1 : 0 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
         />
 
-        <div
-          ref={scrollRef}
-          className="flex gap-4 sm:gap-6 md:gap-8 overflow-x-auto pb-8 px-4 sm:px-6 scroll-snap-x snap-mandatory scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100"
-        >
-          {filteredData.map((item, index) => {
-            const originalIndex = data.findIndex(
-              (dataItem) => dataItem === item
-            );
-            return (
-              <motion.div
-                key={originalIndex}
-                variants={itemVariants}
-                className="relative flex-shrink-0 w-56 sm:w-64 md:w-80 lg:w-96 snap-start"
-                onClick={() => setSelectedIndex(originalIndex)}
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-              >
-                <p className="text-base sm:text-lg font-medium text-gray-800 text-center">
-                  {item.date}
-                </p>
+        <div className="-mx-4 sm:-mx-6">
+          <div
+            ref={scrollRef}
+            className="
+              flex gap-4 sm:gap-6 md:gap-8
+              overflow-x-auto pb-8 px-4 sm:px-6
+              snap-x snap-mandatory              /* ← 오타 수정 */
+              touch-pan-x overscroll-x-contain   /* iOS 제스처 안정화 */
+              scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100
+            "
+          >
+            {filteredData.map((item, index) => {
+              const originalIndex = data.findIndex((d) => d === item);
+              return (
                 <motion.div
-                  className="absolute left-1/2 transform -translate-x-1/2 top-14 w-4 h-4 bg-gradient-to-br from-blue-600 to-teal-600 rounded-full z-10"
-                  whileHover={{
-                    scale: 1.3,
-                    boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)",
-                  }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                />
-                <div className="absolute left-1/2 transform -translate-x-1/2 top-14 h-10 w-0.5 bg-gray-200" />
-                <motion.div
-                  className="bg-white p-5 mt-20 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 cursor-pointer relative overflow-hidden"
-                  whileHover={{ y: -8, rotateX: 5 }}
-                  transition={{ type: "spring", stiffness: 200 }}
+                  key={originalIndex}
+                  variants={itemVariants}
+                  className="relative flex-shrink-0 w-56 sm:w-64 md:w-80 lg:w-96 snap-start"
+                  onClick={() => setSelectedIndex(originalIndex)}
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-teal-600" />
-                  <div className="flex items-center justify-center gap-2">
-                    {getCategoryIcon(item.title)}
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-600 line-clamp-2">
-                    {item.shortDescription}
+                  <p className="text-base sm:text-lg font-medium text-gray-800 text-center">
+                    {item.date}
                   </p>
+                  <motion.div
+                    className="absolute left-1/2 -translate-x-1/2 top-14 w-4 h-4 bg-gradient-to-br from-blue-600 to-teal-600 rounded-full z-10"
+                    whileHover={{ scale: 1.3, boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)" }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  />
+                  <div className="absolute left-1/2 -translate-x-1/2 top-14 h-10 w-0.5 bg-gray-200" />
+                  <motion.div
+                    className="bg-white p-5 mt-20 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 cursor-pointer relative overflow-hidden"
+                    whileHover={{ y: -8, rotateX: 5 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-teal-600" />
+                    <div className="flex items-center justify-center gap-2">
+                      {getCategoryIcon(item.title)}
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+                      {item.shortDescription}
+                    </p>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </motion.div>
 
@@ -285,12 +249,8 @@ const CareerTimeline = () => {
               >
                 <X size={24} />
               </button>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="relative"
-              >
+
+              <div className="relative">
                 <div className="flex items-center gap-2">
                   {getCategoryIcon(data[selectedIndex].title)}
                   <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
@@ -300,24 +260,16 @@ const CareerTimeline = () => {
                 <p className="text-sm text-gray-500 mt-1">
                   {data[selectedIndex].date}
                 </p>
-              </motion.div>
+              </div>
+
               {data[selectedIndex].detail?.summary && (
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="mt-4 text-gray-700 text-sm sm:text-base"
-                >
+                <p className="mt-4 text-gray-700 text-sm sm:text-base">
                   {data[selectedIndex].detail.summary}
-                </motion.p>
+                </p>
               )}
+
               {data[selectedIndex].detail?.stack && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="mt-4"
-                >
+                <div className="mt-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
                     {lang === "en" ? "Tech Stack" : "기술 스택"}
                   </h4>
@@ -334,30 +286,22 @@ const CareerTimeline = () => {
                       </motion.span>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               )}
+
               {data[selectedIndex].detail?.learning && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="mt-4"
-                >
+                <div className="mt-4">
                   <h4 className="font-semibold text-gray-800 mb-2">
                     {lang === "en" ? "What I Learned" : "배운 점"}
                   </h4>
                   <p className="text-sm text-gray-700">
                     {data[selectedIndex].detail.learning}
                   </p>
-                </motion.div>
+                </div>
               )}
+
               {data[selectedIndex].detail?.link && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="mt-4"
-                >
+                <div className="mt-4">
                   <a
                     href={data[selectedIndex].detail.link}
                     target="_blank"
@@ -368,7 +312,7 @@ const CareerTimeline = () => {
                       ? "👉 View GitHub Repo"
                       : "👉 View Project"}
                   </a>
-                </motion.div>
+                </div>
               )}
             </motion.div>
           </motion.div>
