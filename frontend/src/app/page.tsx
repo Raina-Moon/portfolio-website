@@ -7,14 +7,19 @@ import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 const Page = () => {
   const { lang } = useLanguageStore();
 
   const headerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
+
+  const horizRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,6 +78,44 @@ const Page = () => {
     };
   }, [lang]);
 
+ useLayoutEffect(() => {
+  const wrapper = horizRef.current!;
+  const strip = stripRef.current!;
+  const ctx = gsap.context(() => {
+    ScrollTrigger.matchMedia({
+      "(min-width: 768px)": () => {
+        const distance = () => Math.max(0, strip.scrollWidth - window.innerWidth);
+
+        const tween = gsap.to(strip, {
+          x: () => -distance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top top",
+            end: () => `+=${distance()}`,
+            pin: true,
+            scrub: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        const onRefreshInit = () => { gsap.set(strip, { x: 0 }); }; // ← 반환 없음
+        ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
+
+        return () => {
+          ScrollTrigger.removeEventListener("refreshInit", onRefreshInit); // 깔끔히 해제
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      },
+    });
+  }, wrapper);
+  return () => ctx.revert();
+}, []);
+
+
+
   const renderTitle = () => {
     if (lang === "en") {
       return (
@@ -121,8 +164,10 @@ const Page = () => {
             alt="profile image"
             width={380}
             height={380}
-            className={`${lang === "en" ? "absolute right-[28px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
-              : "absolute right-[14px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
+            className={`${
+              lang === "en"
+                ? "absolute right-[28px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
+                : "absolute right-[14px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
             }`}
           />
           <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
@@ -161,15 +206,17 @@ const Page = () => {
       </div>
 
       <div className="flex flex-col gap-4 lg:gap-6 w-full">
-        <div
-          ref={descRef}
-          className="bg-blue-50 my-6 lg:my-20 z-10 transition-transform duration-300 w-full"
+        <section
+          ref={horizRef}
+          className="relative w-screen overflow-hidden my-6 lg:my-20 bg-blue-50"
         >
-          <div className="pt-10 pb-20 lg:pt-20 lg:pb-40">
-            {" "}
-            <Description lang={lang} />
+          <div
+            ref={stripRef}
+            className="flex flex-nowrap items-stretch gap-6 px-5 md:px-10 pt-10 pb-20 lg:pt-20 lg:pb-40"
+          >
+            <Description lang={lang} mode="horizontal" />
           </div>
-        </div>
+        </section>
 
         <SkillsTable />
 
