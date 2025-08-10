@@ -250,6 +250,27 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         link: "https://github.com/Raina-Moon/fomofix_app",
       },
     },
+    {
+      date: "May 2025",
+      title: "SipSense – Cola Intake Tracker (iOS/Android)",
+      shortDescription:
+        "Shipped my first mobile app to the Apple App Store and Google Play. Tracks daily cola intake with playful animations and a bold red UI.",
+      detail: {
+        summary:
+          "Built and released SipSense, a mobile app that lets users log daily cola intake. I focused on attractive, satisfying animations and a vibrant red UI that reflects the cola theme. This was my first end-to-end store launch (build/signing, listings, review). Android: https://play.google.com/store/apps/details?id=com.mds64.sipsense&pcampaignid=web_share | App Store: https://apps.apple.com/kr/app/sipsense/id6746238876?l=en-GB | Frontend: https://github.com/Raina-Moon/cola-calc-app | Backend: https://github.com/Raina-Moon/cola-calc-backend",
+        stack: [
+          "React Native",
+          "Expo",
+          "TypeScript",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+        ],
+        learning:
+          "Learned the iOS/Android store submission process, release management, and how to design motion-rich yet performant mobile UI.",
+        link: "https://github.com/Raina-Moon/cola-calc-app",
+      },
+    },
   ],
   ko: [
     {
@@ -481,6 +502,27 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         learning:
           "크로스 플랫폼 환경에서의 코드 구조 설계와 모바일 환경에 맞는 최적화 방식을 익히며, 앱 로직을 더욱 유연하게 구성하는 능력을 키우고 있습니다.",
         link: "https://github.com/Raina-Moon/fomofix_app",
+      },
+    },
+    {
+      date: "2025년 5월",
+      title: "SipSense – 콜라 섭취 기록 앱 (iOS/Android)",
+      shortDescription:
+        "하루 콜라 섭취량을 기록하는 모바일 앱을 처음 개발·출시. 애니메이션과 레드 톤 UI/UX 적용, 앱스토어·구글플레이 동시 배포.",
+      detail: {
+        summary:
+          "사용자가 하루에 마신 콜라 양을 간편하게 기록할 수 있는 SipSense를 개발했습니다. 어트랙티브한 애니메이션 효과와 콜라의 상징색인 강렬한 레드 UI로 구성했으며, 애플 앱스토어와 구글 플레이 모두에 정식 배포를 완료했습니다. Android: https://play.google.com/store/apps/details?id=com.mds64.sipsense&pcampaignid=web_share | App Store: https://apps.apple.com/kr/app/sipsense/id6746238876?l=en-GB | 프론트엔드: https://github.com/Raina-Moon/cola-calc-app | 백엔드: https://github.com/Raina-Moon/cola-calc-backend",
+        stack: [
+          "React Native",
+          "Expo",
+          "TypeScript",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+        ],
+        learning:
+          "iOS/Android 스토어 심사 및 배포 절차를 처음 경험했고, 모션이 많은 UI를 성능 저하 없이 구현·최적화하는 방법을 익혔습니다.",
+        link: "https://github.com/Raina-Moon/cola-calc-app",
       },
     },
   ],
