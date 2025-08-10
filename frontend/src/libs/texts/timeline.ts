@@ -250,6 +250,64 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         link: "https://github.com/Raina-Moon/fomofix_app",
       },
     },
+    {
+      date: "May 2025",
+      title: "SipSense – Cola Intake Tracker (iOS/Android)",
+      shortDescription:
+        "Shipped my first mobile app to the Apple App Store and Google Play. Tracks daily cola intake with playful animations and a bold red UI.",
+      detail: {
+        summary:
+          "Built and released SipSense, a mobile app that lets users log daily cola intake. I focused on attractive, satisfying animations and a vibrant red UI that reflects the cola theme. This was my first end-to-end store launch (build/signing, listings, review). Android: https://play.google.com/store/apps/details?id=com.mds64.sipsense&pcampaignid=web_share | App Store: https://apps.apple.com/kr/app/sipsense/id6746238876?l=en-GB | Frontend: https://github.com/Raina-Moon/cola-calc-app | Backend: https://github.com/Raina-Moon/cola-calc-backend",
+        stack: [
+          "React Native",
+          "Expo",
+          "TypeScript",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+        ],
+        learning:
+          "Learned the iOS/Android store submission process, release management, and how to design motion-rich yet performant mobile UI.",
+        link: "https://github.com/Raina-Moon/cola-calc-app",
+      },
+    },
+    {
+      date: "Jul 2025",
+      title: "Korips – Korea Hot Spring Booking (Lodges & Tickets)",
+      shortDescription:
+        "A multilingual hot-spring lodging & ticket reservation platform for both locals and international visitors.",
+      detail: {
+        summary:
+          "As travel to Korea surged and there was no official service by the Korea Hot Spring Association, I built Korips: a Next.js platform where anyone—Korean or international visitors—can discover famous Korean hot springs and book lodges or day tickets with ease. The app supports full i18n, rich-editor posts, and payments.",
+        stack: [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Redux",
+          "Axios",
+          "Tailwind CSS",
+          "Sass",
+          "Radix UI",
+          "i18next",
+          "Tiptap",
+          "Toss Payments",
+          "Node.js",
+          "Express",
+          "Prisma",
+          "JWT",
+          "PostgreSQL",
+          "Docker",
+          "Cloudinary",
+          "DeepL",
+          "GitHub Actions",
+          "Nodemailer",
+          "ESLint",
+        ],
+        learning:
+          "Designed an end-to-end reservation flow (inventory, payments, i18n, email) and productionized CI/CD with Docker and GitHub Actions.",
+        link: "https://github.com/Raina-Moon/korip-web",
+      },
+    },
   ],
   ko: [
     {
@@ -481,6 +539,64 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         learning:
           "크로스 플랫폼 환경에서의 코드 구조 설계와 모바일 환경에 맞는 최적화 방식을 익히며, 앱 로직을 더욱 유연하게 구성하는 능력을 키우고 있습니다.",
         link: "https://github.com/Raina-Moon/fomofix_app",
+      },
+    },
+    {
+      date: "2025년 5월",
+      title: "SipSense – 콜라 섭취 기록 앱 (iOS/Android)",
+      shortDescription:
+        "하루 콜라 섭취량을 기록하는 모바일 앱을 처음 개발·출시. 애니메이션과 레드 톤 UI/UX 적용, 앱스토어·구글플레이 동시 배포.",
+      detail: {
+        summary:
+          "사용자가 하루에 마신 콜라 양을 간편하게 기록할 수 있는 SipSense를 개발했습니다. 어트랙티브한 애니메이션 효과와 콜라의 상징색인 강렬한 레드 UI로 구성했으며, 애플 앱스토어와 구글 플레이 모두에 정식 배포를 완료했습니다. Android: https://play.google.com/store/apps/details?id=com.mds64.sipsense&pcampaignid=web_share | App Store: https://apps.apple.com/kr/app/sipsense/id6746238876?l=en-GB | 프론트엔드: https://github.com/Raina-Moon/cola-calc-app | 백엔드: https://github.com/Raina-Moon/cola-calc-backend",
+        stack: [
+          "React Native",
+          "Expo",
+          "TypeScript",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+        ],
+        learning:
+          "iOS/Android 스토어 심사 및 배포 절차를 처음 경험했고, 모션이 많은 UI를 성능 저하 없이 구현·최적화하는 방법을 익혔습니다.",
+        link: "https://github.com/Raina-Moon/cola-calc-app",
+      },
+    },
+    {
+      date: "2025년 7월",
+      title: "Korips – 한국 온천 숙소/티켓 예약 플랫폼",
+      shortDescription:
+        "내국인·외국인 모두 쉽게 사용할 수 있는 다국어 온천 숙박/티켓 예약 서비스.",
+      detail: {
+        summary:
+          "한국 여행 수요가 증가하는 가운데 한국온천협회 차원의 공식 서비스가 없어, 국내뿐 아니라 해외 이용자도 쉽게 접근할 수 있는 ‘Korips’를 구축했습니다. 유명 온천을 소개하고 숙소/티켓을 간편하게 예약할 수 있으며, 다국어(i18n), 리치 텍스트 포스팅, 결제를 지원합니다.",
+        stack: [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Redux",
+          "Axios",
+          "Tailwind CSS",
+          "Sass",
+          "Radix UI",
+          "i18next",
+          "Tiptap",
+          "Toss Payments",
+          "Node.js",
+          "Express",
+          "Prisma",
+          "JWT",
+          "PostgreSQL",
+          "Docker",
+          "Cloudinary",
+          "DeepL",
+          "GitHub Actions",
+          "Nodemailer",
+          "ESLint",
+        ],
+        learning:
+          "재고/예약, 결제 연동, 다국어 지원, 이메일 알림 등 엔드투엔드 예약 흐름을 설계하고 Docker·GitHub Actions 기반 배포 자동화를 구축했습니다.",
+        link: "https://github.com/Raina-Moon/korip-web",
       },
     },
   ],

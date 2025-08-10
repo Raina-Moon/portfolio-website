@@ -269,7 +269,7 @@ const CareerTimeline = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-teal-500/10 rounded-2xl"
+                className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-teal-500/10 rounded-2xl pointer-events-none"
                 animate={{ opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 3, repeat: Infinity }}
               />
