@@ -1,6 +1,7 @@
 "use client"
 
 import { fetchTroubleshootingPost } from "@/libs/api/troubleshooting";
+import { CodeBlockRenderer } from "@/components/Troubleshooting/CodeBlockRenderer";
 import { Troubleshooting } from "@/types/types";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -38,12 +39,7 @@ const Page = () => {
         <p className="text-grey-700 text-sm mt-6">{new Date(post.createdAt).toDateString()}</p>
       </div>
       <div className="border mx-4"/>
-      <div dangerouslySetInnerHTML={{ __html: post.content }} 
-      className="mt-7 mb-20 prose prose-lg max-w-none
-                 [&_p]:mb-4 
-                 [&_br]:block [&_br]:mb-2
-                 [&_.hard-break]:block [&_.hard-break]:mb-2
-                 whitespace-pre-wrap"/>
+      <CodeBlockRenderer htmlContent={post.content} />
     </div>
   );
 };
