@@ -16,14 +16,28 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
+import HardBreak from "@tiptap/extension-hard-break";
 
 export const useTiptapEditor = (initialContent = "<p>Welcome to the Troubleshooting Section</p>") => 
   useEditor({
     content: initialContent,
     extensions: [
-      Paragraph,
+      StarterKit.configure({
+        // StarterKit 기본 설정을 사용하되, hardBreak을 활성화
+        hardBreak: false, // StarterKit에서 비활성화하고 별도로 설정
+      }),
+      HardBreak.configure({
+        keepMarks: false,
+        HTMLAttributes: {
+          class: 'hard-break',
+        },
+      }),
+      Paragraph.configure({
+        HTMLAttributes: {
+          class: 'paragraph',
+        },
+      }),
       Text,
-      StarterKit,
       CodeBlock,
       TaskList,
       TaskItem.configure({
@@ -111,5 +125,20 @@ export const useTiptapEditor = (initialContent = "<p>Welcome to the Troubleshoot
       TextStyle,
       Color,
     ],
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+      },
+      handleKeyDown: (view, event) => {
+        // Shift + Enter로 줄바꿈 처리
+        if (event.key === 'Enter' && event.shiftKey) {
+          return view.dispatch(view.state.tr.replaceSelectionWith(view.state.schema.nodes.hardBreak.create()).scrollIntoView());
+        }
+        return false;
+      },
+    },
+    parseOptions: {
+      preserveWhitespace: 'full',
+    },
   });
 
