@@ -39,7 +39,11 @@ const Page = () => {
       </div>
       <div className="border mx-4"/>
       <div dangerouslySetInnerHTML={{ __html: post.content }} 
-      className="mt-7 mb-20"/>
+      className="mt-7 mb-20 prose prose-lg max-w-none
+                 [&_p]:mb-4 
+                 [&_br]:block [&_br]:mb-2
+                 [&_.hard-break]:block [&_.hard-break]:mb-2
+                 whitespace-pre-wrap"/>
     </div>
   );
 };
