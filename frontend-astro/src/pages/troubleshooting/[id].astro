@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TroubleshootingDetailPage from "@/react-pages/TroubleshootingDetailPage";
+
+export const prerender = false;
+
+const { id } = Astro.params;
+if (!id) {
+  return Astro.redirect("/troubleshooting");
+}
+---
+
+<BaseLayout title="Troubleshooting Detail | Raina Moon">
+  <TroubleshootingDetailPage id={id} client:load />
+</BaseLayout>

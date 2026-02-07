@@ -3,6 +3,7 @@
 
 # Build output directory
 **/dist/
+**/.astro/
 
 # Environment variables file
 **/.env
