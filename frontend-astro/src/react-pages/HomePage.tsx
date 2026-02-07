@@ -4,21 +4,14 @@ import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HomePage = () => {
   const { lang } = useLanguageStore();
-  const [isHorizontal, setIsHorizontal] = useState(false);
 
   const headerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
-  const horizRef = useRef<HTMLDivElement>(null);
-  const stripRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let rafId: number | null = null;
@@ -86,57 +79,6 @@ const HomePage = () => {
       descItems.forEach((item) => observer.unobserve(item));
     };
   }, [lang]);
-
-  useEffect(() => {
-    const mq = window.matchMedia(
-      "(min-width: 1280px) and (hover: hover) and (pointer: fine)"
-    );
-    const update = () => setIsHorizontal(mq.matches);
-    update();
-    mq.addEventListener?.("change", update);
-    return () => mq.removeEventListener?.("change", update);
-  }, []);
-
-  useLayoutEffect(() => {
-    const wrapper = horizRef.current;
-    const strip = stripRef.current;
-    if (!wrapper || !strip) return;
-
-    const ctx = gsap.context(() => {
-      ScrollTrigger.matchMedia({
-        "(min-width: 1280px) and (hover: hover) and (pointer: fine)": () => {
-          const distance = () =>
-            Math.max(0, strip.scrollWidth - wrapper.clientWidth);
-
-          const tween = gsap.to(strip, {
-            x: () => -distance(),
-            ease: "none",
-            immediateRender: false,
-            overwrite: "auto",
-            scrollTrigger: {
-              trigger: wrapper,
-              start: "top top",
-              end: () => `+=${distance()}`,
-              pin: true,
-              pinSpacing: true,
-              scrub: 0.7,
-              fastScrollEnd: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-
-          return () => {
-            tween.scrollTrigger?.kill();
-            tween.kill();
-            gsap.set(strip, { clearProps: "transform" });
-          };
-        },
-      });
-    }, wrapper);
-
-    return () => ctx.revert();
-  }, []);
 
   const renderTitle = () => {
     if (lang === "en") {
@@ -219,23 +161,8 @@ const HomePage = () => {
       </div>
 
       <div className="flex flex-col gap-4 lg:gap-6 w-full">
-        <section
-          ref={horizRef}
-          className={`block w-full flex-none relative my-6 lg:my-20 bg-blue-50
-          ${isHorizontal ? "overflow-hidden" : "overflow-visible"}`}
-        >
-          <div
-            ref={stripRef}
-            className={[
-              "flex items-stretch gap-6 px-5 md:px-10 pt-10 pb-20 lg:pt-20 lg:pb-40",
-              isHorizontal ? "flex-row flex-nowrap" : "flex-col",
-              isHorizontal
-                ? "[&>.desc-item]:shrink-0 [&>.desc-item]:w-[70vw] xl:[&>.desc-item]:w-[900px]"
-                : "",
-            ].join(" ")}
-          >
-            <Description lang={lang} mode="horizontal" />
-          </div>
+        <section className="my-6 lg:my-20">
+          <Description lang={lang} />
         </section>
 
         <SkillsTable />
