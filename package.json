@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
     "dev:frontend": "npm run dev --prefix frontend",
-    "dev:backend": "npm run dev --prefix backend"
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend:astro": "npm run dev --prefix frontend-astro",
+    "build:frontend:astro": "npm run build --prefix frontend-astro",
+    "preview:frontend:astro": "npm run preview --prefix frontend-astro"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

@@ -25,27 +25,34 @@ const Page = () => {
   const stripRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (headerRef.current && descRef.current) {
-        const scrollY = window.scrollY;
-        const headerHeight = headerRef.current.offsetHeight;
-        const descOffset = descRef.current.getBoundingClientRect().top;
+    let rafId: number | null = null;
+    const updateScrollMotion = () => {
+      rafId = null;
+      if (!headerRef.current || !descRef.current) return;
 
-        const opacity = Math.max(1 - scrollY / (headerHeight * 0.7), 0);
-        const translateY = Math.min(scrollY / 10, 30);
-        headerRef.current.style.opacity = `${opacity}`;
-        headerRef.current.style.transform = `translateY(-${translateY}px)`;
+      const scrollY = window.scrollY;
+      const headerHeight = headerRef.current.offsetHeight;
+      const descOffset = descRef.current.getBoundingClientRect().top;
 
-        if (descOffset < headerHeight) {
-          const moveUp = Math.min(
-            headerHeight - descOffset,
-            headerHeight * 0.1
-          );
-          descRef.current.style.transform = `translateY(-${moveUp}px)`;
-        } else {
-          descRef.current.style.transform = `translateY(0)`;
-        }
+      const opacity = Math.max(1 - scrollY / (headerHeight * 0.7), 0);
+      const translateY = Math.min(scrollY / 10, 30);
+      headerRef.current.style.opacity = `${opacity}`;
+      headerRef.current.style.transform = `translate3d(0, -${translateY}px, 0)`;
+
+      if (descOffset < headerHeight) {
+        const moveUp = Math.min(
+          headerHeight - descOffset,
+          headerHeight * 0.1
+        );
+        descRef.current.style.transform = `translate3d(0, -${moveUp}px, 0)`;
+      } else {
+        descRef.current.style.transform = "translate3d(0, 0, 0)";
       }
+    };
+
+    const handleScroll = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(updateScrollMotion);
     };
 
     const observer = new IntersectionObserver(
@@ -73,9 +80,11 @@ const Page = () => {
       }
     });
 
-    window.addEventListener("scroll", handleScroll);
+    updateScrollMotion();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
       descItems.forEach((item) => observer.unobserve(item));
     };
   }, [lang]);
@@ -90,46 +99,45 @@ const Page = () => {
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
-useLayoutEffect(() => {
-  const wrapper = horizRef.current!;
-  const strip = stripRef.current!;
-  const ctx = gsap.context(() => {
-    ScrollTrigger.matchMedia({
-      "(min-width: 1280px) and (hover: hover) and (pointer: fine)": () => {
-        if (!wrapper || !strip) return;
+  useLayoutEffect(() => {
+    const wrapper = horizRef.current;
+    const strip = stripRef.current;
+    if (!wrapper || !strip) return;
 
-        const distance = () =>
-          Math.max(0, strip.scrollWidth - wrapper.clientWidth);
+    const ctx = gsap.context(() => {
+      ScrollTrigger.matchMedia({
+        "(min-width: 1280px) and (hover: hover) and (pointer: fine)": () => {
+          const distance = () =>
+            Math.max(0, strip.scrollWidth - wrapper.clientWidth);
 
-        const tween = gsap.to(strip, {
-          x: () => -distance(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top top",
-            end: () => `+=${distance()}`,
-            pin: true,
-            pinSpacing: true,
-            pinReparent: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+          const tween = gsap.to(strip, {
+            x: () => -distance(),
+            ease: "none",
+            immediateRender: false,
+            overwrite: "auto",
+            scrollTrigger: {
+              trigger: wrapper,
+              start: "top top",
+              end: () => `+=${distance()}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: 0.7,
+              fastScrollEnd: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
 
-        const onRefreshInit = () => { gsap.set(strip, { x: 0 }); };
-        ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
-
-        return () => {
-          ScrollTrigger.removeEventListener("refreshInit", onRefreshInit);
-          tween.scrollTrigger?.kill();
-          tween.kill();
-        };
-      },
-    });
-  }, wrapper);
-  return () => ctx.revert();
-}, []);
+          return () => {
+            tween.scrollTrigger?.kill();
+            tween.kill();
+            gsap.set(strip, { clearProps: "transform" });
+          };
+        },
+      });
+    }, wrapper);
+    return () => ctx.revert();
+  }, []);
 
 
   const renderTitle = () => {
