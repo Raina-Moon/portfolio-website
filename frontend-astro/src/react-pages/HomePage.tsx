@@ -175,20 +175,20 @@ const HomePage = () => {
   return (
     <div id="about" className="flex flex-col items-center justify-center w-full py-20">
       <div ref={headerRef} className="transition-all duration-300 z-10 pb-10">
-        <div className="relative text-center animate-slide-up">
-          <img
-            src="/images/IMG_0523.png"
-            alt="profile image"
-            width={380}
-            height={380}
-            className={`${
-              lang === "en"
-                ? "absolute right-[28px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
-                : "absolute right-[14px] w-[150px] sm:top-2 sm:w-[230px] sm:right-[33px] md:top-4 md:right-[55px] md:w-[250px] lg:w-[340px] lg:top-6 lg:right-[85px] xl:top-8 xl:right-[110px] xl:w-[380px]"
-            }`}
-          />
+        <div className="text-center animate-slide-up">
           <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
-            Raina Moon
+            Raina M
+            <span className="relative inline-block">
+              <img
+                src="/images/IMG_0523.png"
+                alt="profile image"
+                width={500}
+                height={500}
+                className="absolute left-[calc(50%+2px)] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[120px] sm:w-[200px] md:w-[280px] lg:w-[360px] xl:w-[380px] max-w-none"
+              />
+              o
+            </span>
+            on
           </strong>
         </div>
         <div className="flex flex-col items-center">
