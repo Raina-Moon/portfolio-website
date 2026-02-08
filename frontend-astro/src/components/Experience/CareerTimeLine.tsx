@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import React, { useState, useMemo, useEffect, useId, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguageStore } from "@/libs/languageStore";
-import { timelineItems } from "@/libs/texts/timeline";
-import { X, Code, Briefcase, BookOpen } from "lucide-react";
-import type { Variants } from "framer-motion";
+import { timelineItems, type TimelineItem } from "@/libs/texts/timeline";
+import { Code, Briefcase, BookOpen } from "lucide-react";
+import { Timeline } from "@/components/ui/timeline";
+import { useOutsideClick } from "@/hooks/use-outside-click";
 
 function extractYear(dateStr: string, lang: string) {
   if (lang === "ko") {
@@ -16,93 +17,134 @@ function extractYear(dateStr: string, lang: string) {
   return m?.[1] ?? "";
 }
 
+const CloseIcon = () => (
+  <motion.svg
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0, transition: { duration: 0.05 } }}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="h-4 w-4 text-black"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </motion.svg>
+);
+
+const getCategoryIcon = (title: string) => {
+  if (title.toLowerCase().includes("developer"))
+    return <Briefcase size={20} />;
+  if (title.toLowerCase().includes("project")) return <Code size={20} />;
+  return <BookOpen size={20} />;
+};
+
 const CareerTimeline = () => {
   const { lang } = useLanguageStore();
   const data = timelineItems[lang];
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [selectedYear, setSelectedYear] = useState<string | null>("2024");
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 });
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const filteredData = useMemo(
-    () =>
-      selectedYear
-        ? data.filter((item) => extractYear(item.date, lang) === selectedYear)
-        : data,
-    [data, selectedYear, lang]
-  );
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, x: 100, rotateY: 15 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      rotateY: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+  const [active, setActive] = useState<{
+    item: TimelineItem;
+    index: number;
+  } | null>(null);
+  const id = useId();
+  const expandedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setActive(null);
+      }
+    }
 
-  const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
-  };
-  const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
-  };
+    if (active) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && selectedIndex !== null) setSelectedIndex(null);
-      if (e.key === "ArrowLeft") scrollLeft();
-      if (e.key === "ArrowRight") scrollRight();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex]);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [active]);
 
-  const getCategoryIcon = (title: string) => {
-    if (title.toLowerCase().includes("developer"))
-      return <Briefcase size={20} />;
-    if (title.toLowerCase().includes("project")) return <Code size={20} />;
-    return <BookOpen size={20} />;
-  };
+  useOutsideClick(expandedRef, () => setActive(null));
+
+  const yearGroups = useMemo(() => {
+    const groups: {
+      year: string;
+      items: { item: (typeof data)[0]; originalIndex: number }[];
+    }[] = [];
+    const seen = new Map<string, number>();
+
+    data.forEach((item, idx) => {
+      const year = extractYear(item.date, lang);
+      if (seen.has(year)) {
+        groups[seen.get(year)!].items.push({ item, originalIndex: idx });
+      } else {
+        seen.set(year, groups.length);
+        groups.push({ year, items: [{ item, originalIndex: idx }] });
+      }
+    });
+
+    return groups;
+  }, [data, lang]);
+
+  const timelineData = yearGroups.map((group) => ({
+    title: group.year,
+    content: (
+      <div className="pb-8">
+        {group.items.map(({ item, originalIndex }) => (
+          <motion.div
+            layoutId={`card-${originalIndex}-${id}`}
+            key={originalIndex}
+            onClick={() => setActive({ item, index: originalIndex })}
+            className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 rounded-xl cursor-pointer"
+          >
+            <div className="flex gap-4 flex-col md:flex-row items-center md:items-start">
+              <motion.div
+                layoutId={`icon-${originalIndex}-${id}`}
+                className="flex items-center justify-center h-14 w-14 rounded-lg bg-gradient-to-br from-blue-600 to-teal-600 text-white shrink-0"
+              >
+                {getCategoryIcon(item.title)}
+              </motion.div>
+              <div>
+                <motion.h3
+                  layoutId={`title-${originalIndex}-${id}`}
+                  className="font-medium text-neutral-800 text-center md:text-left"
+                >
+                  {item.title}
+                </motion.h3>
+                <motion.p
+                  layoutId={`description-${originalIndex}-${id}`}
+                  className="text-neutral-600 text-sm text-center md:text-left"
+                >
+                  {item.shortDescription}
+                </motion.p>
+              </div>
+            </div>
+            <motion.button
+              layoutId={`button-${originalIndex}-${id}`}
+              className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-gradient-to-r hover:from-blue-600 hover:to-teal-600 hover:text-white text-black mt-4 md:mt-0 shrink-0"
+            >
+              {lang === "en" ? "Details" : "상세보기"}
+            </motion.button>
+          </motion.div>
+        ))}
+      </div>
+    ),
+  }));
 
   return (
     <section
       id="work"
-      ref={ref}
       className="relative w-full py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto"
     >
-      {/* Custom Cursor */}
-      <motion.div
-        className="fixed w-6 h-6 rounded-full bg-blue-500/30 border border-blue-500 pointer-events-none z-50"
-        animate={{
-          x: cursorPos.x - 12,
-          y: cursorPos.y - 12,
-          scale: isHovering ? 1.5 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -119,235 +161,136 @@ const CareerTimeline = () => {
         </p>
       </motion.div>
 
-      <div className="flex justify-center mb-12">
-        <div className="flex gap-2 bg-gradient-to-r from-gray-50 to-gray-100 p-2 rounded-full shadow-sm">
-          {["All", "2024", "2025"].map((year) => (
-            <button
-              key={year}
-              onClick={() => setSelectedYear(year === "All" ? null : year)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                selectedYear === (year === "All" ? null : year)
-                  ? "bg-gradient-to-r from-blue-600 to-teal-600 text-white shadow-md"
-                  : "text-gray-700 hover:bg-gray-200 hover:shadow-sm"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              aria-label={
-                lang === "en" ? `Filter by ${year}` : `${year}로 필터링`
-              }
-            >
-              {lang === "en" ? year : year === "All" ? "전체" : year}
-            </button>
-          ))}
-        </div>
-      </div>
+      <Timeline data={timelineData} />
 
-      <button
-        onClick={scrollLeft}
-        className="hidden md:flex items-center justify-center absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10"
-        aria-label={lang === "en" ? "Scroll left" : "왼쪽으로 스크롤"}
-      >
-        <svg
-          className="w-6 h-6 text-gray-700"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <button
-        onClick={scrollRight}
-        className="hidden md:flex items-center justify-center absolute right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 z-10"
-        aria-label={lang === "en" ? "Scroll right" : "오른쪽으로 스크롤"}
-      >
-        <svg
-          className="w-6 h-6 text-gray-700"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="relative"
-      >
-        <motion.div
-          className="absolute top-[60px] left-[calc(50%-50vw)] w-[100vw] h-1
-             bg-gradient-to-r from-blue-600 to-teal-600 z-0 origin-left pointer-events-none"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: isInView ? 1 : 0 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
-        />
-
-        <div className="-mx-4 sm:-mx-6">
-          <div
-            ref={scrollRef}
-            className="
-              flex gap-4 sm:gap-6 md:gap-8
-              overflow-x-auto pb-8 px-4 sm:px-6
-              snap-x snap-mandatory              /* ← 오타 수정 */
-              touch-pan-x overscroll-x-contain   /* iOS 제스처 안정화 */
-              scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100
-            "
-          >
-            {filteredData.map((item) => {
-              const originalIndex = data.findIndex((d) => d === item);
-              return (
-                <motion.div
-                  key={originalIndex}
-                  variants={itemVariants}
-                  className="relative flex-shrink-0 w-56 sm:w-64 md:w-80 lg:w-96 snap-start"
-                  onClick={() => setSelectedIndex(originalIndex)}
-                  onMouseEnter={() => setIsHovering(true)}
-                  onMouseLeave={() => setIsHovering(false)}
-                >
-                  <p className="text-base sm:text-lg font-medium text-gray-800 text-center">
-                    {item.date}
-                  </p>
-                  <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 top-14 w-4 h-4 bg-gradient-to-br from-blue-600 to-teal-600 rounded-full z-10"
-                    whileHover={{
-                      scale: 1.3,
-                      boxShadow: "0 0 12px rgba(59, 130, 246, 0.5)",
-                    }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  />
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 h-10 w-0.5 bg-gray-200" />
-                  <motion.div
-                    className="bg-white p-5 mt-20 rounded-xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 cursor-pointer relative overflow-hidden"
-                    whileHover={{ y: -8, rotateX: 5 }}
-                    transition={{ type: "spring", stiffness: 200 }}
-                  >
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-teal-600" />
-                    <div className="flex items-center justify-center gap-2">
-                      {getCategoryIcon(item.title)}
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-center">
-                        {item.title}
-                      </h3>
-                    </div>
-                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">
-                      {item.shortDescription}
-                    </p>
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Modal */}
+      {/* Expandable Card Overlay */}
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {active && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
-            onClick={() => setSelectedIndex(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
-              transition={{ type: "spring", stiffness: 120 }}
-              className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl p-6 w-full max-w-md sm:max-w-lg md:max-w-2xl relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-teal-500/10 rounded-2xl pointer-events-none"
-                animate={{ opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-              <button
-                onClick={() => setSelectedIndex(null)}
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label={lang === "en" ? "Close modal" : "모달 닫기"}
-              >
-                <X size={24} />
-              </button>
-
-              <div className="relative">
-                <div className="flex items-center gap-2">
-                  {getCategoryIcon(data[selectedIndex].title)}
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                    {data[selectedIndex].title}
-                  </h2>
-                </div>
-                <p className="text-sm text-gray-500 mt-1">
-                  {data[selectedIndex].date}
-                </p>
-              </div>
-
-              {data[selectedIndex].detail?.summary && (
-                <p className="mt-4 text-gray-700 text-sm sm:text-base">
-                  {data[selectedIndex].detail.summary}
-                </p>
-              )}
-
-              {data[selectedIndex].detail?.stack && (
-                <div className="mt-4">
-                  <h4 className="font-semibold text-gray-800 mb-2">
-                    {lang === "en" ? "Tech Stack" : "기술 스택"}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {data[selectedIndex].detail.stack.map((tech, i) => (
-                      <motion.span
-                        key={i}
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.3 + i * 0.05 }}
-                        className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
-                      >
-                        {tech}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {data[selectedIndex].detail?.learning && (
-                <div className="mt-4">
-                  <h4 className="font-semibold text-gray-800 mb-2">
-                    {lang === "en" ? "What I Learned" : "배운 점"}
-                  </h4>
-                  <p className="text-sm text-gray-700">
-                    {data[selectedIndex].detail.learning}
-                  </p>
-                </div>
-              )}
-
-              {data[selectedIndex].detail?.link && (
-                <div className="mt-4">
-                  <a
-                    href={data[selectedIndex].detail.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-600 text-sm font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    {data[selectedIndex].detail.link.includes("github.com")
-                      ? "👉 View GitHub Repo"
-                      : "👉 View Project"}
-                  </a>
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
+            className="fixed inset-0 bg-black/20 h-full w-full z-10"
+          />
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {active ? (
+          <div className="fixed inset-0 grid place-items-center z-[100]">
+            <motion.button
+              key={`button-close-${active.index}-${id}`}
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.05 } }}
+              className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6"
+              onClick={() => setActive(null)}
+            >
+              <CloseIcon />
+            </motion.button>
+
+            <motion.div
+              layoutId={`card-${active.index}-${id}`}
+              ref={expandedRef}
+              className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white sm:rounded-3xl overflow-hidden"
+            >
+              {/* Icon header */}
+              <motion.div
+                layoutId={`icon-${active.index}-${id}`}
+                className="flex items-center justify-center h-48 bg-gradient-to-br from-blue-600 to-teal-600 text-white"
+              >
+                <div className="scale-[3]">
+                  {getCategoryIcon(active.item.title)}
+                </div>
+              </motion.div>
+
+              <div>
+                <div className="flex justify-between items-start p-4">
+                  <div>
+                    <motion.h3
+                      layoutId={`title-${active.index}-${id}`}
+                      className="font-bold text-neutral-700"
+                    >
+                      {active.item.title}
+                    </motion.h3>
+                    <motion.p
+                      layoutId={`description-${active.index}-${id}`}
+                      className="text-neutral-600 text-sm"
+                    >
+                      {active.item.date}
+                    </motion.p>
+                  </div>
+
+                  {active.item.detail?.link && (
+                    <motion.a
+                      layoutId={`button-${active.index}-${id}`}
+                      href={active.item.detail.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-3 text-sm rounded-full font-bold bg-gradient-to-r from-blue-600 to-teal-600 text-white shrink-0"
+                    >
+                      {active.item.detail.link.includes("github.com")
+                        ? "GitHub"
+                        : lang === "en"
+                          ? "Visit"
+                          : "방문"}
+                    </motion.a>
+                  )}
+                  {!active.item.detail?.link && (
+                    <motion.span
+                      layoutId={`button-${active.index}-${id}`}
+                      className="px-4 py-3 text-sm rounded-full font-bold bg-gray-100 text-gray-400 shrink-0"
+                    >
+                      {lang === "en" ? "Details" : "상세보기"}
+                    </motion.span>
+                  )}
+                </div>
+
+                <div className="pt-4 relative px-4">
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                  >
+                    {active.item.detail?.summary && (
+                      <p>{active.item.detail.summary}</p>
+                    )}
+
+                    {active.item.detail?.stack && (
+                      <div>
+                        <h4 className="font-semibold text-neutral-800 mb-2">
+                          {lang === "en" ? "Tech Stack" : "기술 스택"}
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {active.item.detail.stack.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {active.item.detail?.learning && (
+                      <div>
+                        <h4 className="font-semibold text-neutral-800 mb-2">
+                          {lang === "en" ? "What I Learned" : "배운 점"}
+                        </h4>
+                        <p>{active.item.detail.learning}</p>
+                      </div>
+                    )}
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        ) : null}
       </AnimatePresence>
     </section>
   );

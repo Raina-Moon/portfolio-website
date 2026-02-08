@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import { sendContactMessage } from "@/libs/api/contact";
 import { Send, XCircle } from "lucide-react";
@@ -18,6 +18,7 @@ const ContactForm = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ email: false });
   const [charCount, setCharCount] = useState(0);
+  const [sendHovered, setSendHovered] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -276,7 +277,9 @@ const ContactForm = () => {
             disabled={loading}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-blue-600 to-teal-600 text-white py-2 px-6 rounded-lg flex items-center gap-2 text-sm sm:text-base shadow-md hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+            onHoverStart={() => setSendHovered(true)}
+            onHoverEnd={() => setSendHovered(false)}
+            className="bg-gradient-to-r from-blue-600 to-teal-600 text-white py-2 px-6 rounded-lg flex items-center gap-2 text-sm sm:text-base shadow-md hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden relative"
             aria-label={text[lang].buttons.send}
           >
             {loading ? (
@@ -296,7 +299,31 @@ const ContactForm = () => {
               </motion.span>
             ) : (
               <>
-                <Send size={18} />
+                <span className="relative w-[18px] h-[18px] inline-block">
+                  <AnimatePresence mode="wait">
+                    {sendHovered ? (
+                      <motion.span
+                        key="fly"
+                        initial={{ x: 0, y: 0, opacity: 1 }}
+                        animate={{ x: 40, y: -12, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeIn" }}
+                        className="absolute inset-0"
+                      >
+                        <Send size={18} />
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="idle"
+                        initial={{ x: -20, y: 8, opacity: 0 }}
+                        animate={{ x: 0, y: 0, opacity: 1 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="absolute inset-0"
+                      >
+                        <Send size={18} />
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </span>
                 {text[lang].buttons.send}
               </>
             )}
