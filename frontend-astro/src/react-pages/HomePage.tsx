@@ -4,11 +4,14 @@ import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
-import React, { useEffect, useMemo, useRef } from "react";
+import MoonModal from "@/components/Moon/MoonModal";
+import MoonPhaseBoard from "@/components/Moon/MoonPhaseBoard";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const HomePage = () => {
   const { lang } = useLanguageStore();
+  const [moonModalOpen, setMoonModalOpen] = useState(false);
 
   const headerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
@@ -158,13 +161,25 @@ const HomePage = () => {
             alt="Earth"
             className="galaxy-earth"
           />
-          <div className="galaxy-moon" aria-hidden="true">
-            <img
-              src="/images/moon.png"
-              alt=""
-              className="galaxy-moon-image"
-            />
-            <div className="galaxy-moon-shadow" style={moonShadowStyle} />
+          <div className="galaxy-moon-wrap">
+            <div
+              className="galaxy-moon"
+              role="button"
+              tabIndex={0}
+              aria-label="Open 3D moon view"
+              onClick={() => setMoonModalOpen(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") setMoonModalOpen(true);
+              }}
+            >
+              <img
+                src="/images/moon.png"
+                alt="Moon"
+                className="galaxy-moon-image"
+              />
+              <div className="galaxy-moon-shadow" style={moonShadowStyle} />
+            </div>
+            <MoonPhaseBoard className="moon-phase-board--hero" />
           </div>
           <div className="relative z-10 w-full">
             <div className="text-center animate-slide-up">
@@ -234,6 +249,8 @@ const HomePage = () => {
         <ContactForm />
         <ScrollToTopButton />
       </div>
+
+      <MoonModal isOpen={moonModalOpen} onClose={() => setMoonModalOpen(false)} />
     </div>
   );
 };

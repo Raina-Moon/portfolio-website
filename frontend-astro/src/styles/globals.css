@@ -412,14 +412,32 @@ html {
   filter: drop-shadow(0 0 24px rgba(120, 180, 255, 0.18));
 }
 
-.galaxy-moon {
+.galaxy-moon-wrap {
   position: absolute;
   top: 18%;
   right: 10%;
   width: min(28vw, 260px);
-  aspect-ratio: 1 / 1;
-  z-index: 3;
+  z-index: 14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   pointer-events: none;
+}
+
+.galaxy-moon {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  z-index: 1;
+}
+
+.galaxy-moon:hover {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.3));
 }
 
 .galaxy-moon-image {
@@ -442,6 +460,104 @@ html {
   filter: blur(0.2px);
   transition: opacity 0.35s ease;
   pointer-events: none;
+}
+
+.moon-phase-board {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 10px 9px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background:
+    linear-gradient(180deg, rgba(28, 30, 33, 0.95) 0%, rgba(11, 12, 14, 0.96) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+}
+
+.moon-phase-board--hero {
+  max-width: min(32vw, 300px);
+}
+
+.moon-phase-board--modal {
+  margin: 0 16px 16px;
+}
+
+.moon-phase-cell {
+  --cell-delay: 0ms;
+  min-width: 0.68em;
+  height: 1.35em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.16em;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 46%,
+      rgba(0, 0, 0, 0.25) 50%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+  color: #f3eee4;
+  font-family: "Courier New", Courier, monospace;
+  font-size: clamp(9px, 0.92vw, 12px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 8px rgba(255, 241, 190, 0.45);
+  animation: board-flip-in 620ms cubic-bezier(0.24, 0.9, 0.38, 1) both;
+  animation-delay: var(--cell-delay);
+}
+
+.moon-phase-cell:nth-child(4n) {
+  animation-name: board-flip-in, board-flicker;
+  animation-duration: 620ms, 2.9s;
+  animation-timing-function: cubic-bezier(0.24, 0.9, 0.38, 1), linear;
+  animation-delay: var(--cell-delay), calc(var(--cell-delay) + 650ms);
+  animation-fill-mode: both;
+  animation-iteration-count: 1, infinite;
+}
+
+@keyframes board-flip-in {
+  0% {
+    transform: rotateX(-86deg);
+    opacity: 0;
+    filter: brightness(1.28);
+  }
+  58% {
+    transform: rotateX(10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+@keyframes board-flicker {
+  0%, 96%, 100% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.8;
+  }
+  98% {
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 640px) {
+  .moon-phase-board--hero {
+    max-width: min(44vw, 210px);
+  }
 }
 
 .shooting-star {
