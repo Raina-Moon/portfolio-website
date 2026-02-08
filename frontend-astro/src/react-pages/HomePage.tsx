@@ -4,7 +4,7 @@ import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const HomePage = () => {
@@ -80,10 +80,39 @@ const HomePage = () => {
     };
   }, [lang]);
 
+  const moonShadowStyle = useMemo(() => {
+    // Approximate moon phase using a known new moon and synodic month length.
+    const now = new Date();
+    const synodicMonth = 29.53058867;
+    const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const daysSinceKnown = (now.getTime() - knownNewMoon) / (1000 * 60 * 60 * 24);
+    const phase = ((daysSinceKnown % synodicMonth) + synodicMonth) % synodicMonth / synodicMonth;
+
+    // 0=new moon, 0.5=full moon
+    const illumination = 0.5 * (1 - Math.cos(2 * Math.PI * phase));
+    const waxing = phase < 0.5;
+    const darkPortion = Math.max(0, 1 - illumination); // 0(full) ~ 1(new)
+    const edge = Math.max(14, darkPortion * 62); // keep visible even near full
+    const focusX = waxing
+      ? 122 - edge * 0.42 // waxing: dark on left
+      : -22 + edge * 0.42; // waning: dark on right
+    const core = Math.max(42, 70 - edge * 0.45);
+    const dark = Math.min(0.98, 0.72 + darkPortion * 0.26);
+
+    return {
+      opacity: 1,
+      background: `radial-gradient(125% 108% at ${focusX}% 50%,
+        rgba(0,0,0,0) ${core}%,
+        rgba(0,0,0,0.62) ${Math.min(core + 12, 82)}%,
+        rgba(0,0,0,${dark}) 100%
+      )`,
+    };
+  }, []);
+
   const renderTitle = () => {
     if (lang === "en") {
       return (
-        <div className="flex flex-col items-center text-gray-900">
+        <div className="flex flex-col items-center text-white">
           <span className="text-xl sm:text-2xl lg:text-4xl font-bold">
             A frontend developer
           </span>
@@ -95,7 +124,7 @@ const HomePage = () => {
     }
 
     return (
-      <div className="flex flex-col items-center text-gray-900">
+      <div className="flex flex-col items-center text-white">
         <span className="sm:text-lg lg:text-2xl">
           작고 확실한 개선을 통해,
           <span className="md:hidden">
@@ -116,47 +145,71 @@ const HomePage = () => {
 
   return (
     <div id="about" className="flex flex-col items-center justify-center w-full py-20">
-      <div ref={headerRef} className="transition-all duration-300 z-10 pb-10">
-        <div className="text-center animate-slide-up">
-          <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-gray-900">
-            Raina M
-            <span className="relative inline-block">
-              <img
-                src="/images/IMG_0523.png"
-                alt="profile image"
-                width={500}
-                height={500}
-                className="absolute left-[calc(50%+2px)] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[120px] sm:w-[200px] md:w-[280px] lg:w-[360px] xl:w-[380px] max-w-none"
-              />
-              o
-            </span>
-            on
-          </strong>
-        </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-center animate-slide-up-delay">{renderTitle()}</h1>
-
-          <div className="flex gap-4 mt-6">
-            <button
-              onClick={() => window.open("https://github.com/Raina-Moon", "_blank")}
-              className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-700 transition text-sm sm:text-base"
-            >
-              <FaGithub className="md:text-lg" />
-              GitHub
-            </button>
-            <button
-              onClick={() =>
-                window.open(
-                  "https://www.linkedin.com/in/daseul-moon-8b064128b/",
-                  "_blank"
-                )
-              }
-              className="flex items-center gap-2 px-5 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
-            >
-              <FaLinkedin className="md:text-lg" />
-              LinkedIn
-            </button>
+      <div ref={headerRef} className="w-full transition-all duration-300 z-10 pb-10">
+        <div className="galaxy-container w-full px-4 py-8 pb-14 sm:px-6 sm:py-10 sm:pb-16 mb-8 sm:mb-10">
+          <div className="stars-layer1" />
+          <div className="stars-layer2" />
+          <div className="stars-layer3" />
+          <div className="shooting-star" />
+          <div className="shooting-star" style={{ animationDelay: "4s", top: "20%" }} />
+          <div className="milky-way" />
+          <img
+            src="/images/earth.png"
+            alt="Earth"
+            className="galaxy-earth"
+          />
+          <div className="galaxy-moon" aria-hidden="true">
+            <img
+              src="/images/moon.png"
+              alt=""
+              className="galaxy-moon-image"
+            />
+            <div className="galaxy-moon-shadow" style={moonShadowStyle} />
           </div>
+          <div className="relative z-10 w-full">
+            <div className="text-center animate-slide-up">
+              <strong className="text-[60px] sm:text-[100px] md:text-[120px] lg:text-[170px] xl:text-[200px] text-white">
+                Raina M
+                <span className="relative inline-block">
+                  <img
+                    src="/images/IMG_0523.png"
+                    alt="profile image"
+                    width={500}
+                    height={500}
+                    className="absolute left-[calc(50%+2px)] top-[calc(45%)] -translate-x-1/2 -translate-y-1/2 z-10 w-[120px] sm:w-[200px] md:w-[280px] lg:w-[360px] xl:w-[380px] max-w-none"
+                  />
+                  o
+                </span>
+                on
+              </strong>
+            </div>
+            <div className="flex flex-col items-center">
+              <h1 className="text-center animate-slide-up-delay">{renderTitle()}</h1>
+
+              <div className="flex gap-4 mt-6">
+                <button
+                  onClick={() => window.open("https://github.com/Raina-Moon", "_blank")}
+                  className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-700 transition text-sm sm:text-base"
+                >
+                  <FaGithub className="md:text-lg" />
+                  GitHub
+                </button>
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://www.linkedin.com/in/daseul-moon-8b064128b/",
+                      "_blank"
+                    )
+                  }
+                  className="flex items-center gap-2 px-5 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
+                >
+                  <FaLinkedin className="md:text-lg" />
+                  LinkedIn
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-x-0 bottom-0 z-20 h-10 bg-gradient-to-b from-transparent via-white/70 to-white" />
         </div>
       </div>
 

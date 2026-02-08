@@ -169,3 +169,314 @@ html {
     0 0 25px 2px hsl(var(--glow-color) / .3),
     0 0 50px 2px hsl(var(--glow-color) / .1);
 }
+
+/* ===== 3D Card (Pure CSS) ===== */
+.card-3d-container {
+  perspective: 1000px;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease;
+}
+
+.card-3d:hover {
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.depth-high {
+  transition: transform 0.4s ease;
+}
+.card-3d:hover .depth-high {
+  transform: translateZ(80px);
+}
+
+.depth-base {
+  transition: transform 0.4s ease;
+}
+.card-3d:hover .depth-base {
+  transform: translateZ(50px);
+}
+
+.depth-strong {
+  display: inline;
+  transition: transform 0.4s ease;
+}
+.card-3d:hover .depth-strong {
+  transform: translateZ(90px);
+}
+
+.depth-medium {
+  display: inline;
+  transition: transform 0.4s ease;
+}
+.card-3d:hover .depth-medium {
+  transform: translateZ(75px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-3d,
+  .card-3d:hover,
+  .depth-high,
+  .card-3d:hover .depth-high,
+  .depth-base,
+  .card-3d:hover .depth-base,
+  .depth-strong,
+  .card-3d:hover .depth-strong,
+  .depth-medium,
+  .card-3d:hover .depth-medium {
+    transition: none;
+    transform: none;
+  }
+}
+
+.gradient-name-glow {
+  animation: gradientNameFlow 5.5s ease-in-out infinite;
+}
+
+@keyframes gradientNameFlow {
+  0% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 8px rgba(97, 157, 253, 0.35);
+  }
+  50% {
+    background-position: 100% 50%;
+    text-shadow: 0 0 12px rgba(129, 140, 248, 0.45);
+  }
+  100% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 8px rgba(52, 211, 153, 0.35);
+  }
+}
+
+.galaxy-container {
+  background: #000000;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  font-family: "Montserrat", sans-serif;
+}
+
+.stars-layer1 {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  z-index: 1;
+  box-shadow:
+    15vw 10vh 1px #fff, 35vw 25vh 1px #fff, 85vw 15vh 1px #fff,
+    55vw 65vh 1.5px #fff, 20vw 85vh 1px #fff, 90vw 90vh 1px #fff,
+    40vw 40vh 1px rgba(255,255,255,0.5), 70vw 10vh 1px #fff,
+    8vw 18vh 1px rgba(255,255,255,0.7), 12vw 32vh 1px rgba(255,255,255,0.8),
+    18vw 58vh 1px rgba(255,255,255,0.75), 24vw 72vh 1px rgba(255,255,255,0.72),
+    28vw 44vh 1px rgba(255,255,255,0.8), 33vw 14vh 1px rgba(255,255,255,0.68),
+    39vw 82vh 1px rgba(255,255,255,0.76), 46vw 26vh 1px rgba(255,255,255,0.82),
+    52vw 38vh 1px rgba(255,255,255,0.78), 57vw 12vh 1px rgba(255,255,255,0.7),
+    63vw 76vh 1px rgba(255,255,255,0.8), 68vw 52vh 1px rgba(255,255,255,0.75),
+    73vw 24vh 1px rgba(255,255,255,0.78), 79vw 62vh 1px rgba(255,255,255,0.8),
+    84vw 48vh 1px rgba(255,255,255,0.7), 92vw 34vh 1px rgba(255,255,255,0.8),
+    96vw 66vh 1px rgba(255,255,255,0.74), 4vw 74vh 1px rgba(255,255,255,0.7),
+    11vw 92vh 1px rgba(255,255,255,0.76), 27vw 94vh 1px rgba(255,255,255,0.7),
+    43vw 96vh 1px rgba(255,255,255,0.72), 59vw 94vh 1px rgba(255,255,255,0.78),
+    76vw 92vh 1px rgba(255,255,255,0.75), 88vw 86vh 1px rgba(255,255,255,0.7),
+    6vw 8vh 1px rgba(255,255,255,0.68), 9vw 26vh 1px rgba(255,255,255,0.7),
+    13vw 48vh 1px rgba(255,255,255,0.72), 16vw 70vh 1px rgba(255,255,255,0.69),
+    19vw 36vh 1px rgba(255,255,255,0.74), 23vw 6vh 1px rgba(255,255,255,0.66),
+    26vw 54vh 1px rgba(255,255,255,0.7), 31vw 66vh 1px rgba(255,255,255,0.73),
+    34vw 92vh 1px rgba(255,255,255,0.68), 37vw 58vh 1px rgba(255,255,255,0.72),
+    41vw 12vh 1px rgba(255,255,255,0.69), 47vw 68vh 1px rgba(255,255,255,0.74),
+    49vw 90vh 1px rgba(255,255,255,0.67), 53vw 8vh 1px rgba(255,255,255,0.7),
+    56vw 34vh 1px rgba(255,255,255,0.71), 61vw 58vh 1px rgba(255,255,255,0.73),
+    64vw 90vh 1px rgba(255,255,255,0.68), 67vw 8vh 1px rgba(255,255,255,0.7),
+    71vw 34vh 1px rgba(255,255,255,0.72), 77vw 6vh 1px rgba(255,255,255,0.7),
+    81vw 18vh 1px rgba(255,255,255,0.69), 83vw 76vh 1px rgba(255,255,255,0.73),
+    87vw 52vh 1px rgba(255,255,255,0.68), 91vw 14vh 1px rgba(255,255,255,0.72),
+    94vw 40vh 1px rgba(255,255,255,0.7), 98vw 78vh 1px rgba(255,255,255,0.69);
+  animation: twinkle-fade 8s infinite alternate;
+}
+
+.stars-layer1::before,
+.stars-layer1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+.stars-layer1::before {
+  transform: translate3d(7vw, -9vh, 0) scale(0.95);
+  opacity: 0.65;
+}
+
+.stars-layer1::after {
+  transform: translate3d(-11vw, 8vh, 0) scale(0.9);
+  opacity: 0.55;
+}
+
+.stars-layer2 {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  z-index: 1;
+  box-shadow:
+    10vw 40vh 2px rgba(255,255,255,0.8), 80vw 30vh 2px #fff,
+    45vw 80vh 2.5px rgba(255,255,255,0.9), 5vw 10vh 2px #fff,
+    22vw 18vh 2px rgba(255,255,255,0.9), 32vw 58vh 2px rgba(255,255,255,0.88),
+    58vw 22vh 2.5px rgba(255,255,255,0.95), 66vw 72vh 2px rgba(255,255,255,0.86),
+    74vw 46vh 2px rgba(255,255,255,0.9), 14vw 76vh 2px rgba(255,255,255,0.86),
+    92vw 54vh 2.5px rgba(255,255,255,0.95), 38vw 34vh 2px rgba(255,255,255,0.88),
+    8vw 62vh 2px rgba(255,255,255,0.9), 18vw 28vh 2px rgba(255,255,255,0.86),
+    27vw 86vh 2px rgba(255,255,255,0.92), 41vw 16vh 2.5px rgba(255,255,255,0.94),
+    53vw 48vh 2px rgba(255,255,255,0.88), 62vw 12vh 2px rgba(255,255,255,0.9),
+    71vw 84vh 2px rgba(255,255,255,0.9), 86vw 24vh 2.5px rgba(255,255,255,0.94);
+  animation: twinkle-pulse 5s infinite ease-in-out;
+}
+
+.stars-layer2::before,
+.stars-layer2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+.stars-layer2::before {
+  transform: translate3d(9vw, -7vh, 0) scale(0.92);
+  opacity: 0.6;
+}
+
+.stars-layer2::after {
+  transform: translate3d(-8vw, 10vh, 0) scale(0.88);
+  opacity: 0.52;
+}
+
+.stars-layer3 {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  z-index: 1;
+  opacity: 0.58;
+  box-shadow:
+    3vw 12vh 1px rgba(255,255,255,0.7), 7vw 28vh 1px rgba(255,255,255,0.6),
+    12vw 6vh 1px rgba(255,255,255,0.72), 16vw 22vh 1px rgba(255,255,255,0.66),
+    19vw 46vh 1px rgba(255,255,255,0.7), 24vw 64vh 1px rgba(255,255,255,0.65),
+    28vw 82vh 1px rgba(255,255,255,0.68), 33vw 18vh 1px rgba(255,255,255,0.62),
+    37vw 36vh 1px rgba(255,255,255,0.7), 42vw 54vh 1px rgba(255,255,255,0.64),
+    46vw 74vh 1px rgba(255,255,255,0.7), 51vw 14vh 1px rgba(255,255,255,0.66),
+    56vw 30vh 1px rgba(255,255,255,0.72), 61vw 50vh 1px rgba(255,255,255,0.63),
+    66vw 70vh 1px rgba(255,255,255,0.7), 71vw 88vh 1px rgba(255,255,255,0.65),
+    76vw 8vh 1px rgba(255,255,255,0.68), 81vw 24vh 1px rgba(255,255,255,0.72),
+    86vw 44vh 1px rgba(255,255,255,0.64), 91vw 62vh 1px rgba(255,255,255,0.7),
+    95vw 84vh 1px rgba(255,255,255,0.66);
+  animation: twinkle-fade 11s infinite alternate;
+}
+
+.milky-way {
+  position: absolute;
+  width: 150vw;
+  height: 60vh;
+  background: radial-gradient(ellipse at center, rgba(100, 150, 255, 0.1) 0%, transparent 70%);
+  transform: rotate(-20deg);
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.galaxy-earth {
+  position: absolute;
+  left: 50%;
+  top: 86%;
+  width: min(76vw, 820px);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 24px rgba(120, 180, 255, 0.18));
+}
+
+.galaxy-moon {
+  position: absolute;
+  top: 18%;
+  right: 10%;
+  width: min(28vw, 260px);
+  aspect-ratio: 1 / 1;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.galaxy-moon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.18));
+}
+
+.galaxy-moon-shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  mix-blend-mode: normal;
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.26),
+    inset -3px 0 8px rgba(0, 0, 0, 0.18);
+  filter: blur(0.2px);
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.shooting-star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  left: 50%;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.35) 45%,
+    rgba(255,255,255,1) 100%
+  );
+  transform: rotate(140deg);
+  transform-origin: right center;
+  box-shadow: 0 0 10px rgba(255,255,255,0.45);
+  opacity: 0;
+  animation: shooting-fall 8s infinite linear;
+}
+
+@keyframes twinkle-fade {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes twinkle-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+@keyframes shooting-fall {
+  0% { transform: translate3d(0, 0, 0) rotate(140deg); opacity: 0; }
+  8% { opacity: 1; }
+  30% { transform: translate3d(-900px, 900px, 0) rotate(140deg); opacity: 0; }
+  100% { opacity: 0; }
+}
