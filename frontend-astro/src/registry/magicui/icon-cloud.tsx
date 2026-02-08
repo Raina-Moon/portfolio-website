@@ -72,6 +72,24 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
     const items = icons || images || []
     imagesLoadedRef.current = new Array(items.length).fill(false)
 
+    const drawFallbackIcon = (ctx: CanvasRenderingContext2D, label: string) => {
+      ctx.clearRect(0, 0, 40, 40)
+      ctx.beginPath()
+      ctx.arc(20, 20, 20, 0, Math.PI * 2)
+      ctx.closePath()
+      ctx.fillStyle = "rgba(38, 46, 58, 0.92)"
+      ctx.fill()
+      ctx.strokeStyle = "rgba(220, 232, 255, 0.35)"
+      ctx.lineWidth = 1
+      ctx.stroke()
+      ctx.fillStyle = "rgba(236, 244, 255, 0.96)"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.font = "700 12px system-ui, -apple-system, sans-serif"
+      const short = label.replace(/[^a-zA-Z0-9]/g, "").slice(0, 3).toUpperCase() || "?"
+      ctx.fillText(short, 20, 20)
+    }
+
     const newIconCanvases = items.map((item, index) => {
       const offscreen = document.createElement("canvas")
       offscreen.width = 40
@@ -92,6 +110,10 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
             offCtx.drawImage(img, 0, 0, 40, 40)
             imagesLoadedRef.current[index] = true
           }
+          img.onerror = () => {
+            drawFallbackIcon(offCtx, labels?.[index] || `${index + 1}`)
+            imagesLoadedRef.current[index] = true
+          }
         } else {
           offCtx.scale(0.4, 0.4)
           const svgString = renderToString(item as React.ReactElement)
@@ -108,7 +130,7 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
     })
 
     iconCanvasesRef.current = newIconCanvases
-  }, [icons, images])
+  }, [icons, images, labels])
 
   useEffect(() => {
     const items = icons || images || []
@@ -148,7 +170,8 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
     let hitIcon: Icon | null = null
     let nearestDistanceSq = Number.POSITIVE_INFINITY
 
-    iconPositions.forEach((icon) => {
+    for (let i = 0; i < iconPositions.length; i++) {
+      const icon = iconPositions[i]
       const cosX = Math.cos(rotationRef.current.x)
       const sinX = Math.sin(rotationRef.current.x)
       const cosY = Math.cos(rotationRef.current.y)
@@ -171,7 +194,7 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
         hitIcon = icon
         nearestDistanceSq = distanceSq
       }
-    })
+    }
 
     if (hitIcon) {
       setSelectedIconId(hitIcon.id)
@@ -271,11 +294,10 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
         }
       }
 
-      let selectedProjected:
-        | { x: number; y: number; scale: number; label: string }
-        | null = null
+      let selectedProjected: { x: number; y: number; scale: number; label: string } | null = null
 
-      iconPositions.forEach((icon, index) => {
+      for (let index = 0; index < iconPositions.length; index++) {
+        const icon = iconPositions[index]
         const cosX = Math.cos(rotationRef.current.x)
         const sinX = Math.sin(rotationRef.current.x)
         const cosY = Math.cos(rotationRef.current.y)
@@ -324,7 +346,7 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
         }
 
         ctx.restore()
-      })
+      }
 
       if (selectedProjected) {
         const label = selectedProjected.label

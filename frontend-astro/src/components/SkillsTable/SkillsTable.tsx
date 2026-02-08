@@ -63,9 +63,28 @@ const slugLabels: Record<string, string> = {
   css3: "CSS3",
 };
 
+const iconSlugMap: Record<string, string> = {
+  amazonaws: "amazonwebservices",
+  reactnative: "react",
+};
+
+const iconUrlMap: Record<string, string> = {
+  jest: "https://cdn.jsdelivr.net/gh/jestjs/jest/website/static/img/jest.png",
+  amazonaws:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+  reactnative:
+    "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  vercel:
+    "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%230B0B0F'/%3E%3Cpath d='M20 9L31 29H9z' fill='%23FFFFFF'/%3E%3C/svg%3E",
+};
+
 const SkillsTable = () => {
   const images = slugs.map(
-    (slug) => `https://cdn.simpleicons.org/${slug}/${slug}`
+    (slug) => {
+      if (iconUrlMap[slug]) return iconUrlMap[slug];
+      const iconSlug = iconSlugMap[slug] || slug;
+      return `https://cdn.simpleicons.org/${iconSlug}`;
+    }
   );
   const labels = slugs.map(
     (slug) => slugLabels[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
