@@ -1,4 +1,5 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { EncryptedText } from "@/components/ui/encrypted-text";
+import { useEffect, useState } from "react";
 
 const SYNODIC_MONTH = 29.53058867;
 const KNOWN_NEW_MOON_UTC = Date.UTC(2000, 0, 6, 18, 14, 0);
@@ -21,7 +22,7 @@ const getMoonPhaseName = (date: Date) => {
 };
 
 const MoonPhaseBoard = ({ className = "" }: { className?: string }) => {
-  const [displayText, setDisplayText] = useState("TODAY MOON: LOADING");
+  const [displayText, setDisplayText] = useState("TODAY MOON: LOADING...");
 
   useEffect(() => {
     const phase = getMoonPhaseName(new Date());
@@ -29,17 +30,14 @@ const MoonPhaseBoard = ({ className = "" }: { className?: string }) => {
   }, []);
 
   return (
-    <div className={`moon-phase-board ${className}`.trim()} aria-live="polite">
-      {displayText.split("").map((char, index) => (
-        <span
-          key={`${char}-${index}`}
-          className="moon-phase-cell"
-          style={{ "--cell-delay": `${index * 36}ms` } as CSSProperties}
-        >
-          {char === " " ? "\u00A0" : char}
-        </span>
-      ))}
-    </div>
+    <p className={`text-center ${className}`.trim()} aria-live="polite">
+      <EncryptedText
+        text={displayText}
+        encryptedClassName="text-neutral-500"
+        revealedClassName="text-black dark:text-white"
+        revealDelayMs={50}
+      />
+    </p>
   );
 };
 

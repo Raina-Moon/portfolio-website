@@ -178,8 +178,8 @@ const HomePage = () => {
                 className="galaxy-moon-image"
               />
               <div className="galaxy-moon-shadow" style={moonShadowStyle} />
+              <MoonPhaseBoard className="absolute left-1/2 top-[72%] z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-md bg-black/45 px-2 py-1 text-[9px] font-semibold tracking-wide text-white/95 backdrop-blur-[1px] pointer-events-none sm:text-[10px]" />
             </div>
-            <MoonPhaseBoard className="moon-phase-board--hero" />
           </div>
           <div className="relative z-10 w-full">
             <div className="text-center animate-slide-up">
@@ -191,7 +191,7 @@ const HomePage = () => {
                     alt="profile image"
                     width={500}
                     height={500}
-                    className="absolute left-[calc(50%+2px)] top-[calc(45%)] -translate-x-1/2 -translate-y-1/2 z-10 w-[120px] sm:w-[200px] md:w-[280px] lg:w-[360px] xl:w-[380px] max-w-none"
+                    className="absolute left-[calc(50%+2px)] top-[calc(42%)] -translate-x-1/2 -translate-y-1/2 z-10 w-[120px] sm:w-[200px] md:w-[280px] lg:w-[360px] xl:w-[380px] max-w-none"
                   />
                   o
                 </span>

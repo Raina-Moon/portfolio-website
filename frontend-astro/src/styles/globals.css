@@ -390,6 +390,57 @@ html {
   animation: twinkle-fade 11s infinite alternate;
 }
 
+@media (min-width: 1200px) {
+  .galaxy-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+    opacity: 0.72;
+    background: transparent;
+    box-shadow:
+      2vw 9vh 1px rgba(255,255,255,0.68), 6vw 44vh 1px rgba(255,255,255,0.58),
+      9vw 73vh 1px rgba(255,255,255,0.62), 13vw 19vh 1px rgba(255,255,255,0.74),
+      17vw 61vh 1px rgba(255,255,255,0.66), 21vw 8vh 1px rgba(255,255,255,0.7),
+      24vw 37vh 1px rgba(255,255,255,0.63), 29vw 79vh 1px rgba(255,255,255,0.6),
+      31vw 14vh 1px rgba(255,255,255,0.72), 35vw 55vh 1px rgba(255,255,255,0.64),
+      39vw 26vh 1px rgba(255,255,255,0.6), 43vw 87vh 1px rgba(255,255,255,0.7),
+      47vw 7vh 1px rgba(255,255,255,0.63), 52vw 42vh 1px rgba(255,255,255,0.68),
+      55vw 74vh 1px rgba(255,255,255,0.58), 58vw 18vh 1px rgba(255,255,255,0.7),
+      62vw 63vh 1px rgba(255,255,255,0.6), 66vw 31vh 1px rgba(255,255,255,0.64),
+      69vw 89vh 1px rgba(255,255,255,0.66), 73vw 12vh 1px rgba(255,255,255,0.72),
+      77vw 48vh 1px rgba(255,255,255,0.62), 81vw 23vh 1px rgba(255,255,255,0.7),
+      84vw 67vh 1px rgba(255,255,255,0.6), 88vw 4vh 1px rgba(255,255,255,0.64),
+      91vw 39vh 1px rgba(255,255,255,0.7), 94vw 82vh 1px rgba(255,255,255,0.62),
+      97vw 16vh 1px rgba(255,255,255,0.66);
+    animation: twinkle-fade 9s infinite alternate;
+  }
+
+  .galaxy-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    width: 2px;
+    height: 2px;
+    opacity: 0.62;
+    background: transparent;
+    box-shadow:
+      4vw 28vh 2px rgba(255,255,255,0.84), 11vw 66vh 2px rgba(255,255,255,0.76),
+      18vw 33vh 2px rgba(255,255,255,0.8), 27vw 51vh 2px rgba(255,255,255,0.86),
+      34vw 9vh 2px rgba(255,255,255,0.82), 41vw 70vh 2px rgba(255,255,255,0.78),
+      49vw 24vh 2px rgba(255,255,255,0.8), 57vw 57vh 2px rgba(255,255,255,0.88),
+      64vw 15vh 2px rgba(255,255,255,0.82), 72vw 76vh 2px rgba(255,255,255,0.8),
+      79vw 36vh 2px rgba(255,255,255,0.86), 87vw 59vh 2px rgba(255,255,255,0.8),
+      93vw 11vh 2px rgba(255,255,255,0.84);
+    animation: twinkle-pulse 6s infinite ease-in-out;
+  }
+}
+
 .milky-way {
   position: absolute;
   width: 150vw;
@@ -403,7 +454,7 @@ html {
 .galaxy-earth {
   position: absolute;
   left: 50%;
-  top: 86%;
+  top: 90%;
   width: min(76vw, 820px);
   transform: translate(-50%, -50%);
   z-index: 3;
@@ -417,12 +468,17 @@ html {
   top: 18%;
   right: 10%;
   width: min(28vw, 260px);
-  z-index: 14;
+  z-index: 6;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   pointer-events: none;
+}
+
+.galaxy-moon-wrap:hover,
+.galaxy-moon-wrap:focus-within {
+  z-index: 14;
 }
 
 .galaxy-moon {
@@ -431,12 +487,11 @@ html {
   aspect-ratio: 1 / 1;
   pointer-events: auto;
   cursor: pointer;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition: filter 0.22s ease;
   z-index: 1;
 }
 
 .galaxy-moon:hover {
-  transform: scale(1.06);
   filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.3));
 }
 
@@ -447,6 +502,29 @@ html {
   border-radius: 50%;
   display: block;
   filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.18));
+}
+
+.galaxy-moon::before {
+  content: "";
+  position: absolute;
+  inset: -6%;
+  border-radius: 50%;
+  border: 1px solid rgba(180, 220, 255, 0.35);
+  box-shadow:
+    0 0 30px rgba(125, 190, 255, 0.18),
+    inset 0 0 24px rgba(215, 240, 255, 0.14);
+  opacity: 0.65;
+  animation: moon-ring-pulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+
+.galaxy-moon::after {
+  content: none;
+}
+
+.galaxy-moon:focus-visible {
+  outline: 2px solid rgba(223, 240, 255, 0.9);
+  outline-offset: 5px;
 }
 
 .galaxy-moon-shadow {
@@ -464,20 +542,57 @@ html {
 
 .moon-phase-board {
   width: 100%;
+  position: relative;
+  padding: 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(140, 140, 140, 0.45);
+  background: linear-gradient(180deg, rgba(48, 49, 52, 0.96) 0%, rgba(20, 21, 24, 0.98) 100%);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.42);
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.moon-phase-board::before,
+.moon-phase-board::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(circle at 30% 30%, #cbcbcb 0%, #8c8c8c 42%, #3a3a3a 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.65);
+  opacity: 0.78;
+}
+
+.moon-phase-board::before {
+  left: 6px;
+}
+
+.moon-phase-board::after {
+  right: 6px;
+}
+
+.moon-phase-row {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 3px;
-  padding: 10px 9px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(117, 117, 117, 0.36);
   background:
-    linear-gradient(180deg, rgba(28, 30, 33, 0.95) 0%, rgba(11, 12, 14, 0.96) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 20px rgba(0, 0, 0, 0.35);
-  pointer-events: auto;
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.018) 0px,
+      rgba(255, 255, 255, 0.018) 1px,
+      rgba(0, 0, 0, 0) 1px,
+      rgba(0, 0, 0, 0) 3px
+    ),
+    linear-gradient(180deg, rgba(20, 22, 24, 0.98) 0%, rgba(10, 11, 12, 1) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), inset 0 -1px 0 rgba(0, 0, 0, 0.6);
 }
 
 .moon-phase-board--hero {
@@ -490,30 +605,44 @@ html {
 
 .moon-phase-cell {
   --cell-delay: 0ms;
-  min-width: 0.68em;
-  height: 1.35em;
+  position: relative;
+  min-width: 0.72em;
+  height: 1.42em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.16em;
+  padding: 0 0.17em;
   border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(165, 165, 165, 0.22);
   background:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 46%,
-      rgba(0, 0, 0, 0.25) 50%,
-      rgba(0, 0, 0, 0.3) 100%
+      rgba(105, 108, 112, 0.16) 0%,
+      rgba(47, 49, 53, 0.22) 48%,
+      rgba(15, 16, 19, 0.72) 52%,
+      rgba(10, 10, 12, 0.95) 100%
     );
-  color: #f3eee4;
-  font-family: "Courier New", Courier, monospace;
-  font-size: clamp(9px, 0.92vw, 12px);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 8px rgba(255, 241, 190, 0.45);
+  color: #f6f0df;
+  font-family: "Lucida Console", Monaco, "Courier New", monospace;
+  font-size: clamp(9px, 0.95vw, 12px);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 5px rgba(255, 240, 193, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.75);
   animation: board-flip-in 620ms cubic-bezier(0.24, 0.9, 0.38, 1) both;
   animation-delay: var(--cell-delay);
+}
+
+.moon-phase-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.58);
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.08);
+  pointer-events: none;
 }
 
 .moon-phase-cell:nth-child(4n) {
@@ -551,6 +680,21 @@ html {
   }
   98% {
     opacity: 0.95;
+  }
+}
+
+@keyframes moon-ring-pulse {
+  0% {
+    transform: scale(0.97);
+    opacity: 0.62;
+  }
+  70% {
+    transform: scale(1.06);
+    opacity: 0.14;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
   }
 }
 
