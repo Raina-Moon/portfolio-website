@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IconCloud } from "@/registry/magicui/icon-cloud";
 import { motion } from "framer-motion";
 
@@ -66,6 +66,7 @@ const slugLabels: Record<string, string> = {
 const iconSlugMap: Record<string, string> = {
   amazonaws: "amazonwebservices",
   reactnative: "react",
+  css3: "css",
 };
 
 const iconUrlMap: Record<string, string> = {
@@ -79,6 +80,36 @@ const iconUrlMap: Record<string, string> = {
 };
 
 const SkillsTable = () => {
+  const [cloudSize, setCloudSize] = useState(420);
+  const [cloudRadius, setCloudRadius] = useState(186);
+
+  useEffect(() => {
+    const updateCloudLayout = () => {
+      const width = window.innerWidth;
+      if (width < 480) {
+        setCloudSize(280);
+        setCloudRadius(118);
+        return;
+      }
+      if (width < 640) {
+        setCloudSize(320);
+        setCloudRadius(136);
+        return;
+      }
+      if (width < 1024) {
+        setCloudSize(360);
+        setCloudRadius(154);
+        return;
+      }
+      setCloudSize(420);
+      setCloudRadius(186);
+    };
+
+    updateCloudLayout();
+    window.addEventListener("resize", updateCloudLayout);
+    return () => window.removeEventListener("resize", updateCloudLayout);
+  }, []);
+
   const images = slugs.map(
     (slug) => {
       if (iconUrlMap[slug]) return iconUrlMap[slug];
@@ -91,7 +122,7 @@ const SkillsTable = () => {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center py-16 sm:py-24 lg:py-32">
       <motion.h1
         className="text-3xl font-bold text-center text-gray-900 mb-4"
         initial={{ opacity: 0, y: 20 }}
@@ -101,8 +132,10 @@ const SkillsTable = () => {
       >
         My Tech Stack
       </motion.h1>
-      <div className="relative flex size-full max-w-lg items-center justify-center overflow-visible">
-        <IconCloud images={images} labels={labels} radius={180} />
+      <div className="w-full px-4 sm:px-6">
+        <div className="relative mx-auto flex w-full max-w-[420px] items-center justify-center overflow-visible">
+          <IconCloud images={images} labels={labels} radius={cloudRadius} size={cloudSize} />
+        </div>
       </div>
     </div>
   );

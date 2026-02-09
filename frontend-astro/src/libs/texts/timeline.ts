@@ -308,6 +308,25 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         link: "https://github.com/Raina-Moon/korip-web",
       },
     },
+    {
+      date: "Nov 2025",
+      title: "Joined Byaht as Junior Frontend Developer",
+      shortDescription:
+        "Joined Byaht as a junior frontend developer and started contributing to product features.",
+      detail: {
+        summary:
+          "Began my role as a junior frontend developer at Byaht, collaborating with the team to build and improve user-facing features.",
+      },
+    },
+    {
+      date: "2026",
+      title: "2026 Roadmap",
+      shortDescription: "Preparing the next chapter and upcoming projects.",
+      detail: {
+        summary:
+          "Planning and building new experiences for 2026. More updates coming soon.",
+      },
+    },
   ],
   ko: [
     {
@@ -597,6 +616,25 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
         learning:
           "재고/예약, 결제 연동, 다국어 지원, 이메일 알림 등 엔드투엔드 예약 흐름을 설계하고 Docker·GitHub Actions 기반 배포 자동화를 구축했습니다.",
         link: "https://github.com/Raina-Moon/korip-web",
+      },
+    },
+    {
+      date: "2025년 11월",
+      title: "Byaht 주니어 프론트엔드 합류",
+      shortDescription:
+        "Byaht에 주니어 프론트엔드로 합류해 제품 기능 개발에 참여.",
+      detail: {
+        summary:
+          "Byaht에서 주니어 프론트엔드로 입사하여 팀과 협업하며 사용자 기능을 개발하고 개선하는 역할을 시작했습니다.",
+      },
+    },
+    {
+      date: "2026년",
+      title: "2026 로드맵",
+      shortDescription: "다음 프로젝트와 새로운 도전을 준비 중.",
+      detail: {
+        summary:
+          "2026년에 선보일 새로운 작업들을 준비하고 있습니다. 곧 업데이트될 예정입니다.",
       },
     },
   ],

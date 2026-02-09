@@ -17,6 +17,7 @@ interface IconCloudProps {
   images?: string[]
   labels?: string[]
   radius?: number
+  size?: number
 }
 
 function easeOutCubic(t: number): number {
@@ -44,7 +45,7 @@ function drawRoundedRect(
   ctx.closePath()
 }
 
-export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProps) {
+export function IconCloud({ icons, images, labels, radius = 140, size = 400 }: IconCloudProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [iconPositions, setIconPositions] = useState<Icon[]>([])
   const [rotation, setRotation] = useState({ x: 0, y: 0 })
@@ -413,13 +414,13 @@ export function IconCloud({ icons, images, labels, radius = 140 }: IconCloudProp
   return (
     <canvas
       ref={canvasRef}
-      width={400}
-      height={400}
+      width={size}
+      height={size}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="rounded-lg"
+      className="h-auto w-full rounded-lg"
       aria-label="Interactive 3D Icon Cloud"
       role="img"
     />

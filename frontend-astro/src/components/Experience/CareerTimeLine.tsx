@@ -104,7 +104,7 @@ const CareerTimeline = () => {
             layoutId={`card-${originalIndex}-${id}`}
             key={originalIndex}
             onClick={() => setActive({ item, index: originalIndex })}
-            className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 rounded-xl cursor-pointer"
+            className="relative p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 rounded-xl cursor-pointer"
           >
             <div className="flex gap-4 flex-col md:flex-row items-center md:items-start">
               <motion.div
@@ -143,13 +143,21 @@ const CareerTimeline = () => {
   return (
     <section
       id="work"
-      className="relative w-full py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto"
+      className="relative w-full overflow-hidden py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto bg-slate-50/80 border border-slate-200/70 rounded-3xl"
     >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+      >
+        <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-teal-200/40 blur-3xl" />
+        <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.08),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(20,184,166,0.10),_transparent_55%)]" />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-12"
+        className="relative z-10 text-center mb-12"
       >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
           My Path in Frontend Development
@@ -161,7 +169,9 @@ const CareerTimeline = () => {
         </p>
       </motion.div>
 
-      <Timeline data={timelineData} />
+      <div className="relative z-10">
+        <Timeline data={timelineData} />
+      </div>
 
       {/* Expandable Card Overlay */}
       <AnimatePresence>
@@ -178,23 +188,23 @@ const CareerTimeline = () => {
       <AnimatePresence>
         {active ? (
           <div className="fixed inset-0 grid place-items-center z-[100]">
-            <motion.button
-              key={`button-close-${active.index}-${id}`}
-              layout
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.05 } }}
-              className="flex absolute top-2 right-2 lg:hidden items-center justify-center bg-white rounded-full h-6 w-6"
-              onClick={() => setActive(null)}
-            >
-              <CloseIcon />
-            </motion.button>
-
             <motion.div
               layoutId={`card-${active.index}-${id}`}
               ref={expandedRef}
-              className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-white sm:rounded-3xl overflow-hidden"
+              className="relative w-full max-w-[500px] max-h-[90vh] md:max-h-[90%] flex flex-col bg-white sm:rounded-3xl overflow-hidden"
             >
+              <motion.button
+                key={`button-close-${active.index}-${id}`}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.05 } }}
+                className="flex absolute top-3 right-3 z-20 lg:hidden items-center justify-center bg-white rounded-full h-8 w-8 shadow-sm"
+                onClick={() => setActive(null)}
+              >
+                <CloseIcon />
+              </motion.button>
+
               {/* Icon header */}
               <motion.div
                 layoutId={`icon-${active.index}-${id}`}
@@ -253,7 +263,7 @@ const CareerTimeline = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-neutral-600 text-sm md:text-base max-h-[52vh] md:max-h-[56vh] pb-8 flex flex-col items-start gap-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     {active.item.detail?.summary && (
                       <p>{active.item.detail.summary}</p>

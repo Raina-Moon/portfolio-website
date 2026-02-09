@@ -6,12 +6,13 @@ import SkillsTable from "@/components/SkillsTable/SkillsTable";
 import { useLanguageStore } from "@/libs/languageStore";
 import MoonModal from "@/components/Moon/MoonModal";
 import MoonPhaseBoard from "@/components/Moon/MoonPhaseBoard";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const HomePage = () => {
   const { lang } = useLanguageStore();
   const [moonModalOpen, setMoonModalOpen] = useState(false);
+  const [moonShadowStyle, setMoonShadowStyle] = useState<CSSProperties>();
 
   const headerRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
@@ -83,7 +84,7 @@ const HomePage = () => {
     };
   }, [lang]);
 
-  const moonShadowStyle = useMemo(() => {
+  useEffect(() => {
     // Approximate moon phase using a known new moon and synodic month length.
     const now = new Date();
     const synodicMonth = 29.53058867;
@@ -102,14 +103,14 @@ const HomePage = () => {
     const core = Math.max(42, 70 - edge * 0.45);
     const dark = Math.min(0.98, 0.72 + darkPortion * 0.26);
 
-    return {
+    setMoonShadowStyle({
       opacity: 1,
       background: `radial-gradient(125% 108% at ${focusX}% 50%,
         rgba(0,0,0,0) ${core}%,
         rgba(0,0,0,0.62) ${Math.min(core + 12, 82)}%,
         rgba(0,0,0,${dark}) 100%
       )`,
-    };
+    });
   }, []);
 
   const renderTitle = () => {

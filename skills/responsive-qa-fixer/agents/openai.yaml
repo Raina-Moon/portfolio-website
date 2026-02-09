@@ -1,0 +1,4 @@
+interface:
+  display_name: "Responsive QA Fixer"
+  short_description: "Check and fix responsive UI regressions."
+  default_prompt: "Use $responsive-qa-fixer to audit this UI across breakpoints, patch responsive issues, and verify no layout regressions remain."
