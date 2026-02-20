@@ -109,9 +109,21 @@ const CareerTimeline = () => {
             <div className="flex gap-4 flex-col md:flex-row items-center md:items-start">
               <motion.div
                 layoutId={`icon-${originalIndex}-${id}`}
-                className="flex items-center justify-center h-14 w-14 rounded-lg bg-gradient-to-br from-blue-600 to-teal-600 text-white shrink-0"
+                className={`flex items-center justify-center h-14 w-14 rounded-lg shrink-0 ${
+                  item.title.toLowerCase().includes("kizling")
+                    ? "bg-white"
+                    : "bg-gradient-to-br from-blue-600 to-teal-600 text-white"
+                }`}
               >
-                {getCategoryIcon(item.title)}
+                {item.title.toLowerCase().includes("kizling") ? (
+                  <img
+                    src="/icons/kizling.svg"
+                    alt="Kizling"
+                    className="h-full w-full object-contain"
+                  />
+                ) : (
+                  getCategoryIcon(item.title)
+                )}
               </motion.div>
               <div>
                 <motion.h3
@@ -208,11 +220,23 @@ const CareerTimeline = () => {
               {/* Icon header */}
               <motion.div
                 layoutId={`icon-${active.index}-${id}`}
-                className="flex items-center justify-center h-48 bg-gradient-to-br from-blue-600 to-teal-600 text-white"
+                className={`flex items-center justify-center h-48 ${
+                  active.item.title.toLowerCase().includes("kizling")
+                    ? "bg-white"
+                    : "bg-gradient-to-br from-blue-600 to-teal-600 text-white"
+                }`}
               >
-                <div className="scale-[3]">
-                  {getCategoryIcon(active.item.title)}
-                </div>
+                {active.item.title.toLowerCase().includes("kizling") ? (
+                  <img
+                    src="/icons/kizling.svg"
+                    alt="Kizling"
+                    className="h-full w-full object-contain"
+                  />
+                ) : (
+                  <div className="scale-[3]">
+                    {getCategoryIcon(active.item.title)}
+                  </div>
+                )}
               </motion.div>
 
               <div>
