@@ -1,41 +1,27 @@
 import { useEditor } from "@tiptap/react";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
 import StarterKit from "@tiptap/starter-kit";
-import CodeBlock from "@tiptap/extension-code-block";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import ListItem from "@tiptap/extension-list-item";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import Image from "@tiptap/extension-image";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import Bold from "@tiptap/extension-bold";
+import ResizableImage from "@/extensions/ResizableImage";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 
-export const useTiptapEditor = (initialContent = "<p>Welcome to the Troubleshooting Section</p>") => 
+export const useTiptapEditor = (initialContent = "<p>Welcome to the Troubleshooting Section</p>") =>
   useEditor({
     content: initialContent,
     extensions: [
-      Paragraph,
-      Text,
       StarterKit,
-      CodeBlock,
       TaskList,
       TaskItem.configure({
         nested: true,
       }),
-      OrderedList,
-      ListItem,
-      HorizontalRule,
-      Image,
-      Dropcursor,
-      Bold,
-      Highlight,
+      ResizableImage,
+      Highlight.configure({
+        multicolor: true,
+      }),
       Link.configure({
         openOnClick: false,
         autolink: true,
@@ -107,7 +93,9 @@ export const useTiptapEditor = (initialContent = "<p>Welcome to the Troubleshoot
           }
         },
       }),
-      TextAlign,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
       TextStyle,
       Color,
     ],

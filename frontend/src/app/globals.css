@@ -6,6 +6,316 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ===== Troubleshooting Post Content ===== */
+
+/* 에디터 & 뷰 페이지 공통 코드블록 스타일 */
+.ProseMirror pre,
+.troubleshooting-content pre {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+  border-radius: 0.625rem;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  border: 1px solid #313244;
+}
+
+/* macOS 윈도우 스타일 코드블록 (뷰 페이지) */
+.troubleshooting-content pre.macos-codeblock {
+  padding: 0;
+  overflow: hidden;
+}
+
+.troubleshooting-content .macos-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background-color: #181825;
+  border-bottom: 1px solid #313244;
+}
+
+.troubleshooting-content .macos-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.troubleshooting-content .macos-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.troubleshooting-content .macos-dots .dot.red {
+  background-color: #ff5f57;
+}
+
+.troubleshooting-content .macos-dots .dot.yellow {
+  background-color: #febc2e;
+}
+
+.troubleshooting-content .macos-dots .dot.green {
+  background-color: #28c840;
+}
+
+.troubleshooting-content pre.macos-codeblock > code {
+  display: block;
+  padding: 1rem 1.25rem;
+}
+
+.ProseMirror pre code,
+.troubleshooting-content pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* 인라인 코드 */
+.ProseMirror code,
+.troubleshooting-content code {
+  background-color: #313244;
+  color: #cdd6f4;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+}
+
+/* 단락 간격 - 줄바꿈 보이게 */
+.ProseMirror p,
+.troubleshooting-content p {
+  margin-bottom: 0.75em;
+  min-height: 1.2em;
+  line-height: 1.7;
+}
+
+/* 빈 단락도 공간 유지 (엔터키로 빈 줄 만들었을 때) */
+.ProseMirror p:empty::before,
+.troubleshooting-content p:empty::before {
+  content: "\00a0";
+}
+
+/* br 태그 줄바꿈 보장 */
+.ProseMirror br,
+.troubleshooting-content br {
+  display: block;
+  content: "";
+  margin-top: 0.25em;
+}
+
+/* 리스트 스타일 */
+.ProseMirror ul,
+.troubleshooting-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror ol,
+.troubleshooting-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror li,
+.troubleshooting-content li {
+  margin-bottom: 0.25em;
+}
+
+/* ===== TipTap 에디터 ===== */
+.ProseMirror {
+  min-height: 200px;
+  outline: none;
+  padding: 0.75rem;
+  border: 1px solid #374151;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: #1a1a2e;
+  color: #e2e8f0;
+}
+
+.ProseMirror:focus {
+  border-color: #6366f1;
+}
+
+/* 에디터 툴바 */
+.control-group {
+  border: 1px solid #374151;
+  border-bottom: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: #111827;
+  padding: 0.4rem 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.button-group button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 0.875rem;
+}
+
+.button-group button:hover {
+  background-color: #1f2937;
+  color: #e5e7eb;
+}
+
+.button-group button.is-active {
+  background-color: #4f46e5;
+  color: #ffffff;
+}
+
+.button-group input[type="color"] {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #374151;
+  border-radius: 0.375rem;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.15rem;
+}
+
+/* 에디터 내 task list */
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li input[type="checkbox"] {
+  margin-top: 0.3rem;
+}
+
+/* 에디터 내 이미지 리사이즈 */
+.resizable-image-wrapper {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.resizable-image {
+  display: inline-block;
+  position: relative;
+  border-radius: 0.375rem;
+}
+
+.resizable-image.selected {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.resizable-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+}
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  background-color: #6366f1;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+  border-radius: 4px;
+}
+
+.resize-handle:hover,
+.resize-handle:active {
+  opacity: 1;
+}
+
+.resize-handle.left {
+  left: -4px;
+}
+
+.resize-handle.right {
+  right: -4px;
+}
+
+/* 코드블록 복사 버튼 (타이틀바 내부) */
+.troubleshooting-content pre {
+  position: relative;
+}
+
+.troubleshooting-content pre .copy-btn {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.7rem;
+  color: #6c7086;
+  background: none;
+  border: 1px solid #45475a;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.troubleshooting-content pre .copy-btn:hover {
+  color: #cdd6f4;
+  border-color: #585b70;
+}
+
+.troubleshooting-content pre .copy-btn.copied {
+  color: #a6e3a1;
+  border-color: #a6e3a1;
+}
+
+/* 코드블록 접기 - fade 오버레이 */
+.troubleshooting-content pre .code-fade {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  background: linear-gradient(to bottom, transparent, #1e1e2e);
+  pointer-events: none;
+}
+
+/* Read more / Read less 버튼 */
+.troubleshooting-content pre .read-more-btn {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 0.8rem;
+  color: #89b4fa;
+  background: none;
+  border: none;
+  border-top: 1px solid #313244;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-align: center;
+}
+
+.troubleshooting-content pre .read-more-btn:hover {
+  color: #b4d0fb;
+}
+
 /* ===== Glowing Edge Card ===== */
 :root{
   --glow-sens: 20;
