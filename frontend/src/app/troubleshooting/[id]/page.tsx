@@ -3,13 +3,15 @@
 import { fetchTroubleshootingPost } from "@/libs/api/troubleshooting";
 import { Troubleshooting } from "@/types/types";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import parse, { DOMNode, domToReact, Element } from "html-react-parser";
 import CodeBlock from "@/components/Troubleshooting/CodeBlock";
+import { useLanguageStore } from "@/libs/languageStore";
 
 const Page = () => {
   const params = useParams()
   const [post, setPost] = useState<Troubleshooting | null>(null);
+  const { lang } = useLanguageStore();
 
   useEffect(() => {
     if (!params?.id) return;
@@ -25,6 +27,18 @@ const Page = () => {
     fetchData();
   }, [params]);
 
+  const displayTitle = useMemo(() => {
+    if (!post) return "";
+    if (lang !== post.language && post.translatedTitle) return post.translatedTitle;
+    return post.title;
+  }, [post, lang]);
+
+  const displayContent = useMemo(() => {
+    if (!post) return "";
+    if (lang !== post.language && post.translatedContent) return post.translatedContent;
+    return post.content;
+  }, [post, lang]);
+
   if (!post) {
     return (
       <div className="flex flex-col p-4">
@@ -33,7 +47,7 @@ const Page = () => {
     );
   }
 
-  const content = parse(post.content, {
+  const content = parse(displayContent, {
     replace: (domNode) => {
       if (domNode instanceof Element && domNode.name === "pre") {
         const codeEl = domNode.children.find(
@@ -52,7 +66,7 @@ const Page = () => {
   return (
     <div className="flex flex-col p-4">
       <div className="flex justify-between items-center mb-4 mx-4">
-        <p className="text-4xl font-semibold">{post.title}</p>
+        <p className="text-4xl font-semibold">{displayTitle}</p>
         <p className="text-grey-700 text-sm mt-6">{new Date(post.createdAt).toDateString()}</p>
       </div>
       <div className="border mx-4"/>

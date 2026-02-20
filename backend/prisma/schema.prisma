@@ -14,12 +14,15 @@ datasource db {
 }
 
 model Troubleshooting {
-  id          Int      @id @default(autoincrement())
-  title       String
-  content     String
-  image_url   String?
-  tags        String[]
-  createdAt   DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  title              String
+  content            String
+  image_url          String?
+  tags               String[]
+  createdAt          DateTime @default(now())
+  language           String   @default("ko")
+  translatedTitle    String?
+  translatedContent  String?
 }
 
 model ContactMessage {

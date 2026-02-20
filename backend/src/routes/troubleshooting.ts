@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response, Router } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { translatePost } from '../utils/translate';
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -36,8 +37,16 @@ router.get('/:id', (async (req:Request, res:Response) => {
 router.post('/', async (req, res) => {
   const { title, content, image_url, tags } = req.body;
   try {
+    let translationData = {};
+    try {
+      const { language, translatedTitle, translatedContent } = await translatePost(title, content);
+      translationData = { language, translatedTitle, translatedContent };
+    } catch (translateError) {
+      console.error('Translation failed, saving without translation:', translateError);
+    }
+
     const newPost = await prisma.troubleshooting.create({
-      data: { title, content, image_url, tags }
+      data: { title, content, image_url, tags, ...translationData }
     });
     res.status(201).json(newPost);
   } catch (error) {
@@ -51,9 +60,17 @@ router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { title, content, image_url, tags } = req.body;
   try {
+    let translationData = {};
+    try {
+      const { language, translatedTitle, translatedContent } = await translatePost(title, content);
+      translationData = { language, translatedTitle, translatedContent };
+    } catch (translateError) {
+      console.error('Translation failed, saving without translation:', translateError);
+    }
+
     const updatedPost = await prisma.troubleshooting.update({
       where: { id: parseInt(id, 10) },
-      data: { title, content, image_url, tags }
+      data: { title, content, image_url, tags, ...translationData }
     });
     res.json(updatedPost);
   } catch (error) {

@@ -4,11 +4,13 @@ import { fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
 import { Troubleshooting } from "@/types/types";
 import Link from "next/link";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useLanguageStore } from "@/libs/languageStore";
 
 type SortOrder = "newest" | "oldest";
 
 const Page = () => {
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
+  const { lang } = useLanguageStore();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
@@ -159,7 +161,9 @@ const Page = () => {
           {paginatedPosts.map((item) => (
             <li key={item.id} className="mb-4 border-b border-gray-300 pb-2 hover:bg-gray-50">
               <Link href={`/troubleshooting/${item.id}`} className="flex flex-row justify-between items-center">
-                <p className="text-2xl text-gray-900">{item.title}</p>
+                <p className="text-2xl text-gray-900">
+                  {lang !== item.language && item.translatedTitle ? item.translatedTitle : item.title}
+                </p>
                 <p className="text-gray-600">{new Date(item.createdAt).toDateString()}</p>
               </Link>
             </li>

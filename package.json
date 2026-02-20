@@ -8,7 +8,8 @@
     "dev:backend": "npm run dev --prefix backend",
     "dev:frontend:astro": "npm run dev --prefix frontend-astro",
     "build:frontend:astro": "npm run build --prefix frontend-astro",
-    "preview:frontend:astro": "npm run preview --prefix frontend-astro"
+    "preview:frontend:astro": "npm run preview --prefix frontend-astro",
+    "pw:portfolio-workflow": "bash scripts/playwright/portfolio-workflow.sh"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
