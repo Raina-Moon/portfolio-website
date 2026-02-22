@@ -24,6 +24,15 @@ function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3)
 }
 
+function normalizeAngle(a: number): number {
+  return a - Math.PI * 2 * Math.floor((a + Math.PI) / (Math.PI * 2))
+}
+
+function shortestDelta(from: number, to: number): number {
+  const d = to - from
+  return ((d % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI
+}
+
 function drawRoundedRect(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -199,25 +208,27 @@ export function IconCloud({ icons, images, labels, radius = 140, size = 400 }: I
 
     if (hitIcon) {
       setSelectedIconId(hitIcon.id)
-      const targetX = -Math.atan2(
+      const rawTargetX = -Math.atan2(
         hitIcon.y,
         Math.sqrt(hitIcon.x * hitIcon.x + hitIcon.z * hitIcon.z)
       )
-      const targetY = Math.atan2(hitIcon.x, hitIcon.z)
+      const rawTargetY = Math.atan2(hitIcon.x, hitIcon.z)
 
-      const currentX = rotationRef.current.x
-      const currentY = rotationRef.current.y
-      const distance = Math.sqrt(
-        Math.pow(targetX - currentX, 2) + Math.pow(targetY - currentY, 2)
-      )
+      const startX = normalizeAngle(rotationRef.current.x)
+      const startY = normalizeAngle(rotationRef.current.y)
+      rotationRef.current = { x: startX, y: startY }
+
+      const deltaX = shortestDelta(startX, rawTargetX)
+      const deltaY = shortestDelta(startY, rawTargetY)
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
       const duration = Math.min(2000, Math.max(800, distance * 1000))
 
       setTargetRotation({
-        x: targetX,
-        y: targetY,
-        startX: currentX,
-        startY: currentY,
+        x: startX + deltaX,
+        y: startY + deltaY,
+        startX,
+        startY,
         distance,
         startTime: performance.now(),
         duration,
