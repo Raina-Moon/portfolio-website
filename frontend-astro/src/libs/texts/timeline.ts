@@ -350,6 +350,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Sparta 부트캠프 입학",
       shortDescription:
         "개발 공부를 본격적으로 시작하며 Sparta 부트캠프에 등록함.",
+      icon: "/images/team_sparta.png",
       detail: {
         summary:
           "평소 수학 문제 푸는 걸 좋아하다가 논리적인 사고와 흥미를 바탕으로 자연스럽게 코딩에 관심을 가지게 되었습니다. 이후 한국에서 가장 유명한 부트캠프 중 하나인 Sparta Coding Club에 입학하면서 본격적인 프론트엔드 개발자의 길을 걷기 시작했습니다.",
@@ -363,6 +364,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "영화 검색 사이트 개발",
       shortDescription:
         "TMDB API를 활용해 순수 JS, HTML, CSS로 영화 검색 기능 구현.",
+      icon: "/icons/tmdb.svg",
       detail: {
         summary:
           "처음으로 외부 API를 사용한 프로젝트입니다. TMDB API와 바닐라 JavaScript를 활용해 영화 검색 엔진을 만들었고, DOM 조작을 통해 동적인 데이터를 파싱하고 렌더링하는 법을 익혔습니다.",
@@ -389,6 +391,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2024년 11월 12일",
       title: "포켓몬 도감 페이지 개발",
       shortDescription: "Redux, React, styled-components, Vite.js 사용.",
+      icon: "/images/pokemon.jpg",
       detail: {
         summary:
           "Redux와 React Router DOM을 통해 포켓몬 리스트와 상세 페이지를 구현했습니다. 글로벌 상태 관리를 최적화하며, 불필요한 렌더링을 최소화하는 데 중점을 두었습니다.",
@@ -408,6 +411,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2024년 11월 28일",
       title: "MBTI 검사 페이지 제작",
       shortDescription: "Axios, React, styled-components, Vite.js 사용.",
+      icon: "/images/mbti_logo.png",
       detail: {
         summary:
           "사용자 인증, 결과 공유, 프로필 편집 기능이 있는 MBTI 테스트 앱을 제작했습니다. Supabase 기반의 로그인/회원가입 시스템을 구현하고, 닉네임 및 프로필 사진 수정 기능도 추가했습니다.",
@@ -428,6 +432,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "붕어빵 위치 공유 사이트 개발",
       shortDescription:
         "Kakao Map SDK, Supabase, Zustand, React Query 등 다양한 기술 스택 사용.",
+      icon: "/images/bungbbang.png",
       detail: {
         summary:
           "'붕빵사조'는 전국 붕어빵 가게 위치를 유저들이 직접 공유할 수 있는 위치 기반 서비스입니다. 저에게는 첫 팀 프로젝트였으며, CRUD 로직 전반을 담당했습니다. Kakao Maps API를 활용해 사용자가 지도를 클릭하면 자동으로 주소가 입력되고, 게시물은 지도 위에 실시간으로 표시됩니다.",
@@ -447,6 +452,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2024년 12월 19일",
       title: "LOL 챔피언 검색 서비스 개발",
       shortDescription: "LOL API, React, Tailwind, TypeScript, Next.js 활용.",
+      icon: "/images/lol.webp",
       detail: {
         summary:
           "Riot의 LOL API를 활용해 챔피언 데이터를 불러와 시각화한 프로젝트입니다. Next.js, TypeScript, Tailwind를 처음으로 본격적으로 사용했으며, 개발 속도가 향상되면서 UI/UX 디자인에 더 많은 신경을 쓸 수 있었습니다.",
@@ -466,6 +472,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2024년 12월 30일",
       title: "멘토-멘티 연결 서비스 제작",
       shortDescription: "React, Zustand, Supabase, Tailwind, Next.js 등 사용.",
+      icon: "/images/mentory.webp",
       detail: {
         summary:
           "개발자 간 멘토-멘티를 연결해주는 'Mentory' 플랫폼을 만들었습니다. Supabase의 인증 기능, 로그인 및 회원가입 폼, 홈 레이아웃을 구현했으며, GitHub 로그인 시 Supabase 트리거를 통해 자동으로 닉네임과 프로필 이미지가 등록되도록 설정했습니다.",
@@ -487,6 +494,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "여행 Q&A 플랫폼 개발",
       shortDescription:
         "OpenAI API, TOSS, Tiptap, 구글맵, i18next 등 다양한 라이브러리 적용.",
+      icon: "/icons/heylocal.svg",
       detail: {
         summary:
           "'Heylocal'은 여행자가 현지인에게 직접 질문을 할 수 있는 Q&A 서비스입니다. 저는 질문과 답변 기능의 CRUD 전체를 직접 개발했으며, Tiptap 에디터를 활용해 블로그처럼 자유로운 포스팅이 가능하도록 구현했습니다. Google Maps API를 연동하여 위치 정보를 기반으로 한 게시물 작성이 가능하며, TOSS 결제 API를 통해 유저가 포인트를 충전하고 질문을 구매할 수 있도록 만들었습니다. 또한, 댓글 기능은 답변을 구매한 사용자에게만 허용하도록 제한을 걸었습니다.",
@@ -507,6 +515,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2025년 2월 10일",
       title: "Sparta 부트캠프 수료",
       shortDescription: "약 5개월 간의 부트캠프 교육과정을 성실히 수료.",
+      icon: "images/team_sparta.png",
       detail: {
         summary:
           "약 4개월간 집중적으로 학습하며 Sparta 부트캠프의 프론트엔드 과정 전 과정을 수료했습니다. 다양한 실전 프로젝트를 진행하며 개발자로서의 기초 체력을 다졌고, 체계적인 커리큘럼 덕분에 빠르게 성장할 수 있었습니다.",
@@ -534,6 +543,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Fomofix 개발 시작",
       shortDescription:
         "Docker, EC2, Node.js, Express, Cloudinary 등으로 백엔드 구축.",
+      icon: "/images/TimerLogo.png",
       detail: {
         summary:
           "제가 처음으로 기획부터 개발까지 독립적으로 만든 풀스택 애플리케이션입니다. 사용자는 타이머를 설정해 목표를 수행하며, 중간에 다른 앱을 열거나 세션을 이탈하면 실패 처리됩니다. 성공 시에는 해당 내용을 포스팅할 수 있어, 현대인의 집중력 문제를 해결하기 위한 목적을 담고 있습니다.",
@@ -556,6 +566,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2025년 4월 10일",
       title: "Fomofix EC2 배포 완료",
       shortDescription: "프론트와 백엔드 모두 EC2에 성공적으로 배포.",
+      icon: "/images/TimerLogo.png",
       detail: {
         summary:
           "프론트엔드와 백엔드를 각각 Docker로 컨테이너화하고, 이를 AWS EC2 인스턴스에 Docker Compose를 이용해 배포하였습니다. .env 설정, 리버스 프록시 구성, 보안 세팅 등 프로덕션 환경에서 필요한 전반적인 세팅을 직접 수행했습니다.",
@@ -582,6 +593,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "SipSense – 콜라 섭취 기록 앱 (iOS/Android)",
       shortDescription:
         "하루 콜라 섭취량을 기록하는 모바일 앱을 처음 개발·출시. 애니메이션과 레드 톤 UI/UX 적용, 앱스토어·구글플레이 동시 배포.",
+      icon: "/images/sipsenselogo.png",
       detail: {
         summary:
           "사용자가 하루에 마신 콜라 양을 간편하게 기록할 수 있는 SipSense를 개발했습니다. 어트랙티브한 애니메이션 효과와 콜라의 상징색인 강렬한 레드 UI로 구성했으며, 애플 앱스토어와 구글 플레이 모두에 정식 배포를 완료했습니다. Android: https://play.google.com/store/apps/details?id=com.mds64.sipsense&pcampaignid=web_share | App Store: https://apps.apple.com/kr/app/sipsense/id6746238876?l=en-GB | 프론트엔드: https://github.com/Raina-Moon/cola-calc-app | 백엔드: https://github.com/Raina-Moon/cola-calc-backend",
@@ -603,6 +615,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Korips – 한국 온천 숙소/티켓 예약 플랫폼",
       shortDescription:
         "내국인·외국인 모두 쉽게 사용할 수 있는 다국어 온천 숙박/티켓 예약 서비스.",
+      icon: "/images/koripsLogo.webp",
       detail: {
         summary:
           "한국 여행 수요가 증가하는 가운데 한국온천협회 차원의 공식 서비스가 없어, 국내뿐 아니라 해외 이용자도 쉽게 접근할 수 있는 ‘Korips’를 구축했습니다. 유명 온천을 소개하고 숙소/티켓을 간편하게 예약할 수 있으며, 다국어(i18n), 리치 텍스트 포스팅, 결제를 지원합니다.",
@@ -640,6 +653,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Byaht 주니어 프론트엔드 합류",
       shortDescription:
         "Byaht에 주니어 프론트엔드로 합류해 제품 기능 개발에 참여.",
+      icon: "https://glowb-frontend-glowb-admin.vercel.app/ai/images/logo.png",
       detail: {
         summary:
           "Byaht에서 주니어 프론트엔드로 입사하여 팀과 협업하며 사용자 기능을 개발하고 개선하는 역할을 시작했습니다.",
