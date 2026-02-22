@@ -4,6 +4,7 @@ export interface TimelineItem {
   date: string;
   title: string;
   shortDescription: string;
+  icon?: string;
   detail?: {
     stack?: string[];
     summary?: string;
@@ -18,6 +19,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "Sep 30, 2024",
       title: "Joined Sparta BootCamp",
       shortDescription: "Started my coding journey by joining Sparta BootCamp.",
+      icon: "/images/team_sparta.png",
       detail: {
         summary:
           "With a personal interest in solving math problems, I naturally developed an interest in coding. I made the bold decision to join one of Korea's most reputable bootcamps, Sparta Coding Club, and officially began my journey as a frontend developer.",
@@ -31,6 +33,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Movie Search Engine",
       shortDescription:
         "Built using TMDB API, vanilla JavaScript (DOM), HTML5, and CSS.",
+      icon: "/icons/tmdb.svg",
       detail: {
         summary:
           "This was my first project using an external API. I created a movie search engine using the TMDB API and vanilla JavaScript. Through this, I learned how to parse and render dynamic data using DOM manipulation.",
@@ -58,6 +61,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Pokémon Encyclopedia",
       shortDescription:
         "Used Redux, React, React Router DOM, styled-components, and Vite.js.",
+      icon: "/images/pokemon.jpg",
       detail: {
         summary:
           "This project displays a full Pokémon list using Redux for global state and React Router for navigation. I optimized Redux to minimize unnecessary re-renders and improve performance.",
@@ -77,6 +81,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "Nov 28, 2024",
       title: "MBTI Test Page",
       shortDescription: "Built using Axios, React, styled-components, Vite.js.",
+      icon: "/images/mbti_logo.png",
       detail: {
         summary:
           "Created an MBTI test app with user authentication (login, signup, logout) and profile editing. Users can view and share their results and upload/update profile pictures and nicknames.",
@@ -97,6 +102,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Boonguhppang Sharing Site",
       shortDescription:
         "Used Kakao Maps, Supabase, Zustand, TanStack Query, Toastify, styled-components.",
+      icon: "/images/bungbbang.png",
       detail: {
         summary:
           "Built '붕빵사조', a location-sharing service for 붕어빵 stands. It was my first team project. I handled CRUD logic and used the Kakao Maps API to allow users to drop pins and autofill addresses. Posts appear on the map with real-time location info.",
@@ -117,6 +123,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "LOL Champion Search",
       shortDescription:
         "Used LOL API, React, Tailwind CSS, TypeScript, Next.js, React Query.",
+      icon: "/images/lol.webp",
       detail: {
         summary:
           "Used Riot's LOL API to fetch and display champion data. This was my first project using Next.js, TypeScript, and Tailwind. Faster development allowed me to polish the UI.",
@@ -137,6 +144,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Mentor-Mentee Matching",
       shortDescription:
         "Made with React, Supabase, Zustand, Tailwind, Next.js, TypeScript.",
+      icon: "/images/mentory.webp",
       detail: {
         summary:
           "Built 'Mentory', a platform that connects developers with mentors. My roles included implementing Supabase auth, login/signup forms, homepage layout, and GitHub login triggers that automatically import profile images and nicknames.",
@@ -158,6 +166,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Travel Q&A App",
       shortDescription:
         "Used OpenAI API, TOSS Pay, Tiptap, Google Maps API, i18next, Next.js.",
+      icon: "/icons/heylocal.svg",
       detail: {
         summary:
           "Built 'Heylocal', a Q&A app that lets travelers ask locals for advice. I built the full CRUD for both questions and answers using Tiptap and integrated Google Maps API for location-specific posts. I also built the TOSS payment flow and restricted comments to buyers only.",
@@ -179,6 +188,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Sparta BootCamp Graduation",
       shortDescription:
         "Successfully graduated from the Sparta coding bootcamp.",
+      icon: "images/team_sparta.png",
       detail: {
         summary:
           "After 4 months of intense learning, I proudly completed the frontend curriculum and earned my Sparta Bootcamp certificate.",
@@ -191,6 +201,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "Mar 2025",
       title: "Frontend Intern at Kizling",
       shortDescription: "1-month internship experience building real features.",
+      icon: "/icons/kizling.svg",
       detail: {
         summary:
           "Worked as a frontend intern at Kizling. I built the homepage, landing page, and a challenge management page. Despite the initial challenges, I adapted quickly and contributed to production-level features.",
@@ -205,6 +216,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Started Fomofix Project",
       shortDescription:
         "Built with Docker, Node.js, Express, PostgreSQL, EC2, Cloudinary, etc.",
+      icon: "/images/TimerLogo.png",
       detail: {
         summary:
           "My first full-stack app, built entirely on my own. Users set a timer to achieve a goal, and if they leave or switch apps, they fail. Upon success, users can post their achievements. The app emphasizes focus and discipline.",
@@ -228,6 +240,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Fomofix Deployed to EC2",
       shortDescription:
         "Frontend and backend fully deployed to EC2 using Docker.",
+      icon: "/images/TimerLogo.png",
       detail: {
         summary:
           "Successfully containerized both frontend and backend, and deployed them to AWS EC2 using Docker Compose. Set up .envs, reverse proxies, and ensured everything ran smoothly in production.",
@@ -255,6 +268,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "SipSense – Cola Intake Tracker (iOS/Android)",
       shortDescription:
         "Shipped my first mobile app to the Apple App Store and Google Play. Tracks daily cola intake with playful animations and a bold red UI.",
+      icon: "/images/sipsenselogo.png",
       detail: {
         summary:
           "Built and released SipSense, a mobile app that lets users log daily cola intake. I focused on attractive, satisfying animations and a vibrant red UI that reflects the cola theme. This was my first end-to-end store launch (build/signing, listings, review). Android: https://play.google.com/store/apps/details?id=com.mds64.sipsense&pcampaignid=web_share | App Store: https://apps.apple.com/kr/app/sipsense/id6746238876?l=en-GB | Frontend: https://github.com/Raina-Moon/cola-calc-app | Backend: https://github.com/Raina-Moon/cola-calc-backend",
@@ -276,6 +290,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Korips – Korea Hot Spring Booking (Lodges & Tickets)",
       shortDescription:
         "A multilingual hot-spring lodging & ticket reservation platform for both locals and international visitors.",
+      icon: "/images/koripsLogo.webp",
       detail: {
         summary:
           "As travel to Korea surged and there was no official service by the Korea Hot Spring Association, I built Korips: a Next.js platform where anyone—Korean or international visitors—can discover famous Korean hot springs and book lodges or day tickets with ease. The app supports full i18n, rich-editor posts, and payments.",
@@ -313,6 +328,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Joined Byaht as Junior Frontend Developer",
       shortDescription:
         "Joined Byaht as a junior frontend developer and started contributing to product features.",
+        icon :   'https://glowb-frontend-glowb-admin.vercel.app/ai/images/logo.png',
       detail: {
         summary:
           "Began my role as a junior frontend developer at Byaht, collaborating with the team to build and improve user-facing features.",
@@ -503,6 +519,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       date: "2025년 3월",
       title: "Kizling 웹 프론트엔드 인턴",
       shortDescription: "1개월간 실무 웹 개발 경험 쌓음.",
+      icon: "/icons/kizling.svg",
       detail: {
         summary:
           "Kizling에서 웹 프론트엔드 인턴으로 1개월간 근무하며, 홈페이지, 랜딩페이지, 챌린지 심사용 테이블 페이지를 구현했습니다. 처음 접한 실무 환경에 적응하느라 어려움도 있었지만, 빠르게 습득하여 실제 서비스에 반영되는 기능을 개발하는 데 성공했습니다.",
