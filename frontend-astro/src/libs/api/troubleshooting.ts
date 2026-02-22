@@ -1,11 +1,16 @@
 import type { Troubleshooting } from "../../types/types";
+import { mockPosts } from "./mockTroubleshooting";
 
 const API_URL =
   import.meta.env.PUBLIC_API_URL ?? import.meta.env.NEXT_PUBLIC_API_URL ?? "";
 
+const USE_MOCK = !API_URL;
+
 export const fetchTroubleshootingPosts = async (): Promise<
   Troubleshooting[]
 > => {
+  if (USE_MOCK) return mockPosts;
+
   const response = await fetch(`${API_URL}/troubleshooting`);
   if (!response.ok) {
     throw new Error("Failed to fetch troubleshooting posts");
@@ -17,6 +22,12 @@ export const fetchTroubleshootingPosts = async (): Promise<
 export const fetchTroubleshootingPost = async (
   id: number
 ): Promise<Troubleshooting> => {
+  if (USE_MOCK) {
+    const post = mockPosts.find((p) => p.id === id);
+    if (!post) throw new Error("Post not found");
+    return post;
+  }
+
   const response = await fetch(`${API_URL}/troubleshooting/${id}`);
   if (!response.ok) {
     throw new Error("Failed to fetch troubleshooting post");
@@ -30,6 +41,8 @@ export const createTroubleshootingPost = async (
   content: string,
   tags: string[]
 ): Promise<Troubleshooting> => {
+  if (USE_MOCK) throw new Error("Mock mode: create not supported");
+
   const response = await fetch(
     `${API_URL}/troubleshooting`,
     {
@@ -55,6 +68,8 @@ export const updatePost = async (
   content: string,
   tags: string[]
 ) => {
+  if (USE_MOCK) throw new Error("Mock mode: update not supported");
+
   const response = await fetch(
     `${API_URL}/troubleshooting/${id}`,
     {
@@ -73,6 +88,8 @@ export const updatePost = async (
 };
 
 export const deletePost = async (id: number) => {
+  if (USE_MOCK) throw new Error("Mock mode: delete not supported");
+
   const response = await fetch(
     `${API_URL}/troubleshooting/${id}`,
     {

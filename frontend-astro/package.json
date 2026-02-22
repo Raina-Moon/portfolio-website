@@ -28,6 +28,7 @@
     "astro": "^5.2.0",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
+    "html-react-parser": "^5.2.17",
     "lucide-react": "^0.539.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

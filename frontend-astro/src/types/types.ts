@@ -5,6 +5,9 @@ export interface Troubleshooting {
     image_url: string;
     tags: string[];
     createdAt: string;
+    language: string;
+    translatedTitle?: string;
+    translatedContent?: string;
   }
 
   export interface ContactMessage {

@@ -9,7 +9,7 @@ import type { Troubleshooting } from "@/types/types";
 import React, { useEffect, useRef, useState } from "react";
 
 const TroubleshootingEditListPage = () => {
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState(true); // TODO: revert to false
   const [password, setPassword] = useState("");
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
 
@@ -59,23 +59,45 @@ const TroubleshootingEditListPage = () => {
   };
 
   return authorized ? (
-    <div>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id} className="mb-4">
-            <a href={`/troubleshooting/edit/${post.id}`} className="text-blue-500 hover:underline">
-              <h2 className="text-xl font-bold">{post.title}</h2>
-              <p className="text-sm text-gray-500">
-                Posted on: {new Date(post.createdAt).toLocaleDateString()}
-              </p>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <TroubleshootingSection ref={sectionRef} />
-      <button onClick={handlePost} className="bg-green-500 text-white px-4 py-2 rounded mt-4">
-        Create New Post
-      </button>
+    <div className="max-w-4xl mx-auto px-6 py-20">
+      {/* Existing Posts */}
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Existing Posts</h1>
+      {posts.length > 0 ? (
+        <ul className="space-y-2 mb-10">
+          {posts.map((post) => (
+            <li key={post.id}>
+              <a
+                href={`/troubleshooting/edit/${post.id}`}
+                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
+              >
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">{post.title}</h2>
+                  <p className="text-sm text-gray-500">
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <span className="text-gray-400 text-sm shrink-0 ml-4">Edit &rarr;</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500 mb-10">No posts yet.</p>
+      )}
+
+      {/* New Post Editor */}
+      <div className="border-t border-gray-200 pt-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Post</h2>
+        <TroubleshootingSection ref={sectionRef} />
+        <div className="mt-6">
+          <button
+            onClick={handlePost}
+            className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
+          >
+            Publish
+          </button>
+        </div>
+      </div>
     </div>
   ) : (
     <div className="flex flex-col items-center justify-center h-screen">

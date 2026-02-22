@@ -56,11 +56,17 @@ const TroubleshootingEditDetailPage = ({ id }: Props) => {
   };
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto px-6 py-20">
       {!post ? (
-        <p>Loading...</p>
+        <p className="text-gray-500">Loading...</p>
       ) : (
         <>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-gray-900">Edit Post</h1>
+            <a href="/troubleshooting/edit" className="text-sm text-gray-500 hover:text-gray-700">
+              &larr; Back to list
+            </a>
+          </div>
           <TroubleshootingSection
             ref={sectionRef}
             postId={numericId}
@@ -68,13 +74,20 @@ const TroubleshootingEditDetailPage = ({ id }: Props) => {
             initialContent={post.content}
             initialTags={post.tags}
           />
-          <button onClick={handleUpload}>Upload</button>
-          <button
-            onClick={handleDelete}
-            className="bg-red-500 text-white px-2 py-1 rounded-md"
-          >
-            Delete
-          </button>
+          <div className="flex items-center gap-3 mt-6">
+            <button
+              onClick={handleUpload}
+              className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition"
+            >
+              Save Changes
+            </button>
+            <button
+              onClick={handleDelete}
+              className="px-6 py-2.5 bg-white text-red-600 font-medium rounded-lg border border-red-300 hover:bg-red-50 transition"
+            >
+              Delete
+            </button>
+          </div>
         </>
       )}
     </div>
