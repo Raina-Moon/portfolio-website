@@ -336,11 +336,39 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
     },
     {
       date: "2026",
-      title: "2026 Roadmap",
-      shortDescription: "Preparing the next chapter and upcoming projects.",
+      title: "Large-Scale Rollout of glow.b New SaaS Service",
+      shortDescription:
+        "Led key operational and product tasks during the major adoption of glow.b's new SaaS service, including submission review workflows, automated notifications, and frontend optimization.",
       detail: {
         summary:
-          "Planning and building new experiences for 2026. More updates coming soon.",
+          "Played a core role in the large-scale rollout of glow.b's new SaaS service by designing and improving key workflows across operations and product. I built and operated the submission review process (including resubmission request and feedback flows), implemented automated email/SMS notifications using triggers and cron jobs, and optimized frontend performance and usability to support a stable experience during rapid service adoption.",
+      },
+    },
+    {
+      date: "2026",
+      title: "Stackly – Figma-Style Collaboration + Kanban + Voice Chat",
+      shortDescription:
+        "Built a solo end-to-end collaboration platform that combines Figma-style realtime presence, Kanban boards, and in-board voice chat.",
+      detail: {
+        summary:
+          "Built Stackly as a solo end-to-end project: a collaborative workspace that combines a Kanban board, realtime presence (remote cursors / drag sync), and voice chat in one product. I designed and implemented the full monorepo architecture (Next.js frontend + NestJS backend + PostgreSQL), realtime collaboration with Socket.IO, WebRTC-based voice chat signaling, and board/schedule management flows. I also worked on performance-focused realtime messaging using Protobuf and Rust/WASM to improve responsiveness in collaborative interactions.",
+        stack: [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "NestJS",
+          "PostgreSQL",
+          "TypeORM",
+          "Socket.IO",
+          "WebRTC (simple-peer)",
+          "Tailwind CSS",
+          "TanStack Query",
+          "Turborepo",
+          "Protobuf",
+          "Rust/WASM",
+          "Docker",
+        ],
+        link: "https://github.com/Raina-Moon/stackly.git",
       },
     },
   ],
@@ -661,11 +689,39 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
     },
     {
       date: "2026년",
-      title: "2026 로드맵",
-      shortDescription: "다음 프로젝트와 새로운 도전을 준비 중.",
+      title: "glow.b 신 SaaS 서비스 대규모 도입",
+      shortDescription:
+        "glow.b의 신 SaaS 서비스가 본격 도입되는 과정에서 제출물 검수, 자동 알림 구축, 프론트엔드 최적화 등 핵심 업무를 담당.",
       detail: {
         summary:
-          "2026년에 선보일 새로운 작업들을 준비하고 있습니다. 곧 업데이트될 예정입니다.",
+          "glow.b 신 SaaS 서비스의 대대적인 도입 과정에서 운영과 제품 영역의 핵심 워크플로우를 설계·개선했습니다. 제출물 검수 프로세스(재제출 요청 및 피드백 흐름 포함)를 직접 구축·운영했고, 트리거와 크론잡 기반의 자동화 이메일/문자 발송 시스템을 구현했습니다. 또한 프론트엔드 성능과 사용성을 최적화해 서비스 도입 확장 시점에도 안정적인 사용자 경험을 유지할 수 있도록 기여했습니다.",
+      },
+    },
+    {
+      date: "2026년",
+      title: "Stackly – 피그마 스타일 협업 + 칸반보드 + 보이스톡",
+      shortDescription:
+        "피그마 스타일의 실시간 협업(프레즌스/원격 커서), 칸반보드, 보이스톡을 결합한 협업 서비스를 혼자 end-to-end로 설계·개발.",
+      detail: {
+        summary:
+          "Stackly는 칸반보드, 실시간 프레즌스(원격 커서/드래그 동기화), 보이스톡을 하나의 서비스로 결합한 협업 플랫폼입니다. 이 프로젝트를 혼자 end-to-end로 진행하며 Next.js 프론트엔드, NestJS 백엔드, PostgreSQL 기반 데이터 모델링까지 전체 아키텍처를 설계·구현했습니다. 또한 Socket.IO 기반 실시간 협업 기능과 WebRTC(simple-peer) 기반 보이스톡 시그널링을 구현했고, 보드/일정 관리 흐름을 구축했습니다. 더 나아가 Protobuf + Rust/WASM 기반의 실시간 메시지 처리 최적화도 적용해 협업 인터랙션의 반응성을 개선했습니다.",
+        stack: [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "NestJS",
+          "PostgreSQL",
+          "TypeORM",
+          "Socket.IO",
+          "WebRTC (simple-peer)",
+          "Tailwind CSS",
+          "TanStack Query",
+          "Turborepo",
+          "Protobuf",
+          "Rust/WASM",
+          "Docker",
+        ],
+        link: "https://github.com/Raina-Moon/stackly.git",
       },
     },
   ],

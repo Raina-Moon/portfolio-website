@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --bg: #efede7;
+  --surface: rgba(255, 255, 255, 0.68);
+  --surface-strong: rgba(255, 255, 255, 0.84);
+  --line: rgba(0, 0, 0, 0.08);
+  --text: rgba(0, 0, 0, 0.86);
+  --muted: rgba(0, 0, 0, 0.58);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.portfolio-body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.portfolio-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.92), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(210, 205, 198, 0.5), transparent 34%),
+    linear-gradient(180deg, #f4f1ea 0%, #eae6df 100%);
+}
+
+.portfolio-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 88%);
+}
+
+.portfolio-orb {
+  position: absolute;
+  width: 40rem;
+  height: 40rem;
+  border-radius: 999px;
+  filter: blur(90px);
+  opacity: 0.45;
+}
+
+.portfolio-orb-left {
+  left: -10rem;
+  top: -12rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.portfolio-orb-right {
+  right: -10rem;
+  bottom: -16rem;
+  background: rgba(196, 190, 181, 0.52);
+}
+
+.portfolio-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.portfolio-plane {
+  will-change: transform;
+}
+
+.portfolio-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 0.85rem 1.1rem;
+  color: rgba(0, 0, 0, 0.72);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+  backdrop-filter: blur(12px);
+}
+
+.portfolio-action:hover {
+  transform: translateY(-1px);
+  border-color: rgba(0, 0, 0, 0.16);
+  background: var(--surface-strong);
+}
+
+.portfolio-action:focus-visible,
+.portfolio-plane:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.34);
+  outline-offset: 4px;
+}
+
+.portfolio-nav {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.42);
+  padding: 0 14px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(18px);
+}
+
+.portfolio-nav-active {
+  color: rgba(0, 0, 0, 0.82);
+}
+
+.portfolio-scene {
+  perspective: 1800px;
+  perspective-origin: 70% 78%;
+  transform-style: preserve-3d;
+}
+
+.portfolio-plane {
+  transform-style: preserve-3d;
+}
+
+@media (max-width: 767px) {
+  .portfolio-orb {
+    width: 26rem;
+    height: 26rem;
+  }
+
+  .portfolio-noise {
+    background-size: 72px 72px;
+  }
+
+  .portfolio-nav {
+    min-height: 48px;
+  }
+}

@@ -1,0 +1,17 @@
+---
+import { getPortfolioProject, portfolioProjects } from "@/data/portfolioProjects";
+import PortfolioLayout from "@/layouts/PortfolioLayout.astro";
+import ProjectDetailPage from "@/react-pages/ProjectDetailPage";
+
+const projectId = Astro.url.searchParams.get("id");
+const project = getPortfolioProject(projectId);
+const otherProjects = portfolioProjects
+  .filter((item) => item.id !== project?.id)
+  .slice(0, 4);
+---
+
+<PortfolioLayout
+  title={project ? `${project.title} | Raina Moon` : "Project Not Found | Raina Moon"}
+>
+  <ProjectDetailPage project={project} otherProjects={otherProjects} client:load />
+</PortfolioLayout>

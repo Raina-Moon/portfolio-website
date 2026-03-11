@@ -1,0 +1,32 @@
+---
+import "../styles/portfolio.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Raina Moon Portfolio",
+  description = "Interactive portfolio MVP with an infinite diagonal gallery and project detail pages.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="portfolio-body">
+    <div class="portfolio-background" aria-hidden="true">
+      <div class="portfolio-orb portfolio-orb-left"></div>
+      <div class="portfolio-orb portfolio-orb-right"></div>
+      <div class="portfolio-noise"></div>
+    </div>
+    <slot />
+  </body>
+</html>
