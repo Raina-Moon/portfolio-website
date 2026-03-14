@@ -1,6 +1,6 @@
 import type { PortfolioProject } from "@/data/portfolioProjects";
 import gsap from "gsap";
-import { ArrowUpRight, MoveDiagonal2, X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Props = {
@@ -45,7 +45,10 @@ export default function InfiniteProjectGallery({ projects }: Props) {
   const sceneContainerRef = useRef<HTMLDivElement>(null);
   const modalOverlayRef = useRef<HTMLDivElement>(null);
   const modalContentRef = useRef<HTMLDivElement>(null);
+  const modalImageOverlayRef = useRef<HTMLDivElement>(null);
+  const modalTextRef = useRef<HTMLDivElement>(null);
   const selectedCardKeyRef = useRef<string | null>(null);
+  const selectedCardElRef = useRef<HTMLButtonElement | null>(null);
   const hintRef = useRef<HTMLDivElement>(null);
   const infoCardRef = useRef<HTMLDivElement>(null);
   const dragLayerRef = useRef<HTMLDivElement>(null);
@@ -53,19 +56,20 @@ export default function InfiniteProjectGallery({ projects }: Props) {
   const scene = useMemo(() => {
     const width = Math.max(viewport.width, 360);
     const height = Math.max(viewport.height, 640);
-    const panelWidth = isMobile ? 220 : 280;
-    const panelHeight = isMobile ? 300 : 380;
+    const panelWidth = isMobile ? 208 : 248;
+    const panelHeight = isMobile ? 228 : 272;
 
     return {
       panelWidth,
       panelHeight,
       railStartX: width * (isMobile ? 0.76 : 0.72) - width / 2,
-      railStartY: height * (isMobile ? 0.14 : 0.12) - height / 2,
-      railStepX: -(Math.min(isMobile ? 136 : 178, width * (isMobile ? 0.182 : 0.124))),
-      railStepY: Math.min(isMobile ? 132 : 172, height * (isMobile ? 0.16 : 0.19)),
-      depthStep: isMobile ? 92 : 118,
+      railStartY: height * (isMobile ? 0.36 : 0.33) - height / 2,
+      railStepX: -(Math.min(isMobile ? 112 : 146, width * (isMobile ? 0.152 : 0.104))),
+      railStepY: Math.min(isMobile ? 72 : 92, height * (isMobile ? 0.09 : 0.102)),
+      depthStep: isMobile ? 54 : 64,
       blurStep: isMobile ? 0.78 : 0.62,
-      scaleStep: isMobile ? 0.06 : 0.05,
+      scaleStep: 0,
+      baseDepth: isMobile ? 488 : 505,
       total: projects.length,
       axisDivider: isMobile ? 170 : 220,
     };
@@ -100,11 +104,35 @@ export default function InfiniteProjectGallery({ projects }: Props) {
     };
   }, [scene.total, selectedProject]);
 
-  const projectAtCenter = useMemo(() => {
-    const normalized = wrapProgress(progress, scene.total);
-    const index = Math.round(normalized) % scene.total;
-    return projects[index];
-  }, [progress, projects, scene.total]);
+  const normalizedProgress = wrapProgress(progress, scene.total);
+
+  const focusedPanel = useMemo(() => {
+    let best: { cardKey: string; project: PortfolioProject } | null = null;
+    let bestDistance = Infinity;
+
+    for (const cycle of CYCLES) {
+      for (const [index, project] of projects.entries()) {
+        const rawDistance = index + cycle * scene.total - normalizedProgress;
+        const distance = Math.abs(rawDistance / PANEL_GAP);
+
+        if (distance > 10.5) continue;
+
+        const centerX = scene.railStartX + rawDistance * scene.railStepX;
+        const centerY = scene.railStartY + rawDistance * scene.railStepY;
+        const centerDistance = Math.hypot(centerX, centerY);
+
+        if (centerDistance < bestDistance) {
+          bestDistance = centerDistance;
+          best = {
+            cardKey: `${project.id}-${cycle}`,
+            project,
+          };
+        }
+      }
+    }
+
+    return best ?? { cardKey: `${projects[0]?.id ?? "project"}-0`, project: projects[0] };
+  }, [normalizedProgress, projects, scene.railStartX, scene.railStartY, scene.railStepX, scene.railStepY, scene.total]);
 
   // --- Freeze / Unfreeze helpers ---
   const freezeGallery = useCallback(() => {
@@ -123,10 +151,8 @@ export default function InfiniteProjectGallery({ projects }: Props) {
   // --- GSAP open animation ---
   const runOpenAnimation = useCallback(() => {
     const selectedKey = selectedCardKeyRef.current;
-    if (!selectedKey) return;
-
-    const selectedCard = cardRefsMap.current.get(selectedKey);
-    if (!selectedCard || !sceneContainerRef.current) return;
+    const selectedCard = selectedCardElRef.current;
+    if (!selectedKey || !selectedCard || !sceneContainerRef.current) return;
 
     const tl = gsap.timeline({
       defaults: { ease: "power3.inOut" },
@@ -151,7 +177,8 @@ export default function InfiniteProjectGallery({ projects }: Props) {
     // Phase 1: Dismiss other cards + hint + info card
     if (dismissTargets.length > 0) {
       tl.to(dismissTargets, {
-        x: "-=280",
+        x: "-=320",
+        y: "-=250",
         opacity: 0,
         duration: 0.5,
         stagger: 0.015,
@@ -222,10 +249,26 @@ export default function InfiniteProjectGallery({ projects }: Props) {
         ease: "power2.out",
       }, 1.05);
     }
+    // Phase 4b: Animate dark overlay and text inside modal
+    if (modalImageOverlayRef.current) {
+      tl.fromTo(modalImageOverlayRef.current, { opacity: 0 }, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      }, 1.15);
+    }
+    if (modalTextRef.current) {
+      tl.fromTo(modalTextRef.current, { opacity: 0, y: 40 }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      }, 1.25);
+    }
   }, [isMobile, viewport.width, viewport.height]);
 
   // --- Handle card click ---
-  const handleProjectClick = useCallback((project: PortfolioProject, cardKey: string) => {
+  const handleProjectClick = useCallback((project: PortfolioProject, cardKey: string, cardEl: HTMLButtonElement) => {
     if (pointerRef.current.moved) return;
     if (isAnimating || selectedProject) return;
 
@@ -233,6 +276,7 @@ export default function InfiniteProjectGallery({ projects }: Props) {
     freezeGallery();
     setSelectedProject(project);
     selectedCardKeyRef.current = cardKey;
+    selectedCardElRef.current = cardEl;
 
     // Double-rAF to let React settle before GSAP takes over
     requestAnimationFrame(() => {
@@ -252,13 +296,15 @@ export default function InfiniteProjectGallery({ projects }: Props) {
       setSelectedProject(null);
       setIsAnimating(false);
       selectedCardKeyRef.current = null;
+      selectedCardElRef.current = null;
 
-      // Clean up GSAP inline styles from all cards
-      cardRefsMap.current.forEach((el) => {
-        if (el && el.isConnected) {
-          gsap.set(el, { clearProps: "all" });
-        }
-      });
+      // Kill timeline first — GSAP reverse already restored all values
+      timelineRef.current?.kill();
+      timelineRef.current = null;
+
+      // Only clear non-React-managed elements (hint, info card, scene perspective)
+      // Cards keep their GSAP-restored inline styles; the RAF loop will
+      // update progress on the next frame, causing React to overwrite them.
       if (sceneContainerRef.current) {
         gsap.set(sceneContainerRef.current, { clearProps: "perspective" });
       }
@@ -268,9 +314,6 @@ export default function InfiniteProjectGallery({ projects }: Props) {
       if (infoCardRef.current) {
         gsap.set(infoCardRef.current, { clearProps: "all" });
       }
-
-      timelineRef.current?.kill();
-      timelineRef.current = null;
 
       unfreezeGallery();
     });
@@ -310,7 +353,6 @@ export default function InfiniteProjectGallery({ projects }: Props) {
       lastTime: performance.now(),
     };
 
-    event.currentTarget.setPointerCapture(event.pointerId);
     setDragging(true);
   };
 
@@ -354,8 +396,6 @@ export default function InfiniteProjectGallery({ projects }: Props) {
     }
   }, []);
 
-  const normalizedProgress = wrapProgress(progress, scene.total);
-
   const panels = CYCLES.flatMap((cycle) =>
     projects.map((project, index) => {
       const rawDistance = index + cycle * scene.total - normalizedProgress;
@@ -366,12 +406,14 @@ export default function InfiniteProjectGallery({ projects }: Props) {
 
       const x = scene.railStartX + rawDistance * scene.railStepX;
       const y = scene.railStartY + rawDistance * scene.railStepY;
-      const z = 640 - absDistance * scene.depthStep;
+      const z = scene.baseDepth - absDistance * scene.depthStep;
       const scale = Math.max(0.68, 1 - absDistance * scene.scaleStep);
-      const blur = Math.max(0, absDistance - 0.25) * scene.blurStep;
-      const opacity = Math.max(0.14, 1 - absDistance * 0.12);
-      const isActive = absDistance < 0.5;
       const cardKey = `${project.id}-${cycle}`;
+      const isActive = focusedPanel.cardKey === cardKey;
+      const blur = isActive ? 0 : Math.max(0.12, Math.max(0, absDistance - 0.18) * scene.blurStep);
+      const opacity = Math.max(0.14, 1 - absDistance * 0.12);
+      const offsetX = x - scene.panelWidth / 2;
+      const offsetY = y - scene.panelHeight / 2;
 
       return (
         <button
@@ -382,19 +424,19 @@ export default function InfiniteProjectGallery({ projects }: Props) {
           style={{
             width: scene.panelWidth,
             height: scene.panelHeight,
-            transform: `translate3d(${x}px, ${y}px, ${z}px) rotateX(-16deg) rotateY(-30deg) rotateZ(8deg) scale(${scale})`,
-            filter: `blur(${blur}px) saturate(${isActive ? 1 : 0.9})`,
-            opacity,
+            transform: `translate3d(${offsetX}px, ${offsetY}px, ${z}px) rotateX(-5deg) rotateY(-22deg) rotateZ(4deg) scale(${scale})`,
+            filter: `blur(${blur}px) saturate(${isActive ? 1.04 : 0.9})`,
+            opacity: isActive ? Math.max(opacity, 0.98) : opacity,
             zIndex: Math.round(1200 - absDistance * 100),
           }}
-          onClick={() => handleProjectClick(project, cardKey)}
+          onClick={(e) => handleProjectClick(project, cardKey, e.currentTarget)}
         >
           <img
             src={project.thumbnail}
             alt={project.title}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]"
             draggable={false}
-            style={{ opacity: isActive ? 0.96 : 0.78 }}
+            style={{ opacity: isActive ? 1 : 0.76 }}
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.06)_38%,rgba(11,12,15,0.22)_100%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.22),rgba(255,255,255,0)_28%,rgba(255,255,255,0.14))]" />
@@ -432,29 +474,6 @@ export default function InfiniteProjectGallery({ projects }: Props) {
         <div ref={sceneContainerRef} className="portfolio-scene h-full w-full">{panels}</div>
       </div>
 
-      <div
-        ref={hintRef}
-        className="pointer-events-none absolute left-5 top-5 z-20 rounded-full border border-black/8 bg-white/72 px-3 py-2 text-[10px] uppercase tracking-[0.28em] text-black/46 backdrop-blur-xl sm:left-7 sm:top-7"
-      >
-        Drag the empty space
-      </div>
-
-      <div
-        ref={infoCardRef}
-        className="pointer-events-none absolute left-5 top-20 z-20 max-w-[286px] sm:left-7 sm:top-24"
-      >
-        <div className="rounded-[20px] border border-black/8 bg-white/66 p-4 shadow-[0_24px_60px_rgba(0,0,0,0.08)] backdrop-blur-xl sm:p-5">
-          <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-black/42">
-            <MoveDiagonal2 className="h-3.5 w-3.5" />
-            Overview
-          </div>
-          <h2 className="text-[1.5rem] font-semibold tracking-[-0.06em] text-black/84 sm:text-[1.85rem]">
-            {projectAtCenter.title}
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-black/58">{projectAtCenter.summary}</p>
-        </div>
-      </div>
-
       {/* Modal overlay */}
       {selectedProject && (
         <div
@@ -477,81 +496,102 @@ export default function InfiniteProjectGallery({ projects }: Props) {
             <X className="h-5 w-5" />
           </button>
 
-          {/* Modal content */}
+          {/* Modal content box */}
           <div
             ref={modalContentRef}
-            className="relative z-10 mx-4 max-h-[82vh] w-full max-w-[680px] overflow-y-auto rounded-[24px] bg-white/95 p-6 shadow-[0_40px_120px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:mx-0 sm:p-8"
+            className="relative z-10 mx-4 max-h-[82vh] w-full max-w-[680px] overflow-hidden rounded-[24px] shadow-[0_40px_120px_rgba(0,0,0,0.35)] sm:mx-0"
             style={{ opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Category + Year */}
-            <div className="mb-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-black/44">
-              <span className="rounded-full border border-black/8 bg-black/4 px-2.5 py-1">
-                {selectedProject.category}
-              </span>
-              <span>{selectedProject.year}</span>
-            </div>
+            {/* Background image */}
+            <img
+              src={selectedProject.thumbnail}
+              alt={selectedProject.title}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
 
-            {/* Title */}
-            <h2 className="text-[2rem] font-bold tracking-[-0.04em] text-black/88 sm:text-[2.4rem]">
-              {selectedProject.title}
-            </h2>
+            {/* Dark gradient overlay */}
+            <div
+              ref={modalImageOverlayRef}
+              className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/85"
+            />
 
-            {/* Tagline */}
-            <p className="mt-2 text-base leading-7 text-black/60">
-              {selectedProject.tagline}
-            </p>
-
-            {/* Divider */}
-            <div className="my-5 h-px bg-black/8" />
-
-            {/* Overview */}
-            <div className="mb-5">
-              <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-black/42">
-                Overview
-              </h3>
-              <p className="text-sm leading-7 text-black/64">
-                {selectedProject.overview}
-              </p>
-            </div>
-
-            {/* Stack pills */}
-            <div className="mb-5">
-              <h3 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-black/42">
-                Stack
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {selectedProject.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-full border border-black/8 bg-black/4 px-3 py-1 text-[11px] tracking-wide text-black/62"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Stats */}
-            {selectedProject.stats.length > 0 && (
-              <div className="mb-5 grid grid-cols-3 gap-3">
-                {selectedProject.stats.map((stat) => (
-                  <div key={stat.label} className="rounded-xl border border-black/6 bg-black/[0.02] p-3">
-                    <div className="text-[10px] uppercase tracking-[0.16em] text-black/38">{stat.label}</div>
-                    <div className="mt-1 text-sm font-medium text-black/72">{stat.value}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* View full project link */}
-            <a
-              href={`/project?id=${selectedProject.id}`}
-              className="mt-2 inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-4 py-2.5 text-[12px] font-medium uppercase tracking-[0.14em] text-black/62 transition-colors hover:bg-black/[0.06] hover:text-black/80"
+            {/* Text content */}
+            <div
+              ref={modalTextRef}
+              className="relative z-10 flex h-full flex-col overflow-y-auto p-6 sm:p-8"
+              style={{ maxHeight: "82vh" }}
             >
-              View full project
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </a>
+              {/* Category + Year */}
+              <div className="mb-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-white/60">
+                <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 backdrop-blur-sm">
+                  {selectedProject.category}
+                </span>
+                <span>{selectedProject.year}</span>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-[2rem] font-bold tracking-[-0.04em] text-white sm:text-[2.4rem]">
+                {selectedProject.title}
+              </h2>
+
+              {/* Tagline */}
+              <p className="mt-2 text-base leading-7 text-white/70">
+                {selectedProject.tagline}
+              </p>
+
+              {/* Divider */}
+              <div className="my-5 h-px bg-white/15" />
+
+              {/* Overview */}
+              <div className="mb-5">
+                <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">
+                  Overview
+                </h3>
+                <p className="text-sm leading-7 text-white/75">
+                  {selectedProject.overview}
+                </p>
+              </div>
+
+              {/* Stack pills */}
+              <div className="mb-5">
+                <h3 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/50">
+                  Stack
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full border border-white/20 bg-white/8 px-3 py-1 text-[11px] tracking-wide text-white/70"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stats */}
+              {selectedProject.stats.length > 0 && (
+                <div className="mb-5 grid grid-cols-3 gap-3">
+                  {selectedProject.stats.map((stat) => (
+                    <div key={stat.label} className="rounded-xl border border-white/10 bg-white/5 p-3">
+                      <div className="text-[10px] uppercase tracking-[0.16em] text-white/45">{stat.label}</div>
+                      <div className="mt-1 text-sm font-medium text-white/85">{stat.value}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* View full project link */}
+              <a
+                href={`/project?id=${selectedProject.id}`}
+                className="mt-2 inline-flex items-center gap-2 self-start rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-[12px] font-medium uppercase tracking-[0.14em] text-white/75 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
+              >
+                View full project
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
           </div>
         </div>
       )}

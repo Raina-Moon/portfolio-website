@@ -266,4 +266,231 @@ export const useAuthStore = create(
     language: "en",
     translatedTitle: "Next.js에서 페이지 이동 시 Zustand Store 초기화 문제",
   },
+  {
+    id: 6,
+    title: "Astro client:load 컴포넌트에서 Hydration 타이밍이 꼬였던 문제",
+    content: `
+<p>Astro 페이지에 React 컴포넌트를 <code>client:load</code>로 붙였는데, 초기 마운트 직후 측정한 DOM 값이 의도와 다르게 나왔다.</p>
+
+<pre><code>useEffect(() =&gt; {
+  const rect = ref.current?.getBoundingClientRect();
+  console.log(rect?.width); // 0 or unstable
+}, []);</code></pre>
+
+<h3>원인</h3>
+<p>폰트 로드와 이미지 레이아웃 확정 전에 측정이 먼저 실행되고 있었다. 특히 절대 배치와 transform이 많은 섹션에서 차이가 크게 보였다.</p>
+
+<h3>해결</h3>
+<p><code>requestAnimationFrame</code> 두 번을 사용해서 실제 레이아웃이 정리된 뒤 측정하도록 바꿨다.</p>
+
+<pre><code>useEffect(() =&gt; {
+  requestAnimationFrame(() =&gt; {
+    requestAnimationFrame(() =&gt; {
+      const rect = ref.current?.getBoundingClientRect();
+      console.log(rect);
+    });
+  });
+}, []);</code></pre>
+    `.trim(),
+    image_url: "",
+    tags: ["Astro", "React", "UI"],
+    createdAt: "2025-08-02T10:10:00Z",
+    language: "ko",
+    translatedTitle: "Hydration Timing Issue in Astro client:load Component",
+  },
+  {
+    id: 7,
+    title: "Nginx Reverse Proxy 뒤에서 Vite HMR WebSocket 연결 실패",
+    content: `
+<p>원격 VM에서 Vite dev 서버를 프록시 뒤로 열었더니 화면은 뜨는데 HMR만 동작하지 않았다.</p>
+
+<pre><code>WebSocket connection to 'wss://domain.dev:5173/' failed</code></pre>
+
+<h3>원인</h3>
+<p>Nginx가 <code>Upgrade</code>와 <code>Connection</code> 헤더를 넘기지 않았고, Vite의 HMR 호스트 설정도 외부 도메인 기준으로 맞춰져 있지 않았다.</p>
+
+<h3>해결</h3>
+<pre><code>server {
+  location / {
+    proxy_pass http://127.0.0.1:5173;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+  }
+}</code></pre>
+
+<p>그리고 <code>vite.config.ts</code>에서 HMR host를 명시했다.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["Vite", "Nginx", "DevOps"],
+    createdAt: "2025-08-19T04:25:00Z",
+    language: "ko",
+    translatedTitle: "Vite HMR WebSocket Failure Behind Nginx Reverse Proxy",
+  },
+  {
+    id: 8,
+    title: "Prisma migration drift after switching branches",
+    content: `
+<p>After switching between two active feature branches, Prisma kept reporting migration drift even though the schema file looked correct.</p>
+
+<pre><code>Error: The database schema is not in sync with the migration history.</code></pre>
+
+<h3>Cause</h3>
+<p>One branch had already applied a local migration to the dev database. The other branch expected a different migration chain, so the histories diverged.</p>
+
+<h3>Solution</h3>
+<p>I reset the local database, reapplied the current branch migrations, and avoided reusing the same dev DB across unrelated feature branches.</p>
+
+<pre><code>npx prisma migrate reset
+npx prisma migrate dev</code></pre>
+    `.trim(),
+    image_url: "",
+    tags: ["Prisma", "Database", "Workflow"],
+    createdAt: "2025-09-01T12:40:00Z",
+    language: "en",
+    translatedTitle: "브랜치 전환 후 Prisma migration drift가 발생한 문제",
+  },
+  {
+    id: 9,
+    title: "iOS Safari에서 position: sticky가 blur 배경과 충돌한 케이스",
+    content: `
+<p>iOS Safari에서 상단 sticky 헤더에 <code>backdrop-filter: blur()</code>를 적용했더니 스크롤 중 깜빡임과 겹침이 생겼다.</p>
+
+<h3>원인</h3>
+<p>Safari의 합성 레이어 처리와 sticky 요소의 재계산이 겹치면서 렌더링이 불안정해졌다.</p>
+
+<h3>해결</h3>
+<p>sticky 레이어의 blur 강도를 줄이고, 내부 요소에만 반투명 배경을 적용해 브라우저 부담을 낮췄다. 필요하면 모바일 Safari에서는 blur를 아예 끄는 조건부 스타일도 고려할 수 있다.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["Safari", "CSS", "Frontend"],
+    createdAt: "2025-09-14T06:55:00Z",
+    language: "ko",
+    translatedTitle: "Sticky Header and Blur Background Conflict in iOS Safari",
+  },
+  {
+    id: 10,
+    title: "React Query cache returning stale detail data after mutation",
+    content: `
+<p>A detail page kept showing old values after an edit mutation, even though the mutation itself succeeded and the list page looked correct.</p>
+
+<h3>Cause</h3>
+<p>The list query was invalidated, but the detail query key was different and never refreshed.</p>
+
+<h3>Solution</h3>
+<pre><code>await mutation.mutateAsync(payload);
+queryClient.invalidateQueries({ queryKey: ["posts"] });
+queryClient.invalidateQueries({ queryKey: ["post", id] });</code></pre>
+
+<p>It was a simple query key mismatch, but easy to miss because only one screen looked stale.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["React Query", "State", "Frontend"],
+    createdAt: "2025-10-03T18:20:00Z",
+    language: "en",
+    translatedTitle: "mutation 이후 React Query 상세 데이터가 stale 상태로 남는 문제",
+  },
+  {
+    id: 11,
+    title: "TypeScript path alias가 Vitest에서만 해석되지 않았던 문제",
+    content: `
+<p>앱 빌드와 IDE에서는 정상인데 Vitest 실행 시에만 <code>@/components/Button</code> 같은 path alias가 깨졌다.</p>
+
+<pre><code>Failed to resolve import "@/components/Button"</code></pre>
+
+<h3>원인</h3>
+<p><code>tsconfig.json</code>의 <code>paths</code> 설정만으로는 Vitest가 자동으로 alias를 따라가지 않았다.</p>
+
+<h3>해결</h3>
+<p><code>vite-tsconfig-paths</code>를 추가하거나, <code>vite.config.ts</code>에서 alias를 직접 맞춰줬다.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["TypeScript", "Vitest", "Tooling"],
+    createdAt: "2025-10-11T09:15:00Z",
+    language: "ko",
+    translatedTitle: "TypeScript Path Alias Failing Only in Vitest",
+  },
+  {
+    id: 12,
+    title: "Supabase RLS policy blocked inserts from authenticated users",
+    content: `
+<p>Authenticated users were signed in correctly, but inserts still failed with a row-level security error.</p>
+
+<pre><code>new row violates row-level security policy for table "profiles"</code></pre>
+
+<h3>Cause</h3>
+<p>The table had RLS enabled, but the insert policy only covered <code>select</code> and <code>update</code>, not <code>insert</code>.</p>
+
+<h3>Solution</h3>
+<pre><code>create policy "Users can insert their own profile"
+on profiles for insert
+to authenticated
+with check (auth.uid() = id);</code></pre>
+    `.trim(),
+    image_url: "",
+    tags: ["Supabase", "Auth", "Database"],
+    createdAt: "2025-10-22T13:40:00Z",
+    language: "en",
+    translatedTitle: "인증된 사용자의 insert가 막히던 Supabase RLS policy 문제",
+  },
+  {
+    id: 13,
+    title: "Docker build cache 때문에 env 변경이 반영되지 않았던 사례",
+    content: `
+<p>분명 환경변수를 바꿨는데도 컨테이너가 이전 값을 계속 읽는 것처럼 보였다.</p>
+
+<h3>원인</h3>
+<p>빌드 단계에서 복사된 파일 레이어가 캐시되면서 실제 수정 내용이 이미지에 반영되지 않았다. 특히 <code>.env</code> 관련 복사 순서가 애매할 때 자주 발생했다.</p>
+
+<h3>해결</h3>
+<pre><code>docker compose build --no-cache
+docker compose up -d</code></pre>
+
+<p>그리고 Dockerfile의 <code>COPY</code> 순서를 다시 정리해 캐시가 예측 가능하도록 바꿨다.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["Docker", "Build", "DevOps"],
+    createdAt: "2025-11-05T07:30:00Z",
+    language: "ko",
+    translatedTitle: "Env Changes Not Reflected Because of Docker Build Cache",
+  },
+  {
+    id: 14,
+    title: "Framer Motion layout animation jitter in responsive cards",
+    content: `
+<p>Card reflow animation looked smooth on desktop, but jittered badly when the grid collapsed on tablet width.</p>
+
+<h3>Cause</h3>
+<p>The layout animation was trying to interpolate between very different heights while images were still loading. That made the browser recalculate layout repeatedly.</p>
+
+<h3>Solution</h3>
+<p>I fixed card media ratios, reserved image space ahead of time, and reduced layout animation scope to the wrapper instead of every child.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["Framer Motion", "Responsive", "UI"],
+    createdAt: "2025-11-18T15:05:00Z",
+    language: "en",
+    translatedTitle: "반응형 카드에서 Framer Motion layout animation이 떨리던 문제",
+  },
+  {
+    id: 15,
+    title: "GitHub Actions에서 pnpm lockfile mismatch로 CI가 깨진 문제",
+    content: `
+<p>로컬에서는 설치가 되는데 CI만 실패했다. 로그를 보니 lockfile과 package.json이 맞지 않았다.</p>
+
+<pre><code>ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile"</code></pre>
+
+<h3>원인</h3>
+<p>의존성 버전은 바뀌었는데 lockfile을 커밋하지 않은 상태였다.</p>
+
+<h3>해결</h3>
+<p>로컬에서 <code>pnpm install</code> 후 lockfile까지 같이 커밋했고, 이후에는 의존성 변경 PR에서 lockfile diff를 따로 확인하는 습관을 만들었다.</p>
+    `.trim(),
+    image_url: "",
+    tags: ["GitHub Actions", "CI", "pnpm"],
+    createdAt: "2025-12-02T05:55:00Z",
+    language: "ko",
+    translatedTitle: "GitHub Actions CI Failing Because of pnpm Lockfile Mismatch",
+  },
 ];

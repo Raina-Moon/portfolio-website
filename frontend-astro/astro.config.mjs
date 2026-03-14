@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import node from "@astrojs/node";
 
 export default defineConfig({
+  site: process.env.PUBLIC_SITE_URL || "https://www.raina-moon.com",
   output: "server",
   adapter: node({ mode: "standalone" }),
   integrations: [react(), tailwind()],

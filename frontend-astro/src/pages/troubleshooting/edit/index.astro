@@ -3,6 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import TroubleshootingEditListPage from "@/react-pages/TroubleshootingEditListPage";
 ---
 
-<BaseLayout title="Troubleshooting Editor | Raina Moon">
+<BaseLayout
+  title="Troubleshooting Editor | Raina Moon"
+  description="Private troubleshooting editor."
+  noindex={true}
+>
   <TroubleshootingEditListPage client:load />
 </BaseLayout>

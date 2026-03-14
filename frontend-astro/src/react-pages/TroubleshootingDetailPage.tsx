@@ -1,15 +1,30 @@
-import { fetchTroubleshootingPost, fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
-import type { Troubleshooting } from "@/types/types";
-import React, { useEffect, useMemo, useState } from "react";
-import parse, { type DOMNode, domToReact, Element } from "html-react-parser";
+import PortfolioHeader from "@/components/portfolio/PortfolioHeader";
 import CodeBlock from "@/components/Troubleshooting/CodeBlock";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import { fetchTroubleshootingPost, fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
 import { useLanguageStore } from "@/libs/languageStore";
+import type { Troubleshooting } from "@/types/types";
+import parse, { type DOMNode, Element, domToReact } from "html-react-parser";
+import React, { useEffect, useMemo, useState } from "react";
 
 type Props = {
   id: string;
 };
 
-const TroubleshootingDetailPage = ({ id }: Props) => {
+const formatLongDate = (value: string) =>
+  new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(value));
+
+const estimateReadTime = (html: string) => {
+  const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const minutes = Math.max(1, Math.round(text.split(" ").length / 180));
+  return `${minutes} min read`;
+};
+
+export default function TroubleshootingDetailPage({ id }: Props) {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const [allPosts, setAllPosts] = useState<Troubleshooting[]>([]);
   const { lang } = useLanguageStore();
@@ -25,27 +40,33 @@ const TroubleshootingDetailPage = ({ id }: Props) => {
           fetchTroubleshootingPosts(),
         ]);
         setPost(postData);
-        setAllPosts(postsData.sort((a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        ));
+        setAllPosts(
+          postsData.sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          )
+        );
       } catch (err) {
         console.error("Error fetching post:", err);
       }
     };
+
     fetchData();
   }, [id]);
 
   const displayTitle = useMemo(() => {
     if (!post) return "";
-    if (lang !== post.language && post.translatedTitle) return post.translatedTitle;
-    return post.title;
-  }, [post, lang]);
+    return lang !== post.language && post.translatedTitle
+      ? post.translatedTitle
+      : post.title;
+  }, [lang, post]);
 
   const displayContent = useMemo(() => {
     if (!post) return "";
-    if (lang !== post.language && post.translatedContent) return post.translatedContent;
-    return post.content;
-  }, [post, lang]);
+    return lang !== post.language && post.translatedContent
+      ? post.translatedContent
+      : post.content;
+  }, [lang, post]);
 
   const { prevPost, nextPost } = useMemo(() => {
     if (!post || allPosts.length === 0) return { prevPost: null, nextPost: null };
@@ -54,80 +75,112 @@ const TroubleshootingDetailPage = ({ id }: Props) => {
       prevPost: idx > 0 ? allPosts[idx - 1] : null,
       nextPost: idx < allPosts.length - 1 ? allPosts[idx + 1] : null,
     };
-  }, [post, allPosts]);
+  }, [allPosts, post]);
+
+  const content = useMemo(() => {
+    if (!displayContent) return null;
+
+    return parse(displayContent, {
+      replace: (domNode) => {
+        if (domNode instanceof Element && domNode.name === "pre") {
+          const codeEl = domNode.children.find(
+            (child): child is Element =>
+              child instanceof Element && child.name === "code"
+          );
+          const code = codeEl
+            ? domToReact(codeEl.children as DOMNode[])
+            : domToReact(domNode.children as DOMNode[]);
+          const codeText = extractText(domNode);
+
+          return <CodeBlock code={codeText}>{code}</CodeBlock>;
+        }
+      },
+    });
+  }, [displayContent]);
 
   if (!post) {
     return (
-      <div className="flex flex-col p-4">
-        <p>Loading...</p>
-      </div>
+      <>
+        <PortfolioHeader />
+        <div className="px-6 py-10 sm:px-10">
+          <LoadingScreen label="Loading post" fullHeight />
+        </div>
+      </>
     );
   }
 
-  const content = parse(displayContent, {
-    replace: (domNode) => {
-      if (domNode instanceof Element && domNode.name === "pre") {
-        const codeEl = domNode.children.find(
-          (child): child is Element => child instanceof Element && child.name === "code"
-        );
-        const code = codeEl
-          ? domToReact(codeEl.children as DOMNode[])
-          : domToReact(domNode.children as DOMNode[]);
-        const codeText = extractText(domNode);
-
-        return <CodeBlock code={codeText}>{code}</CodeBlock>;
-      }
-    },
-  });
-
-  const getDisplayTitle = (p: Troubleshooting) => {
-    if (lang !== p.language && p.translatedTitle) return p.translatedTitle;
-    return p.title;
-  };
+  const getDisplayTitle = (item: Troubleshooting) =>
+    lang !== item.language && item.translatedTitle ? item.translatedTitle : item.title;
 
   return (
-    <div className="flex flex-col px-6 py-20">
-      <div className="flex justify-between items-center mb-4 mx-4">
-        <p className="text-4xl font-semibold">{displayTitle}</p>
-        <p className="text-grey-700 text-sm mt-6">{new Date(post.createdAt).toDateString()}</p>
-      </div>
-      <div className="border mx-4" />
-      <div className="troubleshooting-content mt-7 mb-12 mx-4">
-        {content}
-      </div>
+    <>
+      <PortfolioHeader />
+      <main className="px-6 pb-28 pt-12 sm:px-10">
+        <article className="mx-auto max-w-3xl">
+          <a
+            href="/troubleshooting"
+            className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.18em] text-black/38"
+          >
+            Back to writing
+          </a>
 
-      {/* Prev / Next Navigation */}
-      <nav className="mx-4 border-t border-gray-200 pt-6 grid grid-cols-2 gap-4">
-        {prevPost ? (
-          <a
-            href={`/troubleshooting/${prevPost.id}`}
-            className="group flex flex-col p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 transition"
-          >
-            <span className="text-xs text-gray-400 mb-1">&larr; Previous</span>
-            <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 line-clamp-1">
-              {getDisplayTitle(prevPost)}
-            </span>
-          </a>
-        ) : (
-          <div />
-        )}
-        {nextPost ? (
-          <a
-            href={`/troubleshooting/${nextPost.id}`}
-            className="group flex flex-col items-end text-right p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 transition"
-          >
-            <span className="text-xs text-gray-400 mb-1">Next &rarr;</span>
-            <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 line-clamp-1">
-              {getDisplayTitle(nextPost)}
-            </span>
-          </a>
-        ) : (
-          <div />
-        )}
-      </nav>
-    </div>
+          <header className="mt-10 border-b border-black/10 pb-10">
+            <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.18em] text-black/36">
+              {formatLongDate(post.createdAt)} · {estimateReadTime(displayContent)}
+            </div>
+            <h1 className="mt-5 font-[Georgia,'Times_New_Roman',serif] text-[clamp(3rem,7vw,5.6rem)] leading-[0.94] tracking-[-0.07em] text-black/88">
+              {displayTitle}
+            </h1>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-black/8 px-2.5 py-1 font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.14em] text-black/42"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </header>
+
+          <div className="troubleshooting-content mt-12 font-[Georgia,'Times_New_Roman',serif] text-[20px] leading-[1.95] text-black/78">
+            {content}
+          </div>
+
+          <nav className="mt-20 grid gap-4 border-t border-black/10 pt-8 sm:grid-cols-2">
+            {prevPost ? (
+              <a
+                href={`/troubleshooting/${prevPost.id}`}
+                className="rounded-[24px] border border-black/8 bg-white/66 p-5 transition hover:bg-white/82"
+              >
+                <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.18em] text-black/34">
+                  Previous
+                </div>
+                <div className="mt-3 font-[Georgia,'Times_New_Roman',serif] text-[1.5rem] leading-[1.08] tracking-[-0.04em] text-black/84">
+                  {getDisplayTitle(prevPost)}
+                </div>
+              </a>
+            ) : <div />}
+
+            {nextPost ? (
+              <a
+                href={`/troubleshooting/${nextPost.id}`}
+                className="rounded-[24px] border border-black/8 bg-white/66 p-5 text-left transition hover:bg-white/82 sm:text-right"
+              >
+                <div className="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.18em] text-black/34">
+                  Next
+                </div>
+                <div className="mt-3 font-[Georgia,'Times_New_Roman',serif] text-[1.5rem] leading-[1.08] tracking-[-0.04em] text-black/84">
+                  {getDisplayTitle(nextPost)}
+                </div>
+              </a>
+            ) : <div />}
+          </nav>
+        </article>
+      </main>
+    </>
   );
-};
+}
 
 function extractText(node: Element): string {
   let text = "";
@@ -140,5 +193,3 @@ function extractText(node: Element): string {
   }
   return text;
 }
-
-export default TroubleshootingDetailPage;

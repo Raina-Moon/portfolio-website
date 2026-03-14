@@ -1,195 +1,125 @@
+import PortfolioHeader from "@/components/portfolio/PortfolioHeader";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
-import type { Troubleshooting } from "@/types/types";
-import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguageStore } from "@/libs/languageStore";
+import type { Troubleshooting } from "@/types/types";
+import { ArrowUpRight } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
-type SortOrder = "newest" | "oldest";
+const stripHtml = (value: string) =>
+  value
+    .replace(/<pre[\s\S]*?<\/pre>/gi, " ")
+    .replace(/<code[\s\S]*?<\/code>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
-const TroubleshootingListPage = () => {
+const buildSummary = (post: Troubleshooting, lang: string) => {
+  const raw =
+    lang !== post.language && post.translatedContent
+      ? post.translatedContent
+      : post.content;
+  const text = stripHtml(raw);
+  return text.length > 160 ? `${text.slice(0, 160).trim()}...` : text;
+};
+
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(value));
+
+export default function TroubleshootingListPage() {
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
   const { lang } = useLanguageStore();
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
-  const postsPerPage = 10;
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const data = await fetchTroubleshootingPosts();
-        setPosts(data);
+        setPosts(
+          [...data].sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        );
       } catch (err) {
         console.error("Failed to fetch troubleshooting posts:", err);
-        alert("Failed to fetch troubleshooting posts. Please try again later.");
       }
     };
+
     fetchPosts();
   }, []);
 
-  const tagCount: Record<string, number> = {};
-  posts.forEach((post) => {
-    post.tags.forEach((tag) => {
-      tagCount[tag] = (tagCount[tag] || 0) + 1;
-    });
-  });
-
-  const filteredPosts = useMemo(() => {
-    let result = posts;
-
-    if (selectedTag) {
-      result = result.filter((post) => post.tags.includes(selectedTag));
-    }
-
-    if (debouncedSearch.trim()) {
-      const q = debouncedSearch.trim().toLowerCase();
-      result = result.filter(
-        (post) =>
-          post.title.toLowerCase().includes(q) ||
-          post.content.toLowerCase().includes(q)
-      );
-    }
-
-    result = [...result].sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-    });
-
-    return result;
-  }, [posts, selectedTag, debouncedSearch, sortOrder]);
-
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-
-  const paginatedPosts = filteredPosts.slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
-  );
-
-  const handleTagChange = (tag: string | null) => {
-    setSelectedTag(tag);
-    setCurrentPage(1);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearch(value);
-
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(() => {
-      setDebouncedSearch(value);
-      setCurrentPage(1);
-    }, 300);
-  };
-
-  const handleSortChange = (order: SortOrder) => {
-    setSortOrder(order);
-    setCurrentPage(1);
-  };
-
   return (
-    <div className="flex flex-row px-5 py-20">
-      <aside className="border-r border-gray-300 pr-10 h-full">
-        <p className="text-gray-800 font-bold text-6xl mb-6">Tags</p>
-        <ul>
-          <li onClick={() => handleTagChange(null)}>
-            <p
-              className={`font-semibold text-xl mb-2 cursor-pointer ${
-                selectedTag === null ? "text-blue-600" : "text-gray-700"
-              }`}
-            >
-              All ({posts.length})
-            </p>
-          </li>
-          {Object.entries(tagCount).map(([tag, count]) => (
-            <li
-              key={tag}
-              onClick={() => handleTagChange(tag)}
-              className="cursor-pointer"
-            >
-              <p
-                className={`font-semibold text-xl mb-2 ml-3 hover:underline ${
-                  selectedTag === tag ? "text-blue-600" : "text-gray-700"
-                }`}
-              >
-                {tag} ({count})
-              </p>
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <>
+      <PortfolioHeader />
+      <main className="mx-auto max-w-6xl px-6 pb-24 pt-10 sm:px-10 lg:px-12">
+        <section className="max-w-3xl">
+          <p className="font-['IBM_Plex_Mono'] text-[11px] uppercase tracking-[0.22em] text-black/42">
+            Writing
+          </p>
+          <h1 className="mt-4 font-[Georgia,'Times_New_Roman',serif] text-[clamp(2.8rem,5vw,5rem)] leading-[0.95] tracking-[-0.06em] text-black/88">
+            Debugging notes,
+            <br />
+            field logs, and small repairs.
+          </h1>
+          <p className="mt-5 max-w-2xl text-[16px] leading-7 text-black/56">
+            Technical notes from projects, deploys, broken layouts, hydration bugs,
+            and the kinds of fixes that are easy to forget until they happen again.
+          </p>
+        </section>
 
-      <div className="flex flex-col w-full ml-10 mx-20 mt-10 mb-20">
-        <div className="flex items-center gap-4 mb-6">
-          <input
-            type="text"
-            value={search}
-            onChange={handleSearchChange}
-            placeholder="Search by title or content..."
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:border-blue-500"
-          />
-          <div className="flex rounded-lg border border-gray-300 overflow-hidden shrink-0">
-            <button
-              onClick={() => handleSortChange("newest")}
-              className={`px-3 py-2 text-sm ${
-                sortOrder === "newest"
-                  ? "bg-blue-500 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              Newest
-            </button>
-            <button
-              onClick={() => handleSortChange("oldest")}
-              className={`px-3 py-2 text-sm ${
-                sortOrder === "oldest"
-                  ? "bg-blue-500 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              Oldest
-            </button>
-          </div>
-        </div>
+        <section className="mt-12">
+          {posts.length === 0 ? (
+            <LoadingScreen label="Loading notes" fullHeight />
+          ) : (
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {posts.map((post) => {
+            const title =
+              lang !== post.language && post.translatedTitle
+                ? post.translatedTitle
+                : post.title;
 
-        <ul>
-          {paginatedPosts.map((item) => (
-            <li key={item.id} className="mb-4 border-b border-gray-300 pb-2 hover:bg-gray-50">
-              <a href={`/troubleshooting/${item.id}`} className="flex flex-row justify-between items-center">
-                <p className="text-2xl text-gray-900">
-                  {lang !== item.language && item.translatedTitle ? item.translatedTitle : item.title}
-                </p>
-                <p className="text-gray-600">{new Date(item.createdAt).toDateString()}</p>
-              </a>
-            </li>
-          ))}
-          {paginatedPosts.length === 0 && (
-            <li className="text-gray-500 text-center py-10">No posts found.</li>
+            return (
+              <article key={post.id} className="group h-full">
+                <a
+                  href={`/troubleshooting/${post.id}`}
+                  className="flex h-full flex-col rounded-[28px] border border-black/8 bg-white/74 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:bg-white/88 hover:shadow-[0_28px_80px_rgba(0,0,0,0.1)]"
+                >
+                  <div className="flex items-center justify-between gap-4 font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.16em] text-black/38">
+                    <span>{formatDate(post.createdAt)}</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </div>
+
+                  <h2 className="mt-5 font-[Georgia,'Times_New_Roman',serif] text-[1.9rem] leading-[1.02] tracking-[-0.05em] text-black/88">
+                    {title}
+                  </h2>
+
+                  <p className="mt-4 flex-1 text-[15px] leading-7 text-black/56">
+                    {buildSummary(post, lang)}
+                  </p>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {post.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-black/8 px-2.5 py-1 font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-[0.14em] text-black/42"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              </article>
+            );
+          })}
+            </div>
           )}
-        </ul>
-
-        {totalPages > 1 && (
-          <div className="flex justify-center mt-6">
-            {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
-              <button
-                onClick={() => setCurrentPage(page)}
-                key={page}
-                className={`px-3 py-1 mx-1 rounded-md ${
-                  currentPage === page
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-800"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+        </section>
+      </main>
+    </>
   );
-};
-
-export default TroubleshootingListPage;
+}

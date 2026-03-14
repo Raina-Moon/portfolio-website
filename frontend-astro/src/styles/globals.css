@@ -11,31 +11,36 @@ html {
 /* 에디터 & 뷰 페이지 공통 코드블록 스타일 */
 .ProseMirror pre,
 .troubleshooting-content pre {
-  background-color: #1e1e2e;
-  color: #cdd6f4;
-  border-radius: 0.625rem;
+  background: linear-gradient(180deg, #171721 0%, #111119 100%);
+  color: #e5e7eb;
+  border-radius: 1rem;
   padding: 1rem 1.25rem;
-  margin: 0.75rem 0;
+  margin: 1.6rem 0;
   overflow-x: auto;
   font-family: "Fira Code", "Consolas", "Monaco", monospace;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  border: 1px solid #313244;
+  font-size: 0.92rem;
+  line-height: 1.72;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
 }
 
 /* macOS 윈도우 스타일 코드블록 (뷰 페이지) */
 .troubleshooting-content pre.macos-codeblock {
   padding: 0;
   overflow: hidden;
+  background: #111114;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.1rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
 }
 
 .troubleshooting-content .macos-titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 1rem;
-  background-color: #181825;
-  border-bottom: 1px solid #313244;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(180deg, #24242b 0%, #1a1a20 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .troubleshooting-content .macos-dots {
@@ -63,7 +68,15 @@ html {
 
 .troubleshooting-content pre.macos-codeblock > code {
   display: block;
-  padding: 1rem 1.25rem;
+  padding: 1.6rem 1.7rem 1.8rem !important;
+  background: #111114;
+  color: #e5e7eb;
+  font-family: "Fira Code", "SFMono-Regular", "Consolas", "Monaco", monospace !important;
+  font-size: 0.92rem !important;
+  line-height: 1.72 !important;
+  letter-spacing: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .ProseMirror pre code,
@@ -78,12 +91,91 @@ html {
 /* 인라인 코드 */
 .ProseMirror code,
 .troubleshooting-content code {
-  background-color: #313244;
-  color: #cdd6f4;
-  padding: 0.15rem 0.4rem;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
+  display: inline-block;
+  background: #171721;
+  color: #f3f4f6;
+  padding: 0.12rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.42rem;
+  font-size: 0.82em;
+  line-height: 1.45;
   font-family: "Fira Code", "Consolas", "Monaco", monospace;
+  vertical-align: baseline;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.troubleshooting-content pre,
+.troubleshooting-content pre code,
+.troubleshooting-content .macos-titlebar,
+.troubleshooting-content .copy-btn,
+.troubleshooting-content .read-more-btn {
+  font-family: "Fira Code", "Consolas", "Monaco", monospace;
+}
+
+.troubleshooting-content pre code {
+  display: block;
+  color: #e5e7eb;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.troubleshooting-content pre.macos-codeblock > code {
+  padding: 1.6rem 1.7rem 1.8rem !important;
+}
+
+.troubleshooting-content pre.macos-codeblock,
+.troubleshooting-content pre.macos-codeblock * {
+  font-family: "Fira Code", "SFMono-Regular", "Consolas", "Monaco", monospace;
+}
+
+.troubleshooting-content pre.macos-codeblock .token.comment,
+.troubleshooting-content pre.macos-codeblock .token.prolog,
+.troubleshooting-content pre.macos-codeblock .token.doctype,
+.troubleshooting-content pre.macos-codeblock .token.cdata {
+  color: #6b7280;
+}
+
+.troubleshooting-content pre.macos-codeblock .token.keyword,
+.troubleshooting-content pre.macos-codeblock .token.selector,
+.troubleshooting-content pre.macos-codeblock .token.important,
+.troubleshooting-content pre.macos-codeblock .token.atrule {
+  color: #f38ba8;
+}
+
+.troubleshooting-content pre.macos-codeblock .token.string,
+.troubleshooting-content pre.macos-codeblock .token.attr-value,
+.troubleshooting-content pre.macos-codeblock .token.char,
+.troubleshooting-content pre.macos-codeblock .token.builtin {
+  color: #a6e3a1;
+}
+
+.troubleshooting-content pre.macos-codeblock .token.function,
+.troubleshooting-content pre.macos-codeblock .token.property {
+  color: #89b4fa;
+}
+
+.troubleshooting-content strong,
+.troubleshooting-content b {
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.92);
+}
+
+.troubleshooting-content em,
+.troubleshooting-content i {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.72);
+}
+
+.troubleshooting-content a {
+  color: rgba(0, 0, 0, 0.86);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.14em;
 }
 
 /* 단락 간격 - 줄바꿈 보이게 */
@@ -92,6 +184,29 @@ html {
   margin-bottom: 0.75em;
   min-height: 1.2em;
   line-height: 1.7;
+}
+
+
+.troubleshooting-content h2,
+.troubleshooting-content h3,
+.troubleshooting-content h4 {
+  margin: 2.2rem 0 0.8rem;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  color: rgba(0, 0, 0, 0.86);
+}
+
+.troubleshooting-content h2 { font-size: 2rem; }
+.troubleshooting-content h3 { font-size: 1.45rem; }
+.troubleshooting-content h4 { font-size: 1.2rem; }
+
+.troubleshooting-content blockquote {
+  margin: 1.6rem 0;
+  border-left: 2px solid rgba(0, 0, 0, 0.16);
+  padding-left: 1rem;
+  color: rgba(0, 0, 0, 0.58);
+  font-style: italic;
 }
 
 /* 빈 단락도 공간 유지 (엔터키로 빈 줄 만들었을 때) */
@@ -268,20 +383,22 @@ html {
 }
 
 .troubleshooting-content pre .copy-btn {
-  padding: 0.2rem 0.6rem;
-  font-size: 0.7rem;
-  color: #6c7086;
-  background: none;
-  border: 1px solid #45475a;
-  border-radius: 0.375rem;
+  padding: 0.26rem 0.62rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
 }
 
 .troubleshooting-content pre .copy-btn:hover {
-  color: #cdd6f4;
-  border-color: #585b70;
+  color: #f3f4f6;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .troubleshooting-content pre .copy-btn.copied {
@@ -296,7 +413,7 @@ html {
   left: 0;
   right: 0;
   height: 4rem;
-  background: linear-gradient(to bottom, transparent, #1e1e2e);
+  background: linear-gradient(to bottom, transparent, #111114);
   pointer-events: none;
 }
 
@@ -304,19 +421,19 @@ html {
 .troubleshooting-content pre .read-more-btn {
   display: block;
   width: 100%;
-  padding: 0.5rem 0;
+  padding: 0.7rem 0;
   font-size: 0.8rem;
-  color: #89b4fa;
-  background: none;
+  color: #cbd5e1;
+  background: #141418;
   border: none;
-  border-top: 1px solid #313244;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
   transition: color 0.2s ease;
   text-align: center;
 }
 
 .troubleshooting-content pre .read-more-btn:hover {
-  color: #b4d0fb;
+  color: #ffffff;
 }
 
 /* ===== Glowing Edge Card ===== */

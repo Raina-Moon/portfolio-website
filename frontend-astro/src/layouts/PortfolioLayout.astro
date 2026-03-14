@@ -1,15 +1,25 @@
 ---
+import PageLoader from "@/components/ui/PageLoader";
 import "../styles/portfolio.css";
+import "../styles/globals.css";
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  noindex?: boolean;
 }
 
 const {
   title = "Raina Moon Portfolio",
-  description = "Interactive portfolio MVP with an infinite diagonal gallery and project detail pages.",
+  description = "Frontend developer portfolio for Raina Moon. Interactive project gallery, troubleshooting archive, and selected product work.",
+  image = "/favicon.svg",
+  noindex = false,
 } = Astro.props;
+
+const siteUrl = Astro.site ?? (import.meta.env.PUBLIC_SITE_URL ? new URL(import.meta.env.PUBLIC_SITE_URL) : undefined);
+const canonical = siteUrl ? new URL(Astro.url.pathname, siteUrl).toString() : undefined;
+const ogImage = image.startsWith("http") ? image : siteUrl ? new URL(image, siteUrl).toString() : image;
 ---
 
 <!doctype html>
@@ -19,9 +29,23 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Raina To The Moon" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
   <body class="portfolio-body">
+    <PageLoader client:load />
     <div class="portfolio-background" aria-hidden="true">
       <div class="portfolio-orb portfolio-orb-left"></div>
       <div class="portfolio-orb portfolio-orb-right"></div>

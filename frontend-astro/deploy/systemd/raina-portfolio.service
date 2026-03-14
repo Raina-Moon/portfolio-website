@@ -1,0 +1,15 @@
+[Unit]
+Description=Raina Moon Portfolio Astro App
+After=network.target
+
+[Service]
+Type=simple
+User=APP_USER
+WorkingDirectory=APP_DIR/frontend-astro
+EnvironmentFile=APP_DIR/frontend-astro/.env.production
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
