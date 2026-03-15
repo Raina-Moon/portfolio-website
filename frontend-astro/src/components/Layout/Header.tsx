@@ -1,10 +1,10 @@
 "use client";
 
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 import React, { useEffect, useState } from "react";
 
 const Header = () => {
-  const { lang, setLang } = useLanguageStore();
+  const { lang, setLang } = useHydratedLanguageStore();
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {

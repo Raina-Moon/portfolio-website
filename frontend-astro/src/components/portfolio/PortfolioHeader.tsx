@@ -1,6 +1,6 @@
 import { Mail, PencilLine, X } from "lucide-react";
 import { sendContactMessage } from "@/libs/api/contact";
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 import { useEffect, useState } from "react";
 
 type OverlayKind = "contact" | "email" | null;
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function PortfolioHeader({ overlay = false }: Props) {
-  const { lang, setLang } = useLanguageStore();
+  const { lang, setLang } = useHydratedLanguageStore();
   const [activeOverlay, setActiveOverlay] = useState<OverlayKind>(null);
   const [emailSubject, setEmailSubject] = useState("");
   const [emailBody, setEmailBody] = useState("");

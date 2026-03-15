@@ -192,7 +192,7 @@ export const portfolioProjects: PortfolioProject[] = [
       "Byaht에서 주니어 프론트엔드로 합류해 팀과 협업하며 사용자 기능을 개발하고 개선하기 시작한 역할 기반 프로젝트입니다.",
     role: "Junior Frontend Developer",
     timeline: "Team collaboration",
-    thumbnail: "https://glowb-frontend-glowb-admin.vercel.app/ai/images/logo.png",
+    thumbnail: "/images/image_02.png",
     accent: "#d18cff",
     stack: ["React", "TypeScript", "Product Frontend"],
     stats: [

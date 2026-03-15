@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { ContactMessage, Troubleshooting } from "../types/types";
+import type { ContactMessage, Troubleshooting } from "../types/types";
 import { fetchTroubleshootingPosts } from "./api/troubleshooting";
 import { sendContactMessage } from "./api/contact";
 

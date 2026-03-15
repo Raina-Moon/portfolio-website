@@ -328,7 +328,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Joined Byaht as Junior Frontend Developer",
       shortDescription:
         "Joined Byaht as a junior frontend developer and started contributing to product features.",
-        icon :   'https://glowb-frontend-glowb-admin.vercel.app/ai/images/logo.png',
+        icon: "/images/image_02.png",
       detail: {
         summary:
           "Began my role as a junior frontend developer at Byaht, collaborating with the team to build and improve user-facing features.",
@@ -681,7 +681,7 @@ export const timelineItems: Record<Language, TimelineItem[]> = {
       title: "Byaht 주니어 프론트엔드 합류",
       shortDescription:
         "Byaht에 주니어 프론트엔드로 합류해 제품 기능 개발에 참여.",
-      icon: "https://glowb-frontend-glowb-admin.vercel.app/ai/images/logo.png",
+      icon: "/images/image_02.png",
       detail: {
         summary:
           "Byaht에서 주니어 프론트엔드로 입사하여 팀과 협업하며 사용자 기능을 개발하고 개선하는 역할을 시작했습니다.",

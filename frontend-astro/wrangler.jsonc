@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "raina-portfolio-frontend",
+  "main": "./dist/_worker.js/index.js",
+  "assets": {
+    "directory": "./dist"
+  },
+  "compatibility_date": "2026-03-15"
+}

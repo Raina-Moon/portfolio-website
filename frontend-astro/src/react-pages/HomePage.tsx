@@ -3,14 +3,14 @@ import Description from "@/components/Description/Description";
 import CareerTimeline from "@/components/Experience/CareerTimeLine";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import SkillsTable from "@/components/SkillsTable/SkillsTable";
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 import MoonModal from "@/components/Moon/MoonModal";
 import MoonPhaseBoard from "@/components/Moon/MoonPhaseBoard";
 import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const HomePage = () => {
-  const { lang } = useLanguageStore();
+  const { lang } = useHydratedLanguageStore();
   const [moonModalOpen, setMoonModalOpen] = useState(false);
   const [moonShadowStyle, setMoonShadowStyle] = useState<CSSProperties>();
 

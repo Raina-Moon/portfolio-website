@@ -1,0 +1,32 @@
+name: Deploy Backend To Oracle
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-backend-oracle.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ${{ secrets.ORACLE_USER }}
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          port: ${{ secrets.ORACLE_PORT || 22 }}
+          script: |
+            set -e
+            cd ${{ secrets.ORACLE_APP_DIR }}
+            git pull --ff-only origin main
+            npm install --prefix backend
+            npx prisma generate --schema backend/prisma/schema.prisma
+            npx prisma migrate deploy --schema backend/prisma/schema.prisma
+            npm run build --prefix backend
+            ./backend/node_modules/.bin/pm2 startOrReload backend/ecosystem.config.cjs --update-env

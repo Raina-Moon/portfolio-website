@@ -4,6 +4,8 @@ import { translatePost } from '../utils/translate';
 
 const router = Router();
 const prisma = new PrismaClient();
+const parseRouteId = (value: string | string[]) =>
+  parseInt(Array.isArray(value) ? value[0] : value, 10);
 
 // Get all troubleshooting posts
 router.get('/', async (req, res) => {
@@ -21,7 +23,7 @@ router.get('/:id', (async (req:Request, res:Response) => {
   const { id } = req.params;
   try {
     const post = await prisma.troubleshooting.findUnique({
-      where: { id: parseInt(id, 10) }
+      where: { id: parseRouteId(id) }
     });
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });
@@ -69,7 +71,7 @@ router.put('/:id', async (req, res) => {
     }
 
     const updatedPost = await prisma.troubleshooting.update({
-      where: { id: parseInt(id, 10) },
+      where: { id: parseRouteId(id) },
       data: { title, content, image_url, tags, ...translationData }
     });
     res.json(updatedPost);
@@ -84,7 +86,7 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await prisma.troubleshooting.delete({
-      where: { id: parseInt(id, 10) }
+      where: { id: parseRouteId(id) }
     });
     res.json({ message: 'Post deleted successfully' });
   } catch (error) {

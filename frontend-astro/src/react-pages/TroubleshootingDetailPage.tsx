@@ -2,7 +2,7 @@ import PortfolioHeader from "@/components/portfolio/PortfolioHeader";
 import CodeBlock from "@/components/Troubleshooting/CodeBlock";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { fetchTroubleshootingPost, fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 import type { Troubleshooting } from "@/types/types";
 import parse, { type DOMNode, Element, domToReact } from "html-react-parser";
 import React, { useEffect, useMemo, useState } from "react";
@@ -27,7 +27,7 @@ const estimateReadTime = (html: string) => {
 export default function TroubleshootingDetailPage({ id }: Props) {
   const [post, setPost] = useState<Troubleshooting | null>(null);
   const [allPosts, setAllPosts] = useState<Troubleshooting[]>([]);
-  const { lang } = useLanguageStore();
+  const { lang } = useHydratedLanguageStore();
 
   useEffect(() => {
     const numericId = Number(id);

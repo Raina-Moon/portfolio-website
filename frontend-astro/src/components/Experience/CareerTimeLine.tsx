@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect, useId, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 import { timelineItems, type TimelineItem } from "@/libs/texts/timeline";
 import { Timeline } from "@/components/ui/timeline";
 import { useOutsideClick } from "@/hooks/use-outside-click";
@@ -19,7 +19,7 @@ function extractYear(dateStr: string, lang: string) {
 }
 
 const CareerTimeline = () => {
-  const { lang } = useLanguageStore();
+  const { lang } = useHydratedLanguageStore();
   const data = timelineItems[lang];
   const [active, setActive] = useState<{
     item: TimelineItem;

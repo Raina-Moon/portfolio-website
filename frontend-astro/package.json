@@ -4,12 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "node -e \"try{require('node:fs').rmSync('node_modules/.vite',{recursive:true,force:true})}catch{}\" && NODE_ENV=development astro dev",
     "build": "astro build",
+    "build:cloudflare": "DEPLOY_TARGET=cloudflare astro build",
     "preview": "astro preview",
-    "start": "node ./dist/server/entry.mjs"
+    "start": "node ./dist/server/entry.mjs",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.7",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@tiptap/extension-color": "^2.12.0",
@@ -36,9 +39,11 @@
     "react-icons": "^5.5.0",
     "react-toastify": "^11.0.5",
     "three": "^0.182.0",
+    "wrangler": "^4.73.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@astrojs/cloudflare": "^12.6.7",
     "@astrojs/node": "^9.4.3",
     "@astrojs/react": "^4.2.0",
     "@astrojs/tailwind": "^6.0.0",
@@ -47,6 +52,7 @@
     "@types/react-dom": "^19.1.9",
     "@types/three": "^0.182.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "wrangler": "^4.14.1"
   }
 }

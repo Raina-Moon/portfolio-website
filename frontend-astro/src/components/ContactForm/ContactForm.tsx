@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import { sendContactMessage } from "@/libs/api/contact";
 import { Send, XCircle } from "lucide-react";
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 
 const ContactForm = () => {
-  const { lang } = useLanguageStore();
+  const { lang } = useHydratedLanguageStore();
   const [form, setForm] = useState({
     name: "",
     email: "",

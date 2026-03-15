@@ -1,7 +1,7 @@
 import PortfolioHeader from "@/components/portfolio/PortfolioHeader";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { fetchTroubleshootingPosts } from "@/libs/api/troubleshooting";
-import { useLanguageStore } from "@/libs/languageStore";
+import { useHydratedLanguageStore } from "@/libs/languageStore";
 import type { Troubleshooting } from "@/types/types";
 import { ArrowUpRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -33,7 +33,7 @@ const formatDate = (value: string) =>
 
 export default function TroubleshootingListPage() {
   const [posts, setPosts] = useState<Troubleshooting[]>([]);
-  const { lang } = useLanguageStore();
+  const { lang } = useHydratedLanguageStore();
 
   useEffect(() => {
     const fetchPosts = async () => {
